@@ -27,6 +27,9 @@ import components.Question;
  * swapAnswerCorrect	- correct answer changes if swapped
  * changeCorrectAnswerPass- passes if answers is in bounds
  * changeCorrectAnswerFail- passes if answers is in bounds
+ * removeAnswerPass		- returns true and removes the answer if it is in bounds
+ * removeAnswerFail		- returns false if the answer is out of bounds
+ * removeAnswerCorrect	- sets correct answer to -1 if the correct answer is removed
  *
  * @author Jamie
  *
@@ -136,6 +139,7 @@ public class QuestionTest {
 	/**checks that if one of the swapped answers is the correct answer, 
 	 * the correct answer changes
 	 */
+	@Test
 	public void swapAnswerCorrect(){
 		this.question.addAnswer("Answer 1");
 		this.question.addAnswer("Answer 2");
@@ -156,5 +160,29 @@ public class QuestionTest {
 	public void changeCorrectAnswerFail() {
 		this.question.addAnswer("Answer 1");
 		assertEquals(false, this.question.setCorrectAnswer(1));
+	}
+	
+	/**returns true if answer is in bounds and removes the question*/
+	@Test
+	public void removeAnswerPass(){
+		this.question.addAnswer("Answer 1");
+		Object[] expected = {true, new ArrayList<String>()};
+		Object[] actual = {this.question.removeAnswer(0), this.question.getAnswers()};
+		assertArrayEquals(expected, actual);
+	}
+	
+	/**returns false if answer is out of bounds and no change*/
+	@Test
+	public void removeAnswerFail(){
+		assertEquals(false, this.question.removeAnswer(0));
+	}
+	
+	/**If the correct answer is removed, sets correct answer to -1*/
+	@Test
+	public void removeAnswerCorrect(){
+		this.question.addAnswer("Answer 1");
+		this.question.setCorrectAnswer(0);
+		this.question.removeAnswer(0);
+		assertEquals(-1, this.question.getCorrectAnswer());
 	}
 }
