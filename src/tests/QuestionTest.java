@@ -2,6 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,82 +48,113 @@ public class QuestionTest {
 	}
 	
 	/**question cannot be set to null*/
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void setQuestionNull() {
-		fail("Not yet implemented");
+		this.question.setQuestion(null);
 	}
 	
 	/**question can be changed to a new String*/
 	@Test
 	public void setQuestionString() {
-		fail("Not yet implemented");
+		String expected = "New Question";
+		this.question.setQuestion(expected);
+		assertEquals(expected, this.question.getQuestion());
 	}
 
 	/**answer is added to the end of the list if it is a valid String*/
 	@Test
 	public void addAnswerString() {
-		fail("Not yet implemented");
+		
+		String[] array= {"Answer 1", "Answer 2", "Answer 3", "Answer 4"};
+		List<String> expected = new ArrayList<String>();
+		
+		for (String answer : array){
+			expected.add(answer);
+			this.question.addAnswer(answer);
+		}
+		assertEquals(expected, this.question.getAnswers());
 	}
-	
+		
 	/**answer throws NullPointerException if passed null*/
 	@Test(expected = NullPointerException.class)
 	public void addAnswerNull() {
-		fail("Not yet implemented");
+		this.question.addAnswer(null);
 	}
 
 	/**changes answer if given valid position and valid string*/
 	@Test
-	public void changeAnswerValid() {
-		fail("Not yet implemented");
+	public void changeAnswerValid(){
+		String newAnswer = "New Answer";
+		this.question.addAnswer("Answer 1");
+		Object[] expected = {true, newAnswer};
+		Object[] actual =  {this.question.changeAnswer(0, newAnswer), this.question.getAnswers().get(0)};
+		assertArrayEquals(expected, actual);		
 	}
 	
 	/**returns False if passed an invalid ID (out of bounds)*/
 	@Test
 	public void changeAnswerInvalidID() {
-		fail("Not yet implemented");
+		assertEquals(false, this.question.changeAnswer(0,"No answer"));
 	}
 	
 	/**returns False if passed an invalid Answer (null)*/
 	@Test
 	public void changeAnswerInvalidAnswer() {
-		fail("Not yet implemented");
+		this.question.addAnswer("Answer 1");
+		assertEquals(false, this.question.changeAnswer(0, null));
 	}
 
 	/**returns true and swaps if both are in bounds*/
 	@Test
 	public void swapAnswerValid() {
-		fail("Not yet implemented");
+		String[] answers= {"Answer 1", "Answer 2"};
+		this.question.addAnswer(answers[1]);
+		this.question.addAnswer(answers[0]);
+		
+		List<String> expected = new ArrayList<String>();
+		expected.add(answers[0]);
+		expected.add(answers[1]);
+		
+		this.question.swapAnswer(0, 1);
+		assertEquals(expected,this.question.getAnswers());
 	}
 
 	/**returns false and does nothing if first ID is out of bounds (OOB)*/
 	@Test
 	public void swapAnswer1OOB() {
-		fail("Not yet implemented");
+		this.question.addAnswer("Answer 1");
+		assertEquals(false, this.question.swapAnswer(0, 1));
 	}
 	
 	/**returns false and does nothing if second ID is out of bounds (OOB)*/
 	@Test
 	public void swapAnswer2OOBd() {
-		fail("Not yet implemented");
+		this.question.addAnswer("Answer 1");
+		assertEquals(false, this.question.swapAnswer(1, 0));
 	}
 	
 	/**checks that if one of the swapped answers is the correct answer, 
 	 * the correct answer changes
 	 */
 	public void swapAnswerCorrect(){
-		
+		this.question.addAnswer("Answer 1");
+		this.question.addAnswer("Answer 2");
+		this.question.setCorrectAnswer(1);
+		this.question.swapAnswer(0,1);
+		assertEquals(0, this.question.getCorrectAnswer());
 	}
 	
 	/**passes if answers is in bounds*/
 	@Test
 	public void changeCorrectAnswerPass() {
-		fail("Not yet implemented");
+		this.question.addAnswer("Answer 1");
+		assertEquals(true, this.question.setCorrectAnswer(0));
 	}
 	
-	/**passes if answers is in bounds*/
+	/**fails if answers is out of bounds*/
 	@Test
 	public void changeCorrectAnswerFail() {
-		fail("Not yet implemented");
+		this.question.addAnswer("Answer 1");
+		assertEquals(false, this.question.setCorrectAnswer(1));
 	}
-
 }
