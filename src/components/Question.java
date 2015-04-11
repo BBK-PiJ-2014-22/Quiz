@@ -55,14 +55,23 @@ public class Question {
 		}
 	}
 
-	
+	/**Returns the correct answer. -1 represents unset
+	 * 
+	 * @return
+	 */
 	public int getCorrectAnswer() {
 		return correctAnswer;
 	}
 
+	/**Sets the correct answer and returns true. If the int passed does not match to 
+	 * an answer, it will not change the answer and will return false.
+	 * 
+	 * @param correctAnswer position of the correct answer in the answerList
+	 * @return true if changed, false if not
+	 */
 	public boolean setCorrectAnswer(int correctAnswer) {
-		this.correctAnswer = correctAnswer;
-		return false;
+		if (correctAnswer )
+
 	}
 
 	public List<String> getAnswers() {
