@@ -16,7 +16,7 @@ public class Question {
 	private String question;
 	private List<String> answers;
 	private int correctAnswer;
-	private int id;
+	private int id; //-1 represents unset
 	
 	/**Standard constructor for the question object. Will create a question with no answers 
 	 * with the correct answer set to -1
@@ -26,24 +26,36 @@ public class Question {
 	 * @throws NullPointerException if question is null
 	 */
 	public Question(int id, String question) {
-		
 		if (question.equals(null))
 			throw new NullPointerException();
-			
 		this.id = id;
 		this.question = question;
 		this.correctAnswer = -1;
 		this.answers = new ArrayList<String>();
 	}
 	
+	/**Returns the String question
+	 * 
+	 * @return String question
+	 */
 	public String getQuestion() {
 		return question;
 	}
 
+	/**Sets the main question heading. Does not accept null
+	 * 
+	 * @param question new question to set
+	 * @throws NullPointerException if null is passed to the method
+	 */
 	public void setQuestion(String question) {
-		this.question = question;
+		if (question.equals(null))
+			throw new NullPointerException();
+		else{
+			this.question = question;
+		}
 	}
 
+	
 	public int getCorrectAnswer() {
 		return correctAnswer;
 	}
