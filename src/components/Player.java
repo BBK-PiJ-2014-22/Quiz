@@ -15,7 +15,7 @@ public class Player {
 	private int id;
 	private String name;
 	
-	public void Player(int id, String name){
+	public Player(int id, String name){
 		if (name == null)
 			throw new NullPointerException();
 		else{
