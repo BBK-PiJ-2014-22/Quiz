@@ -138,8 +138,36 @@ public class Question {
 		}
 	}
 	
+	/**Swaps the order of two answers within the list. Will return true
+	 * if successful, false if not (either index out of bounds both IDs
+	 * are the same)
+	 * 
+	 * @param id1 first answer to swap
+	 * @param id2 second answer to swap
+	 * @return true if successful, false if not.
+	 */
 	public boolean swapAnswer(int id1, int id2){
-		return false;
+		if (id1 == id2)
+			return false;
+		else{
+			try{
+				String string1 = this.answers.get(id1);
+				String string2 = this.answers.get(id2);
+				this.answers.remove(id1);
+				this.answers.add(id1, string2);
+				this.answers.remove(id2);
+				this.answers.add(id2, string1);
+				
+				if (this.getCorrectAnswer() == id1)
+					this.setCorrectAnswer(id2);
+				else if (this.getCorrectAnswer() == id2)
+					this.setCorrectAnswer(id1);
+
+				return true;
+			}catch (IndexOutOfBoundsException ex){
+				return false;
+			}
+		}	
 	}
 
 	public int getId() {
