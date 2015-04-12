@@ -152,7 +152,9 @@ public class QuestionTest {
 	@Test
 	public void changeCorrectAnswerPass() {
 		this.question.addAnswer("Answer 1");
-		assertEquals(true, this.question.setCorrectAnswer(0));
+		Object[] expected = {true, 0};
+		Object[] actual = {this.question.setCorrectAnswer(0), this.question.getCorrectAnswer()};
+		assertArrayEquals(expected, actual);
 	}
 	
 	/**fails if answers is out of bounds*/

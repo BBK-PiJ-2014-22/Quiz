@@ -14,7 +14,7 @@ import java.util.List;
 public class Question {
 	
 	private String question;
-	private List<String> answers;
+	List<String> answers;
 	private int correctAnswer;
 	private int id; //-1 represents unset
 	
@@ -70,8 +70,12 @@ public class Question {
 	 * @return true if changed, false if not
 	 */
 	public boolean setCorrectAnswer(int correctAnswer) {
-		if (correctAnswer )
-
+		if (correctAnswer >= 0 && correctAnswer < this.answers.size()){
+			this.correctAnswer = correctAnswer;
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public List<String> getAnswers() {
@@ -79,7 +83,10 @@ public class Question {
 	}
 	
 	public void addAnswer(String answer){
-		
+		if (answer == null)
+			throw new NullPointerException();
+		else
+			this.answers.add(answer);
 	}
 	
 	public boolean removeAnswer(int id){
