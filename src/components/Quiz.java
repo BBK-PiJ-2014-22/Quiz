@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 public class Quiz {
 
-	private int quizID;
-	private Player quizMaster;
+	private int quizID; //Set only by constructor
+	private Player quizMaster; //Set only be constructor
 	private String quizName;
 	private List<Question> questions;
 	private boolean active;
+	private boolean complete;
 	
 	//Getters/Setters
 	public String getQuizName() {
@@ -21,9 +22,7 @@ public class Quiz {
 	public boolean isActive() {
 		return active;
 	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+
 	public int getQuizID() {
 		return quizID;
 	}
@@ -41,6 +40,7 @@ public class Quiz {
 				+ ", quizName=" + quizName + ", questions=" + questions
 				+ ", active=" + active + "]";
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -55,6 +55,7 @@ public class Quiz {
 				+ ((quizName == null) ? 0 : quizName.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -88,19 +89,26 @@ public class Quiz {
 	
 	//Main Quiz methods
 	
+	}
 	
+	public Question getQuestion(int id){
+		return null;
+	}
+	
+	public boolean removeQuestion(int id){
+		return false;
+	}
 
+	public boolean swapQuestion(int id1, int id2){
+		return false;
+	}
 	
+	public boolean activate(){
+		return false;
+	}
 	
-	
-	
-
-
-/*+boolean addQuestion(question)
-+boolean swapQuestion(int, int)
-+boolean modifiyQuestion(question)
-+void activate()
-+void deactivate()
-*/
+	public boolean complete(){
+		return false;
+	}
 	
 }
