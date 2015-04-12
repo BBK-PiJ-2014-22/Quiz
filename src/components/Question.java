@@ -77,11 +77,20 @@ public class Question {
 			return false;
 		}
 	}
-
+	
+	/**Returns a list of all answers the question currently holds
+	 * 
+	 * @return list of all answer the question holds
+	 */
 	public List<String> getAnswers() {
 		return answers;
 	}
 	
+	/**Adds an answer to the list.
+	 * 
+	 * @param answer string, not null, of the answer
+	 * @throws NullPointerException if the string is Null
+	 */
 	public void addAnswer(String answer){
 		if (answer == null)
 			throw new NullPointerException();
@@ -89,8 +98,22 @@ public class Question {
 			this.answers.add(answer);
 	}
 	
+	/**Removes an answer. Will return true if successful. If the answer
+	 * removed was also the correct answer, it will reset the correct answer
+	 * to -1 (repesenting unset)
+	 * 
+	 * @param id id/position in list of the answer to remove
+	 * @return true if successful, false otherwise
+	 */
 	public boolean removeAnswer(int id){
-		return false;
+		try{
+			this.answers.remove(id);
+			if (id == this.correctAnswer)
+				this.correctAnswer = -1;
+			return true;
+		}catch (IndexOutOfBoundsException ex){
+			return false;
+		}
 	}
 		
 	public boolean changeAnswer(int id, String answer){
