@@ -89,6 +89,8 @@ public class Quiz {
 	
 	//Main Quiz methods
 	
+	public boolean addQuestion(Question question){
+		return false;
 	}
 	
 	public Question getQuestion(int id){
