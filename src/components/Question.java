@@ -100,7 +100,7 @@ public class Question {
 	
 	/**Removes an answer. Will return true if successful. If the answer
 	 * removed was also the correct answer, it will reset the correct answer
-	 * to -1 (repesenting unset)
+	 * to -1 (representing unset)
 	 * 
 	 * @param id id/position in list of the answer to remove
 	 * @return true if successful, false otherwise
@@ -115,9 +115,27 @@ public class Question {
 			return false;
 		}
 	}
-		
+	
+	/**Changes the answer at position ID to the new string. Note that this will
+	 * have no effect on whether it is the correct answer or not. Will return true 
+	 * if successful, false if either out of bounds or not a valid answer (null)
+	 * 
+	 * @param id int representing position of the answer to change
+	 * @param answer string of the new answer
+	 * @return boolean, true if succesful, false otherwise
+	 */
 	public boolean changeAnswer(int id, String answer){
-		return false;
+		try{
+			if (answer == null)
+				throw new NullPointerException();
+			else{
+				this.answers.remove(id);
+				this.answers.add(id, answer);	
+				return true;
+			}
+		}catch (NullPointerException|IndexOutOfBoundsException ex){
+			return false;
+		}
 	}
 	
 	public boolean swapAnswer(int id1, int id2){
