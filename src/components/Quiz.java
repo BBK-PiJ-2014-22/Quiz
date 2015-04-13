@@ -140,7 +140,7 @@ public class Quiz {
 		if (this.quizStatus != QuizStatus.ACTIVE)
 			return false;
 		else{
-			this.quizStatus = QuizStatus.ACTIVE;
+			this.quizStatus = QuizStatus.COMPLETED;
 			return true;
 		}
 	}

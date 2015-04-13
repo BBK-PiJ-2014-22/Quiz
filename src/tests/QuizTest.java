@@ -303,7 +303,7 @@ public class QuizTest {
 	public void completeActive(){
 		this.quiz.activate();
 		Object[] expected = {true, QuizStatus.COMPLETED};
-		Object[] actual = {this.quiz.activate(), this.quiz.getStatus()};
+		Object[] actual = {this.quiz.complete(), this.quiz.getStatus()};
 		assertArrayEquals(expected, actual);
 	}
 	
