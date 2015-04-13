@@ -105,7 +105,12 @@ public class Quiz {
 	//Main Quiz methods
 	
 	public boolean addQuestion(Question question){
-		return false;
+		if (this.quizStatus != QuizStatus.INACTIVE)
+			return false;
+		else{
+			this.questions.add(question);
+			return true;
+		}
 	}
 	
 	public Question getQuestion(int id){

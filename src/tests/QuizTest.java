@@ -109,7 +109,7 @@ public class QuizTest {
 		this.quiz.activate();
 
 		Object[] expected = {false, targetList};
-		Object[] actual  = {this.quiz.addQuestion(targetList.get(1)),this.quiz.getQuestions()};
+		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -123,7 +123,7 @@ public class QuizTest {
 		this.quiz.complete();
 
 		Object[] expected = {false, targetList};
-		Object[] actual  = {this.quiz.addQuestion(targetList.get(1)),this.quiz.getQuestions()};
+		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
 	}
 	
