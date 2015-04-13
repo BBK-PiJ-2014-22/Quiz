@@ -117,14 +117,20 @@ public class Quiz {
 	}
 	
 	public boolean activate(){
-		return false;
+		if (this.quizStatus != QuizStatus.INACTIVE)
+			return false;
+		else{
+			this.quizStatus = QuizStatus.ACTIVE;
+			return true;
+		}
 	}
 	
 	public boolean complete(){
-		return false;
+		if (this.quizStatus != QuizStatus.ACTIVE)
+			return false;
+		else{
+			this.quizStatus = QuizStatus.ACTIVE;
+			return true;
+		}
 	}
-
-
-
-	
 }
