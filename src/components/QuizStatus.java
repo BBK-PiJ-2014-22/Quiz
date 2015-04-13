@@ -5,7 +5,7 @@ package components;
  * @author Jamie
  *
  */
-public enum Status {
+public enum QuizStatus {
 
 	/**The base state of the quiz. A quiz can be edited whilst it is inactive.
 	 * 

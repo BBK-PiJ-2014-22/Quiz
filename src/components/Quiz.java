@@ -11,7 +11,7 @@ public class Quiz {
 	private Player quizMaster; //Set only be constructor
 	private String quizName;
 	private List<Question> questions;
-	private Status status;
+	private QuizStatus quizStatus;
 	
 	public Quiz(int i, String string, Player player) {
 		// TODO Auto-generated constructor stub
@@ -26,8 +26,8 @@ public class Quiz {
 		this.quizName = quizName;
 	}
 
-	public Status getStatus(){
-		return status;
+	public QuizStatus getStatus(){
+		return quizStatus;
 	}
 	
 	public int getQuizID() {
@@ -45,7 +45,7 @@ public class Quiz {
 	public String toString() {
 		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster
 				+ ", quizName=" + quizName + ", questions=" + questions
-				+ ", status=" + status + "]";
+				+ ", quizStatus=" + quizStatus + "]";
 	}
 	
 	@Override
@@ -59,7 +59,7 @@ public class Quiz {
 				+ ((quizMaster == null) ? 0 : quizMaster.hashCode());
 		result = prime * result
 				+ ((quizName == null) ? 0 : quizName.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((quizStatus == null) ? 0 : quizStatus.hashCode());
 		return result;
 	}
 
@@ -90,7 +90,7 @@ public class Quiz {
 				return false;
 		} else if (!quizName.equals(other.quizName))
 			return false;
-		if (status != other.status)
+		if (quizStatus != other.quizStatus)
 			return false;
 		return true;
 	}
