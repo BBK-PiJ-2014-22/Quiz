@@ -23,7 +23,10 @@ public class Quiz {
 		return quizName;
 	}
 	public void setQuizName(String quizName) {
-		this.quizName = quizName;
+		if (this.quizStatus != QuizStatus.INACTIVE)
+			throw new IllegalStateException();
+		else
+			this.quizName = quizName;
 	}
 
 	public QuizStatus getStatus(){
