@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import components.Player;
 import components.Question;
@@ -47,6 +49,7 @@ import components.QuizStatus;
 	 * 
 	 */
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class QuizTest {
 	
 	Quiz quiz;
