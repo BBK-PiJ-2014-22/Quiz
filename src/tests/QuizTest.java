@@ -248,6 +248,7 @@ public class QuizTest {
 		this.quiz.activate();
 		List<Question> targetList = new ArrayList<Question>();
 		targetList.add(new Question("Question 0"));
+		targetList.add(new Question("Question 1"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -261,6 +262,7 @@ public class QuizTest {
 		this.quiz.complete();
 		List<Question> targetList = new ArrayList<Question>();
 		targetList.add(new Question("Question 0"));
+		targetList.add(new Question("Question 1"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);

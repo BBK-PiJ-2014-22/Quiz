@@ -132,7 +132,8 @@ public class Quiz {
 
 	public boolean swapQuestion(int id1, int id2){
 		if (id1 < 0 || id1 >= this.questions.size() ||
-			id2 < 0 || id2 >= this.questions.size()){
+			id2 < 0 || id2 >= this.questions.size() ||
+			this.quizStatus != QuizStatus.INACTIVE) {
 			return false;
 		}else{
 			Question q1 = this.questions.get(id1);
@@ -143,9 +144,6 @@ public class Quiz {
 			this.questions.add(id2,q1);
 			return true;
 		}
-			
-
-
 	}
 	
 	public boolean activate(){
