@@ -116,7 +116,7 @@ public class Quiz {
 	}
 	
 	public Question getQuestion(int id){
-		return null;
+		return this.questions.get(id);
 	}
 	
 	public boolean removeQuestion(int id){
