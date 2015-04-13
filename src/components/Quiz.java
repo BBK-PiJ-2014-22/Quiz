@@ -1,5 +1,7 @@
 package components;
 
+//TODO - Work out how to deal with questions for active quizzes. At present a question can be altered in principle (Add lock to question?)
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -9,8 +11,12 @@ public class Quiz {
 	private Player quizMaster; //Set only be constructor
 	private String quizName;
 	private List<Question> questions;
-	private boolean active;
-	private boolean complete;
+	private Status status;
+	
+	public Quiz(int i, String string, Player player) {
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 	//Getters/Setters
 	public String getQuizName() {
@@ -19,10 +25,11 @@ public class Quiz {
 	public void setQuizName(String quizName) {
 		this.quizName = quizName;
 	}
-	public boolean isActive() {
-		return active;
-	}
 
+	public Status getStatus(){
+		return status;
+	}
+	
 	public int getQuizID() {
 		return quizID;
 	}
@@ -38,14 +45,13 @@ public class Quiz {
 	public String toString() {
 		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster
 				+ ", quizName=" + quizName + ", questions=" + questions
-				+ ", active=" + active + "]";
+				+ ", status=" + status + "]";
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (active ? 1231 : 1237);
 		result = prime * result
 				+ ((questions == null) ? 0 : questions.hashCode());
 		result = prime * result + quizID;
@@ -53,9 +59,11 @@ public class Quiz {
 				+ ((quizMaster == null) ? 0 : quizMaster.hashCode());
 		result = prime * result
 				+ ((quizName == null) ? 0 : quizName.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -65,8 +73,6 @@ public class Quiz {
 		if (getClass() != obj.getClass())
 			return false;
 		Quiz other = (Quiz) obj;
-		if (active != other.active)
-			return false;
 		if (questions == null) {
 			if (other.questions != null)
 				return false;
@@ -83,6 +89,8 @@ public class Quiz {
 			if (other.quizName != null)
 				return false;
 		} else if (!quizName.equals(other.quizName))
+			return false;
+		if (status != other.status)
 			return false;
 		return true;
 	}
@@ -112,5 +120,8 @@ public class Quiz {
 	public boolean complete(){
 		return false;
 	}
+
+
+
 	
 }
