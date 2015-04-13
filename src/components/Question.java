@@ -15,8 +15,7 @@ public class Question {
 	
 	private String question;
 	List<String> answers;
-	private int correctAnswer;
-	private int id; //-1 represents unset
+	private int correctAnswer; //-1 represents unset
 	
 	/**Standard constructor for the question object. Will create a question with no answers 
 	 * with the correct answer set to -1
@@ -25,10 +24,9 @@ public class Question {
 	 * @param question the question the be displayed
 	 * @throws NullPointerException if question is null
 	 */
-	public Question(int id, String question) {
+	public Question(String question) {
 		if (question.equals(null))
 			throw new NullPointerException();
-		this.id = id;
 		this.question = question;
 		this.correctAnswer = -1;
 		this.answers = new ArrayList<String>();
@@ -170,14 +168,11 @@ public class Question {
 		}	
 	}
 
-	public int getId() {
-		return id;
-	}
 
 	@Override
 	public String toString() {
 		return "Question [question=" + question + ", answers=" + answers
-				+ ", correctAnswer=" + correctAnswer + ", id=" + id + "]";
+				+ ", correctAnswer=" + correctAnswer + "]";
 	}
 
 	@Override
@@ -186,7 +181,6 @@ public class Question {
 		int result = 1;
 		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
 		result = prime * result + correctAnswer;
-		result = prime * result + id;
 		result = prime * result
 				+ ((question == null) ? 0 : question.hashCode());
 		return result;
@@ -207,8 +201,6 @@ public class Question {
 		} else if (!answers.equals(other.answers))
 			return false;
 		if (correctAnswer != other.correctAnswer)
-			return false;
-		if (id != other.id)
 			return false;
 		if (question == null) {
 			if (other.question != null)

@@ -41,13 +41,13 @@ public class QuestionTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		this.question = new Question(0, "This is a question");
+		this.question = new Question("This is a question");
 	}
 
 	/**A Question cannot be created with a null question*/
 	@Test(expected = NullPointerException.class)
 	public void nullConstructor(){
-		new Question(1, null);
+		new Question(null);
 	}
 	
 	/**question cannot be set to null*/
