@@ -29,6 +29,8 @@ public class Quiz {
 	public void setQuizName(String quizName) {
 		if (this.quizStatus != QuizStatus.INACTIVE)
 			throw new IllegalStateException();
+		else if (quizName == null)
+			throw  new NullPointerException();
 		else
 			this.quizName = quizName;
 	}
@@ -120,11 +122,30 @@ public class Quiz {
 	}
 	
 	public boolean removeQuestion(int id){
-		return false;
+		if (id < 0 || id >= this.questions.size() || this.quizStatus != QuizStatus.INACTIVE)
+			return false;
+		else{
+			this.questions.remove(id);
+			return true;
+		}
 	}
 
 	public boolean swapQuestion(int id1, int id2){
-		return false;
+		if (id1 < 0 || id1 >= this.questions.size() ||
+			id2 < 0 || id2 >= this.questions.size()){
+			return false;
+		}else{
+			Question q1 = this.questions.get(id1);
+			Question q2 = this.questions.get(id2);
+			this.questions.remove(id1);
+			this.questions.add(id1, q2);
+			this.questions.remove(id2);
+			this.questions.add(id2,q1);
+			return true;
+		}
+			
+
+
 	}
 	
 	public boolean activate(){
