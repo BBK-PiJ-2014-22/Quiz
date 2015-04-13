@@ -105,7 +105,9 @@ public class Quiz {
 	//Main Quiz methods
 	
 	public boolean addQuestion(Question question){
-		if (this.quizStatus != QuizStatus.INACTIVE)
+		if (question.equals(null))
+			throw new NullPointerException();
+		else if (this.quizStatus != QuizStatus.INACTIVE)
 			return false;
 		else{
 			this.questions.add(question);
