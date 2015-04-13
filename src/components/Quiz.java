@@ -13,8 +13,12 @@ public class Quiz {
 	private List<Question> questions;
 	private QuizStatus quizStatus;
 	
-	public Quiz(int i, String string, Player player) {
-		// TODO Auto-generated constructor stub
+	public Quiz(int id, String name, Player quizMaster) {
+		this.quizID = id;
+		this.quizMaster = quizMaster;
+		this.quizName = name;
+		this.questions = new ArrayList<Question>();
+		this.quizStatus = QuizStatus.INACTIVE;
 	}
 	
 	
