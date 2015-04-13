@@ -83,12 +83,15 @@ public class QuizTest {
 	/**Attempts to change the quiz name whilst it is active. Should throw an IllegalArgumentException*/
 	@Test(expected = IllegalStateException.class)
 	public void setQuizName3Active(){
+		this.quiz.activate();
 		this.quiz.setQuizName(null);
 	}
 	
 	/**Attempts to change the quiz name whilst it is active. Should throw an IllegalArgumentException*/
 	@Test(expected = IllegalStateException.class)
 	public void setQuizName4Completed(){
+		this.quiz.activate();
+		this.quiz.complete();
 		this.quiz.setQuizName(null);
 	}
 	
