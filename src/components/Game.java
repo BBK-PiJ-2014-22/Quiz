@@ -1,6 +1,8 @@
 package components;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import components.QuizStatus;
 
 /**The Game object represents in in progress game of a specific quiz. 
@@ -30,7 +32,13 @@ public class Game {
 	 * @param quiz
 	 */
 	public Game(Player player, Quiz quiz){
-		
+		if (quiz.getStatus() != QuizStatus.ACTIVE)
+			throw new IllegalStateException();
+		this.player = player;
+		this.quiz = quiz;
+		this.answers = new ArrayList<Integer>();
+		this.score = 0;
+		this.completed = false;
 	}
 	
 	
