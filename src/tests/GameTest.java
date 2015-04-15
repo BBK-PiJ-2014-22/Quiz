@@ -122,10 +122,16 @@ public class GameTest {
 	 * answerQuestion2Several	-> AQ adds to answers list, increments GNQ, returns true
 	 * answerQuestion3Last		-> Final AQ completes quiz, totals score, returns true
 	 * answerQuestion4QuizComp 	-> AQ when quiz complete returns false
+	 * answerQuestion5AnserOOB	-> returns false
 	 *
 	 * isCompleted1First		-> isComplete returns false at start
 	 * isCompleted2Penultimate	-> isComplete returns false at penultimate
 	 * isCompleted3Completed	-> isComplete returns true at finish
+	 * 
+	 * getScoreLive				-> Live quiz
+	 * getScoreNoneScored		->
+	 * getScoreFullMarks		->
+	 * getScoreHalfMarks		->					
 	*/
 
 	private Question createQuestion(int questionNumber){
