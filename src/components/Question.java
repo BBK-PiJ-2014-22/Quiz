@@ -171,11 +171,10 @@ public class Question {
 
 	@Override
 	public String toString() {
-		
-		//TODO - change to match to desired display format
-		
-		return "Question [question=" + question + ", answers=" + answers
-				+ ", correctAnswer=" + correctAnswer + "]";
+		String string = this.question;
+		for (int i = 0 ; i < this.answers.size() ; i++)
+			string += "\n	"+i+": "+this.answers.get(i);
+		return string;
 	}
 
 	@Override
