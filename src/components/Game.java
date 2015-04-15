@@ -26,10 +26,14 @@ public class Game {
 	
 	//Constructors
 	
-	/**Does not work if quiz is inactive or completed
+	/**Constructs and initialises a new game object for a given quiz and player.
+	 * Games can only be constructed if the Quiz' QuizStatus is Active. This
+	 * constructor will throw an IllegalStateException if the quiz is in any other
+	 * state.
 	 * 
-	 * @param player
-	 * @param quiz
+	 * @param player The player who is playing this game
+	 * @param quiz The quiz that this game will draw questions from
+	 * @throws IllegalStateException if the quiz is not active
 	 */
 	public Game(Player player, Quiz quiz){
 		if (quiz.getStatus() != QuizStatus.ACTIVE)
@@ -110,7 +114,12 @@ public class Game {
 
 	//Game methods
 	public String getNextQuestion(){
-		return null;
+		String result;
+		if (this.quiz.getStatus() != QuizStatus.ACTIVE)
+			result = "none";
+		else
+			result = this.quiz.getQuestion(answers.size()).toString();
+		return result;
 	}
 	
 	public boolean answerQuestion(){
