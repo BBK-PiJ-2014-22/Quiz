@@ -84,13 +84,39 @@ public class GameTest {
 		new Game(player, quiz);
 	}
 	
+	 /** getNextQuestion1First	-> first attempt to GNQ returns proper string*/
+	@Test
+	public void  getNextQuestion1First(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		String expected = quiz.getQuestion(0).toString();
+		assertEquals(expected, game.getNextQuestion());
+	}
+	
+	 /** getNextQuestion2Several	-> multi attempts to GNQ returns same string*/
+	@Test
+	public void  getNextQuestion2Several(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		String expected = game.getNextQuestion(); //This is to test that no increment is happening from get
+		assertEquals(expected, game.getNextQuestion());
+	}
+	
+	 /** getNextQuestion3GameComp	-> GNQ when game complete returns "none"*/
+	@Test
+	public void  getNextQuestion3QuizComplete(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		quiz.complete();
+		String expected = "none";
+		assertEquals(expected, game.getNextQuestion());
+	}
+	
+	/** getNextQuestion4QuizComp	-> GNQ when quiz complete returns "none"*/
+	
+	//TODO - write once AQ has been written
 	
 	/*
-	 *
-	 * getNextQuestion1First	-> first attempt to GNQ returns proper string
-	 * getNextQuestion2Several	-> multi attempts to GNQ returns same string
-	 * getNextQuestion3GameComp	-> GNQ when game complete returns "none"
-	 * getNextQuestion4QuizComp	-> GNQ when quiz complete returns "none"
 	 *
 	 * answerQuestion1First		-> AQ adds to answers list , returns true
 	 * answerQuestion2Several	-> AQ adds to answers list, increments GNQ, returns true
