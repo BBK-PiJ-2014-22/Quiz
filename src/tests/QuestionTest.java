@@ -187,4 +187,16 @@ public class QuestionTest {
 		this.question.removeAnswer(0);
 		assertEquals(-1, this.question.getCorrectAnswer());
 	}
+	
+	@Test
+	public void toStringTest(){
+		String expected = "This is a question\n"
+				+  "    0: Answer 0\n"
+				+  "    1: Answer 1\n"
+				+  "    2: Answer 2\n"
+				+  "    3: Answer 3\n";
+		for (int i = 0; i < 4; i++)
+			this.question.addAnswer("Answer "+i);
+		assertEquals(expected, this.question.toString());
+	}
 }
