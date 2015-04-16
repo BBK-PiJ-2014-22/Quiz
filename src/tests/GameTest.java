@@ -239,19 +239,78 @@ public class GameTest {
 	}
 
 	
+	/** isCompleted1First		-> isComplete returns false at start*/
+	@Test 
+	public void isComplete1First(){
+		 quiz.activate();
+		 Game game = new Game(player, quiz);
+		 assertEquals(false, game.isCompleted());
+	}
 	
-	/*
-	 *
-	 * isCompleted1First		-> isComplete returns false at start
-	 * isCompleted2Penultimate	-> isComplete returns false at penultimate
-	 * isCompleted3Completed	-> isComplete returns true at finish
-	 * 
-	 * getScoreLive				-> Live quiz
-	 * getScoreNoneScored		->
-	 * getScoreFullMarks		->
-	 * getScoreHalfMarks		->					
-	*/
+	/** isCompleted2Penultimate	-> isComplete returns false at penultimate*/
+	@Test 
+	public void isComplete2Penultimate(){
+		 quiz.activate();
+		 Game game = new Game(player, quiz);
+		 for (int i = 0 ; i < 3 ; i++)
+			 game.answerQuestion(i);
+		 assertEquals(false, game.isCompleted());
+	}
+	
+	 /** isCompleted3Completed	-> isComplete returns true at finish*/
+	@Test 
+	public void isComplete3Complete(){
+		 quiz.activate();
+		 Game game = new Game(player, quiz);
+		 for (int i = 0 ; i < 4 ; i++)
+			 game.answerQuestion(i);
+		 assertEquals(true, game.isCompleted());
+	}
+	
 
+	 /** getScoreLive			-> Live quiz   */
+	@Test
+	public void getScore1Live(){
+		quiz.activate();
+		Game game = new Game(player,quiz);
+		for (int i = 0; i < 3 ; i++)
+			game.answerQuestion(i); //these will be correct answers
+		assertEquals(0, game.getScore()); //As score is only calculated at the end
+	}
+	
+	 /** getScoreNoneScored		->*/
+	@Test
+	public void getScore2NoneScored(){
+		quiz.activate();
+		Game game = new Game(player,quiz);
+		int[] answers = {1,2,3,0};
+		for (int i : answers)
+			game.answerQuestion(i); //these will be incorrect answers
+		assertEquals(0, game.getScore());
+	}
+	
+	 /** getScoreHalfMarks*/
+	@Test
+	public void getScore3HalfMarks(){
+		quiz.activate();
+		Game game = new Game(player,quiz);
+		int[] answers = {0,1,3,0};
+		for (int i : answers)
+			game.answerQuestion(i); //these will be incorrect answers
+		assertEquals(2, game.getScore());
+	}
+	
+	 /** getScoreFullMarks		->	*/
+	@Test
+	public void getScore4FullMarks(){
+		quiz.activate();
+		Game game = new Game(player,quiz);
+		int[] answers = {0,1,2,3};
+		for (int i : answers)
+			game.answerQuestion(i); //these will be incorrect answers
+		assertEquals(4, game.getScore());
+	}
+	
 	public static Question createQuestion(int questionNumber){
 		Question result = new Question("Question "+questionNumber);
 		for (int i = 0 ; i < 5 ; i++)

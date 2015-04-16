@@ -149,6 +149,9 @@ public class Game {
 		}
 	}
 	
+	/**Completes the game and totals the score, setting the game to completed and the 
+	 * score to whatever matches the answers
+	 */
 	private void completeGame(){
 		this.completed = true;
 		this.score = 0;
