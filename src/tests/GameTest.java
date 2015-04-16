@@ -119,8 +119,27 @@ public class GameTest {
 		assertEquals(expected, game.getNextQuestion());
 	}
 	
-	/** getNextQuestion4QuizComp	-> GNQ when quiz complete returns "none"*/
-	//TODO - write once AQ has been written
+	/** getNextQuestion4QIncrement	-> GNQ increments with answers*/
+	@Test
+	public void  getNextQuestion4Increment(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		game.answerQuestion(0);
+		String expected = quiz.getQuestion(1).toString();
+		assertEquals(expected, game.getNextQuestion());
+	}
+	
+	/** getNextQuestion5QuizComp	-> Returns "none" after game completion*/
+	@Test
+	public void  getNextQuestion5Increment(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		for (int i = 0 ; i < 4 ; i++)
+			game.answerQuestion(i);
+		String expected = "none";
+		assertEquals(expected, game.getNextQuestion());
+	}
+
 	
 	 /** answerQuestion1First		-> AQ adds to answers list , returns true*/
 	@Test
