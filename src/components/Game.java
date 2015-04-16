@@ -122,7 +122,7 @@ public class Game {
 		return result;
 	}
 	
-	public boolean answerQuestion(){
+	public boolean answerQuestion(int answer){
 		return false;
 	}
 	

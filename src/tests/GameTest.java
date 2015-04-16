@@ -4,6 +4,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -40,6 +41,12 @@ import components.Game;
  * isCompleted1First		-> isComplete returns false at start
  * isCompleted2Penultimate	-> isComplete returns false at penultimate
  * isCompleted3Completed	-> isComplete returns true at finish
+ * 
+ * getScoreLive				-> Live quiz
+ * getScoreNoneScored		->
+ * getScoreFullMarks		->
+ * getScoreHalfMarks		->	  
+ * 
  * 
  * @author Jamie
  *
@@ -113,16 +120,31 @@ public class GameTest {
 	}
 	
 	/** getNextQuestion4QuizComp	-> GNQ when quiz complete returns "none"*/
-	
 	//TODO - write once AQ has been written
 	
+	 /** answerQuestion1First		-> AQ adds to answers list , returns true*/
+	@Test
+	public void answerQuestion1First(){
+		List<Integer> expectedAnswers = new ArrayList<Integer>();
+		expectedAnswers.add(0);
+		Object[] expected = {true, expectedAnswers};
+
+		quiz.activate();
+		Game game = new Game(player, quiz);
+	
+		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
+		
+		assertArrayEquals(expected, actual);
+	}
+	
+	 /** answerQuestion2Several	-> AQ adds to answers list, increments GNQ, returns true*/
+	 /** answerQuestion3Last		-> Final AQ completes quiz, totals score, returns true*/
+	 /** answerQuestion4QuizComp 	-> AQ when quiz complete returns false*/
+	 /** answerQuestion5AnserOOB	-> returns false*/
+
+	
+	
 	/*
-	 *
-	 * answerQuestion1First		-> AQ adds to answers list , returns true
-	 * answerQuestion2Several	-> AQ adds to answers list, increments GNQ, returns true
-	 * answerQuestion3Last		-> Final AQ completes quiz, totals score, returns true
-	 * answerQuestion4QuizComp 	-> AQ when quiz complete returns false
-	 * answerQuestion5AnserOOB	-> returns false
 	 *
 	 * isCompleted1First		-> isComplete returns false at start
 	 * isCompleted2Penultimate	-> isComplete returns false at penultimate
