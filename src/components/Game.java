@@ -113,6 +113,12 @@ public class Game {
 	}
 
 	//Game methods
+	/** Returns a string describing the next question to answer, with a list of possible
+	 * answers. The number preceding each answer will reflect the answer needed in 
+	 * answerQuestion().
+	 * 
+	 * @return a string displaying the question details
+	 */
 	public String getNextQuestion(){
 		String result;
 		if (this.quiz.getStatus() != QuizStatus.ACTIVE)
@@ -122,8 +128,23 @@ public class Game {
 		return result;
 	}
 	
+	/**Records the answer to the current question. If the final question is answered,
+	 * it completes the game, and saves the total score. It will return true/false
+	 * if an answer has been recorded, REGARDLESS of whether it is the correct answer.
+	 * 
+	 * @param answer ID of the answer the player thinks is correct
+	 * @return true if answered successfully, false otherwise (quiz or game complete)
+	 */
 	public boolean answerQuestion(int answer){
-		return false;
+		Question question = this.quiz.getQuestions().get(this.answers.size());
+		if (answer < question.getAnswers().size() && answer >= 0){
+			this.answers.add(answer);
+			if (question.getAnswers().size() == quiz.getQuestions().size()) //All answers have been recorded
+				this.completeGame();
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	private void completeGame(){
