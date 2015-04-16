@@ -21,8 +21,8 @@ public class Game {
 	private Player player;  		//Set only by constructor
 	private Quiz quiz; 				//Set only by constructor
 	private List<Integer> answers;	//Added to by answerQuestion()
-	int score;						//Set after answering final question by completeGame method
-	boolean completed;				//Set after answering final question by completeGame method
+	private int score;				//Set after answering final question by completeGame method
+	private boolean completed;		//Set after answering final question by completeGame method
 	
 	//Constructors
 	
@@ -148,6 +148,11 @@ public class Game {
 	}
 	
 	private void completeGame(){
-		
+		this.completed = true;
+		this.score = 0;
+		for (int i = 0 ; i < this.getAnswers().size() ; i++){
+			if (this.getAnswers().get(i) == this.quiz.getQuestion(i).getCorrectAnswer())
+				this.score += 1;
+		}
 	}
 }
