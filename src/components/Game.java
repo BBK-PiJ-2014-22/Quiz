@@ -136,6 +136,8 @@ public class Game {
 	 * @return true if answered successfully, false otherwise (quiz or game complete)
 	 */
 	public boolean answerQuestion(int answer){
+		if (this.isCompleted() || this.quiz.getStatus() != QuizStatus.ACTIVE)
+			return false;
 		Question question = this.quiz.getQuestions().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
