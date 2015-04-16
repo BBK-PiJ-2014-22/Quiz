@@ -21,7 +21,7 @@ import components.Game;
 
 /**
  * Before:
- * Sets up active quiz with 3 questions (correct answers are 012)
+ * Sets up active quiz with 3 questions (correct answers are 012). Each question has 5 possible answers
  * 
  * Tests:
  * const1QuizInactive		-> quiz is inactive, throws IllegalStateException 
@@ -138,9 +138,85 @@ public class GameTest {
 	}
 	
 	 /** answerQuestion2Several	-> AQ adds to answers list, increments GNQ, returns true*/
-	 /** answerQuestion3Last		-> Final AQ completes quiz, totals score, returns true*/
+	@Test
+	public void answerQuestion2Several(){
+		List<Integer> expectedAnswers = new ArrayList<Integer>();
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		boolean result = false;
+	
+		for (int i = 0 ; i < 3 ; i++){
+			expectedAnswers.add(i);
+			result = game.answerQuestion(i);
+		}
+			
+		Object[] expected = {true, expectedAnswers};
+		Object[] actual = {result, game.getAnswers()};
+		
+		assertArrayEquals(expected, actual);	
+	}
+	
+	 /** answerQuestion3Last		-> Final AQ completes quiz,  returns true*/
+	@Test
+	public void answerQuestion3Last(){
+		List<Integer> expectedAnswers = new ArrayList<Integer>();
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		boolean result = false;
+	
+		for (int i = 0 ; i < 4 ; i++){
+			expectedAnswers.add(i);
+			result = game.answerQuestion(i);
+		}
+			
+		Object[] expected = {true, expectedAnswers};
+		Object[] actual = {result, game.getAnswers()};
+		
+		assertArrayEquals(expected, actual);	
+	}
+	
 	 /** answerQuestion4QuizComp 	-> AQ when quiz complete returns false*/
-	 /** answerQuestion5AnserOOB	-> returns false*/
+	@Test
+	public void answerQuestion4QuizCompl(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		quiz.complete();
+		Object[] expected = {false, new ArrayList<Integer>()};
+		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
+		assertArrayEquals(expected, actual);
+	}
+	
+	 /** answerQuestion5GameComp 	-> AQ when game complete returns false*/
+	@Test
+	public void answerQuestion5GameCompl(){
+		List<Integer> expectedAnswers = new ArrayList<Integer>();
+		quiz.activate();
+		Game game = new Game(player, quiz);
+	
+		for (int i = 0 ; i < 4 ; i++){
+			expectedAnswers.add(i);
+			game.answerQuestion(i);
+		}	
+		//At this point the game should have completed
+		Object[] expected = {true, expectedAnswers};
+		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
+		
+		assertArrayEquals(expected, actual);	
+	}
+	
+	 /** answerQuestion5AnswerOOB	-> returns false*/
+	@Test
+	public void answerQuestion5AnswerOOB(){
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		
+		List<Integer> expectedAnswers = new ArrayList<Integer>();
+		expectedAnswers.add(0);
+		
+		Object[] expected = {false, expectedAnswers};
+		Object[] actual = {game.answerQuestion(6), game.getAnswers()};
+		assertArrayEquals(expected, actual);
+	}
 
 	
 	
