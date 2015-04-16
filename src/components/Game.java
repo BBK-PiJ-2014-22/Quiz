@@ -121,7 +121,7 @@ public class Game {
 	 */
 	public String getNextQuestion(){
 		String result;
-		if (this.quiz.getStatus() != QuizStatus.ACTIVE)
+		if (this.quiz.getStatus() != QuizStatus.ACTIVE || this.completed)
 			result = "none";
 		else
 			result = this.quiz.getQuestion(answers.size()).toString();
@@ -141,7 +141,7 @@ public class Game {
 		Question question = this.quiz.getQuestions().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
-			if (question.getAnswers().size() == quiz.getQuestions().size()) //All answers have been recorded
+			if (this.getAnswers().size() == quiz.getQuestions().size()) //All answers have been recorded
 				this.completeGame();
 			return true;
 		}else{

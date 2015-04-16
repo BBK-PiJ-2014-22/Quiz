@@ -217,20 +217,21 @@ public class GameTest {
 			game.answerQuestion(i);
 		}	
 		//At this point the game should have completed
-		Object[] expected = {true, expectedAnswers};
+		Object[] expected = {false, expectedAnswers};
 		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
 		
 		assertArrayEquals(expected, actual);	
 	}
 	
-	 /** answerQuestion5AnswerOOB	-> returns false*/
+	 /** answerQuestion6AnswerOOB	-> returns false*/
 	@Test
-	public void answerQuestion5AnswerOOB(){
+	public void answerQuestion6AnswerOOB(){
 		quiz.activate();
 		Game game = new Game(player, quiz);
 		
 		List<Integer> expectedAnswers = new ArrayList<Integer>();
 		expectedAnswers.add(0);
+		game.answerQuestion(0);
 		
 		Object[] expected = {false, expectedAnswers};
 		Object[] actual = {game.answerQuestion(6), game.getAnswers()};
@@ -251,7 +252,7 @@ public class GameTest {
 	 * getScoreHalfMarks		->					
 	*/
 
-	private Question createQuestion(int questionNumber){
+	public static Question createQuestion(int questionNumber){
 		Question result = new Question("Question "+questionNumber);
 		for (int i = 0 ; i < 5 ; i++)
 			result.addAnswer("Answer "+i);

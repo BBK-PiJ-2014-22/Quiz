@@ -1,30 +1,23 @@
 package components;
 
+import tests.GameTest;
+
 
 public class Scratchpad {
 
 	public static void main(String[] args) {
-		String expected = "This is a question"
-				+  "\n	0: Answer 0"
-				+  "\n	1: Answer 1"
-				+  "\n	2: Answer 2"
-				+  "\n	3: Answer 3";
-		
-		
-		Question question = new Question("This is a question");
 	
-		for (int i = 0; i < 4; i++){
-			
-			String answer = "Answer "+i;
-			System.out.println(answer);
-			question.addAnswer(answer);
+		Player player = new Player(0, "Player 0");
+		Quiz quiz = new Quiz(0, "Quiz 0", new Player(1, "Quiz Master 0"));
+		for (int i = 0 ; i < 4 ; i++)
+			quiz.addQuestion(GameTest.createQuestion(i));
+		
+		quiz.activate();
+		Game game = new Game(player, quiz);
+		
+		for (int i = 0; i < 5 ; i++){
+			game.answerQuestion(0);
+			System.out.println(game.isCompleted());
 		}
-		
-		
-		
-		System.out.println(expected);
-		System.out.println(question);
-
 	}
-
 }
