@@ -16,7 +16,7 @@ import components.Player;
 import components.Question;
 import components.Quiz;
 import components.QuizStatus;
-import components.Game;
+import components.GameImpl;
 
 
 /**
@@ -70,14 +70,14 @@ public class GameTest {
 	 /** const1QuizInactive		-> quiz is inactive, throws IllegalStateException*/
 	@Test(expected = IllegalStateException.class)
 	public void const1QuizInactive(){
-		new Game(player, quiz);
+		new GameImpl(player, quiz);
 	}
 	
 	 /** const3QuizActive			-> quiz is active, constructs game*/
 	@Test
 	public void const2QuizIActive(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		Object[] expected = {this.player, this.quiz, 0, false, new ArrayList<Integer>()};
 		Object[] actual = {game.getPlayer(), game.getQuiz(), game.getScore(), game.isCompleted(), game.getAnswers()};
 		assertArrayEquals(expected, actual);
@@ -88,14 +88,14 @@ public class GameTest {
 	public void const3QuizComplete(){
 		quiz.activate();
 		quiz.complete();
-		new Game(player, quiz);
+		new GameImpl(player, quiz);
 	}
 	
 	 /** getNextQuestion1First	-> first attempt to GNQ returns proper string*/
 	@Test
 	public void  getNextQuestion1First(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		String expected = quiz.getQuestion(0).toString();
 		assertEquals(expected, game.getNextQuestion());
 	}
@@ -104,7 +104,7 @@ public class GameTest {
 	@Test
 	public void  getNextQuestion2Several(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		String expected = game.getNextQuestion(); //This is to test that no increment is happening from get
 		assertEquals(expected, game.getNextQuestion());
 	}
@@ -113,7 +113,7 @@ public class GameTest {
 	@Test
 	public void  getNextQuestion3QuizComplete(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		quiz.complete();
 		String expected = "none";
 		assertEquals(expected, game.getNextQuestion());
@@ -123,7 +123,7 @@ public class GameTest {
 	@Test
 	public void  getNextQuestion4Increment(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		game.answerQuestion(0);
 		String expected = quiz.getQuestion(1).toString();
 		assertEquals(expected, game.getNextQuestion());
@@ -133,7 +133,7 @@ public class GameTest {
 	@Test
 	public void  getNextQuestion5Increment(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		for (int i = 0 ; i < 4 ; i++)
 			game.answerQuestion(i);
 		String expected = "none";
@@ -149,7 +149,7 @@ public class GameTest {
 		Object[] expected = {true, expectedAnswers};
 
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 	
 		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
 		
@@ -161,7 +161,7 @@ public class GameTest {
 	public void answerQuestion2Several(){
 		List<Integer> expectedAnswers = new ArrayList<Integer>();
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		boolean result = false;
 	
 		for (int i = 0 ; i < 3 ; i++){
@@ -180,7 +180,7 @@ public class GameTest {
 	public void answerQuestion3Last(){
 		List<Integer> expectedAnswers = new ArrayList<Integer>();
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		boolean result = false;
 	
 		for (int i = 0 ; i < 4 ; i++){
@@ -198,7 +198,7 @@ public class GameTest {
 	@Test
 	public void answerQuestion4QuizCompl(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		quiz.complete();
 		Object[] expected = {false, new ArrayList<Integer>()};
 		Object[] actual = {game.answerQuestion(0), game.getAnswers()};
@@ -210,7 +210,7 @@ public class GameTest {
 	public void answerQuestion5GameCompl(){
 		List<Integer> expectedAnswers = new ArrayList<Integer>();
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 	
 		for (int i = 0 ; i < 4 ; i++){
 			expectedAnswers.add(i);
@@ -227,7 +227,7 @@ public class GameTest {
 	@Test
 	public void answerQuestion6AnswerOOB(){
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		
 		List<Integer> expectedAnswers = new ArrayList<Integer>();
 		expectedAnswers.add(0);
@@ -243,7 +243,7 @@ public class GameTest {
 	@Test 
 	public void isComplete1First(){
 		 quiz.activate();
-		 Game game = new Game(player, quiz);
+		 GameImpl game = new GameImpl(player, quiz);
 		 assertEquals(false, game.isCompleted());
 	}
 	
@@ -251,7 +251,7 @@ public class GameTest {
 	@Test 
 	public void isComplete2Penultimate(){
 		 quiz.activate();
-		 Game game = new Game(player, quiz);
+		 GameImpl game = new GameImpl(player, quiz);
 		 for (int i = 0 ; i < 3 ; i++)
 			 game.answerQuestion(i);
 		 assertEquals(false, game.isCompleted());
@@ -261,7 +261,7 @@ public class GameTest {
 	@Test 
 	public void isComplete3Complete(){
 		 quiz.activate();
-		 Game game = new Game(player, quiz);
+		 GameImpl game = new GameImpl(player, quiz);
 		 for (int i = 0 ; i < 4 ; i++)
 			 game.answerQuestion(i);
 		 assertEquals(true, game.isCompleted());
@@ -272,7 +272,7 @@ public class GameTest {
 	@Test
 	public void getScore1Live(){
 		quiz.activate();
-		Game game = new Game(player,quiz);
+		GameImpl game = new GameImpl(player,quiz);
 		for (int i = 0; i < 3 ; i++)
 			game.answerQuestion(i); //these will be correct answers
 		assertEquals(0, game.getScore()); //As score is only calculated at the end
@@ -282,7 +282,7 @@ public class GameTest {
 	@Test
 	public void getScore2NoneScored(){
 		quiz.activate();
-		Game game = new Game(player,quiz);
+		GameImpl game = new GameImpl(player,quiz);
 		int[] answers = {1,2,3,0};
 		for (int i : answers)
 			game.answerQuestion(i); //these will be incorrect answers
@@ -293,7 +293,7 @@ public class GameTest {
 	@Test
 	public void getScore3HalfMarks(){
 		quiz.activate();
-		Game game = new Game(player,quiz);
+		GameImpl game = new GameImpl(player,quiz);
 		int[] answers = {0,1,3,0};
 		for (int i : answers)
 			game.answerQuestion(i); //these will be incorrect answers
@@ -304,7 +304,7 @@ public class GameTest {
 	@Test
 	public void getScore4FullMarks(){
 		quiz.activate();
-		Game game = new Game(player,quiz);
+		GameImpl game = new GameImpl(player,quiz);
 		int[] answers = {0,1,2,3};
 		for (int i : answers)
 			game.answerQuestion(i); //these will be incorrect answers

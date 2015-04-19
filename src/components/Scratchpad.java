@@ -13,7 +13,7 @@ public class Scratchpad {
 			quiz.addQuestion(GameTest.createQuestion(i));
 		
 		quiz.activate();
-		Game game = new Game(player, quiz);
+		GameImpl game = new GameImpl(player, quiz);
 		
 		for (int i = 0; i < 5 ; i++){
 			game.answerQuestion(0);
