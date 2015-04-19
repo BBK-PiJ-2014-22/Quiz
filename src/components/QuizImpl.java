@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class QuizImpl implements Quiz{
 
 	private int quizID; //Set only by constructor
-	private PlayerImpl quizMaster; //Set only be constructor
+	private Player quizMaster; //Set only be constructor
 	private String quizName;
 	private List<Question> questions;
 	private QuizStatus quizStatus;
 	
-	public QuizImpl(int id, String name, PlayerImpl quizMaster) {
+	public QuizImpl(int id, String name, Player quizMaster) {
 		this.quizID = id;
 		this.quizMaster = quizMaster;
 		this.quizName = name;
