@@ -136,12 +136,40 @@ public class QuizServerSetupTest {
 	}
 
 	@Test
-	public void testGetQuizList() {
-		fail("Not yet implemented");
+	public void testGetQuizListSomeMatches() throws RemoteException{
+		Player player0 = setupServer.createPlayer("Player0");
+		Player player1 = setupServer.createPlayer("Player1");
+		List<Quiz> expected = new ArrayList<Quiz>();
+		
+		for (int i = 0 ; i < 4 ; i++){
+			setupServer.createQuiz(player0, "New Quiz"+i*2);
+			setupServer.createQuiz(player1, "New Quiz"+i+1);
+			expected.add(new QuizImpl(i*2, "New Quiz"+i*2, player0));
+		}	
+		assertEquals(expected, setupServer.getQuizList(player0));
 	}
-
-
-
-
-
+	
+	@Test
+	public void testGetQuizList2NoMatches() throws RemoteException{
+		Player player0 = setupServer.createPlayer("Player0");
+		Player player1 = setupServer.createPlayer("Player1");
+		List<Quiz> expected = new ArrayList<Quiz>();
+		
+		for (int i = 0 ; i < 4 ; i++){
+			setupServer.createQuiz(player0, "New Quiz"+i);
+		}	
+		assertEquals(expected, setupServer.getQuizList(player1));
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testGetQuizList3FailNullPlayer() throws RemoteException{
+		Player player0 = setupServer.createPlayer("Player0");
+		Player player1 = null;
+		List<Quiz> expected = new ArrayList<Quiz>();
+		
+		for (int i = 0 ; i < 4 ; i++){
+			setupServer.createQuiz(player0, "New Quiz"+i);
+		}	
+		assertEquals(expected, setupServer.getQuizList(player1));
+	}
 }
