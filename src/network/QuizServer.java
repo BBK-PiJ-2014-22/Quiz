@@ -10,7 +10,8 @@ import components.*;
 public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 
 	List<Player> playerList;
-	
+	List<Quiz> quizList;
+	List<Game> gameList;
 	
 	public QuizServer() throws RemoteException{
 		super();

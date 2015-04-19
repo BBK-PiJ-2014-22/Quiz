@@ -8,10 +8,15 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 import components.Player;
 import components.PlayerImpl;
+import components.Quiz;
+import components.QuizImpl;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class QuizServerSetupTest {
 
 	SetupInterface setupServer;
@@ -38,6 +43,11 @@ public class QuizServerSetupTest {
 		}
 		List<Player> actual = quizServer.getPlayerList();
 		assertEquals(expected, actual);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testCreatePlayer3Null() throws RemoteException {
+		setupServer.createPlayer(null);
 	}
 	
 	@Test
@@ -75,11 +85,39 @@ public class QuizServerSetupTest {
 		Player actual = setupServer.login(0,  "Player6");
 		assertEquals(expected, actual);
 	}
-
-
+	
+	@Test 
+	public void testLogin5FailNull() throws RemoteException{
+		for (int i = 0 ; i < 5 ; i++)
+			setupServer.createPlayer("Player"+i);
+		Player expected = null;
+		Player actual = setupServer.login(0,  null);
+		assertEquals(expected, actual);
+	}
 
 	@Test
-	public void testCreateQuiz() {
+	public void testCreateQuiz1PassSingle() throws RemoteException{
+		Player player = setupServer.createPlayer("Player0");
+		Quiz expected = new QuizImpl(0, "New Quiz", player);
+		Quiz actual = setupServer.createQuiz(player, "New Quiz");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testCreateQuiz2PassMultiple() throws RemoteException{
+		Player player0 = setupServer.createPlayer("Player0");
+		Player player1 = setupServer.createPlayer("Player1");
+		Quiz expected = new QuizImpl(3, "New Quiz3", player1);
+		setupServer.createQuiz(player0, "New Quiz");
+		setupServer.createQuiz(player0, "New Quiz");
+		setupServer.createQuiz(player0, "New Quiz");
+		Quiz actual = setupServer.createQuiz(player1, "New Quiz");
+
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testCreateQuiz1FailNull() {
 		fail("Not yet implemented");
 	}
 
