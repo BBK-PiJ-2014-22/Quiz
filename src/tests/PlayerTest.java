@@ -2,8 +2,11 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
 import org.junit.Test;
 
+import components.Player;
 import components.PlayerImpl;
 
 /**Tests for the Player object. Apart from getters Test, ensures that a Player cannot have  a null name
@@ -13,24 +16,26 @@ import components.PlayerImpl;
  */
 public class PlayerTest {
 
-	/**Test get name */
+	/**Test get name 
+	 * @throws RemoteException */
 	@Test
-	public void getNameTest(){
-		PlayerImpl player = new PlayerImpl(1, "Jamie");
+	public void getNameTest() throws RemoteException{
+		Player player = new PlayerImpl(1, "Jamie");
 		assertEquals("Jamie", player.getName());
 	}
 
-	/**Test get ID*/
+	/**Test get ID
+	 * @throws RemoteException */
 	@Test
-	public void getIDtest(){
-		PlayerImpl player = new PlayerImpl(1, "Jamie");
+	public void getIDtest() throws RemoteException{
+		Player player = new PlayerImpl(1, "Jamie");
 		assertEquals(1, player.getId());
 	}
 
 	/**Tests toString*/
 	@Test
 	public void toStringTest(){
-		PlayerImpl player = new PlayerImpl(1, "Jamie");
+		Player player = new PlayerImpl(1, "Jamie");
 		assertEquals("Player [id=1, name=Jamie]", player.toString());
 	}
 	
