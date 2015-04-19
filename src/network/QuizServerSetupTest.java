@@ -105,6 +105,8 @@ public class QuizServerSetupTest {
 	
 	@Test
 	public void testCreateQuiz2PassMultiple() throws RemoteException{
+		
+		//TODO - rewrite to test against the full list existing
 		Player player0 = setupServer.createPlayer("Player0");
 		Player player1 = setupServer.createPlayer("Player1");
 		Quiz expected = new QuizImpl(3, "New Quiz3", player1);
@@ -116,9 +118,21 @@ public class QuizServerSetupTest {
 		assertEquals(expected, actual);
 	}
 	
-	@Test
-	public void testCreateQuiz1FailNull() {
-		fail("Not yet implemented");
+	@Test (expected = NullPointerException.class)
+	public void testCreateQuiz2FailNullName() throws RemoteException{
+		Player player = setupServer.createPlayer("Player0");
+		setupServer.createQuiz(player, null);
+	}
+	
+	@Test (expected = NullPointerException.class)
+	public void testCreateQuiz3FailNullPlayer() throws RemoteException{
+		setupServer.createQuiz(null, "New Quiz");
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testCreateQuiz4FailPlayerNotInServer() throws RemoteException{
+		setupServer.createPlayer("Player0");//Note that this will be equal but not identical
+		setupServer.createQuiz(new PlayerImpl(0, "Player0"), "New Quiz");
 	}
 
 	@Test
