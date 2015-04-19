@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
-import components.Player;
-import components.Question;
+import components.PlayerImpl;
+import components.QuestionImpl;
 import components.Quiz;
 import components.QuizStatus;
 import components.GameImpl;
@@ -54,14 +54,14 @@ import components.GameImpl;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class GameTest {
 
-	Player player;
+	PlayerImpl player;
 	Quiz quiz;
 	
 	@Before
 	public void setUp() throws Exception {
 		
-		this.player = new Player(0, "Player 0");
-		this.quiz = new Quiz(0, "Quiz 0", new Player(1, "Quiz Master 0"));
+		this.player = new PlayerImpl(0, "Player 0");
+		this.quiz = new Quiz(0, "Quiz 0", new PlayerImpl(1, "Quiz Master 0"));
 		for (int i = 0 ; i < 4 ; i++)
 			this.quiz.addQuestion(createQuestion(i));
 	}
@@ -311,8 +311,8 @@ public class GameTest {
 		assertEquals(4, game.getScore());
 	}
 	
-	public static Question createQuestion(int questionNumber){
-		Question result = new Question("Question "+questionNumber);
+	public static QuestionImpl createQuestion(int questionNumber){
+		QuestionImpl result = new QuestionImpl("Question "+questionNumber);
 		for (int i = 0 ; i < 5 ; i++)
 			result.addAnswer("Answer "+i);
 		result.setCorrectAnswer(questionNumber);

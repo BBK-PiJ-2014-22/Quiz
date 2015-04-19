@@ -10,8 +10,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import components.Player;
-import components.Question;
+import components.PlayerImpl;
+import components.QuestionImpl;
 import components.Quiz;
 import components.QuizStatus;
 
@@ -60,8 +60,8 @@ public class QuizTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.quiz = new Quiz(0, "Quiz 0", new Player(0,"QuizMaster 0"));
-		this.quiz.addQuestion(new Question("Question 0"));
+		this.quiz = new Quiz(0, "Quiz 0", new PlayerImpl(0,"QuizMaster 0"));
+		this.quiz.addQuestion(new QuestionImpl("Question 0"));
 	}
 	
 	/**Attempts to change the quiz name to a valid string (not null) whilst the quiz is 
@@ -98,9 +98,9 @@ public class QuizTest {
 	/**Adds a valid new question, tests that the list increases and the add returns true*/
 	@Test
 	public void addQuestion1AddValid(){
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
-		targetList.add(new Question("Question 1"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
+		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {true, targetList};
 		Object[] actual  = {this.quiz.addQuestion(targetList.get(1)),this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -109,8 +109,8 @@ public class QuizTest {
 	/**Attempts to add a valid new question but the quiz is Active, tests that the list is unchanged and the add returns false*/
 	@Test
 	public void addQuestion2Active(){
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 
 		this.quiz.activate();
 
@@ -122,8 +122,8 @@ public class QuizTest {
 	/**Attempts to add a valid new question but the quiz is Complete, tests that the list is unchanged and the add returns false*/
 	@Test
 	public void addQuestion3Complete(){
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 
 		this.quiz.activate();
 		this.quiz.complete();
@@ -157,7 +157,7 @@ public class QuizTest {
 	/**Gets a question in bounds of the question list, returns the question*/
 	@Test
 	public void getQuestion1IndexInBound(){
-		Question expected = new Question("Question 0");
+		QuestionImpl expected = new QuestionImpl("Question 0");
 		assertEquals(expected, this.quiz.getQuestion(0));
 	}
 
@@ -170,7 +170,7 @@ public class QuizTest {
 	/**Removes a question in bounds. Tests that the function returns true and the list is changed*/
 	@Test
 	public void removeQuestion1InBound(){
-		Object[] expected = {true, new ArrayList<Question>()};
+		Object[] expected = {true, new ArrayList<QuestionImpl>()};
 		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
 	}
@@ -178,8 +178,8 @@ public class QuizTest {
 	/**Removes a question out of bounds. Tests that the function returns false and the list is unchanged*/
 	@Test
 	public void removeQuestion2OOB(){
-		List<Question> targetList= new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};		
 		Object[] actual = {this.quiz.removeQuestion(1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -189,8 +189,8 @@ public class QuizTest {
 	@Test
 	public void removeQuestion3IBActive(){
 		this.quiz.activate();
-		List<Question> targetList= new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -201,8 +201,8 @@ public class QuizTest {
 	public void removeQuestion4IBComplete(){
 		this.quiz.activate();
 		this.quiz.complete();
-		List<Question> targetList= new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -211,10 +211,10 @@ public class QuizTest {
 	/**Swaps two questions with IDs that are in bound. Tests taht the function returns true and the list is changed*/
 	@Test
 	public void swapQuestion1InBounds(){
-		this.quiz.addQuestion(new Question("Question 1"));
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 1"));
-		targetList.add(new Question("Question 0"));
+		this.quiz.addQuestion(new QuestionImpl("Question 1"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 1"));
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {true, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		
@@ -224,8 +224,8 @@ public class QuizTest {
 	/**Swaps two questions with IDs, first is oob. Tests that the function returns true and the list is changed*/
 	@Test
 	public void swapQuestion2FirstOOB(){
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(1, 0), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -234,8 +234,8 @@ public class QuizTest {
 	/**Swaps two questions with IDs, first is oob. Tests that the function returns true and the list is changed*/
 	@Test
 	public void swapQuestion3SecondOOB(){
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -244,11 +244,11 @@ public class QuizTest {
 	/**Swaps two questions with IDs that are in bound but quiz is active. Tests that the function returns false and the list is unchanged*/
 	@Test
 	public void swapQuestion4IBActive(){
-		this.quiz.addQuestion(new Question("Question 1"));
+		this.quiz.addQuestion(new QuestionImpl("Question 1"));
 		this.quiz.activate();
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
-		targetList.add(new Question("Question 1"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
+		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);
@@ -257,12 +257,12 @@ public class QuizTest {
 	/**Swaps two questions with IDs that are in bound but quiz is active. Tests that the function returns false and the list is unchanged*/
 	@Test
 	public void swapQuestion5IBComplete(){
-		this.quiz.addQuestion(new Question("Question 1"));
+		this.quiz.addQuestion(new QuestionImpl("Question 1"));
 		this.quiz.activate();
 		this.quiz.complete();
-		List<Question> targetList = new ArrayList<Question>();
-		targetList.add(new Question("Question 0"));
-		targetList.add(new Question("Question 1"));
+		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
+		targetList.add(new QuestionImpl("Question 0"));
+		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {false, targetList};
 		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
 		assertArrayEquals(expected, actual);

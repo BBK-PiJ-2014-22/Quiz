@@ -12,7 +12,7 @@ public interface Game extends Remote {
 	
 	public String getNextQuestion() throws RemoteException;
 	
-	public Player getPlayer() throws RemoteException;
+	public PlayerImpl getPlayer() throws RemoteException;
 	
 	public Quiz getQuiz() throws RemoteException;
 	

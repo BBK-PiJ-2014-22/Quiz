@@ -15,10 +15,10 @@ import components.QuizStatus;
  * @author Jamie MacIver
  *
  */
-public class GameImpl {
+public class GameImpl implements Game{
 	
 	//Note: no normal setters for any fields
-	private Player player;  		//Set only by constructor
+	private PlayerImpl player;  		//Set only by constructor
 	private Quiz quiz; 				//Set only by constructor
 	private List<Integer> answers;	//Added to by answerQuestion()
 	private int score;				//Set after answering final question by completeGame method
@@ -35,7 +35,7 @@ public class GameImpl {
 	 * @param quiz The quiz that this game will draw questions from
 	 * @throws IllegalStateException if the quiz is not active
 	 */
-	public GameImpl(Player player, Quiz quiz){
+	public GameImpl(PlayerImpl player, Quiz quiz){
 		if (quiz.getStatus() != QuizStatus.ACTIVE)
 			throw new IllegalStateException();
 		this.player = player;
@@ -96,18 +96,23 @@ public class GameImpl {
 	}
 	
 	//Getters
-	public Player getPlayer() {
+	@Override
+	public PlayerImpl getPlayer() {
 		return player;
 	}
+	@Override
 	public Quiz getQuiz() {
 		return quiz;
 	}
+	@Override
 	public List<Integer> getAnswers() {
 		return answers;
 	}
+	@Override
 	public int getScore() {
 		return score;
 	}
+	@Override
 	public boolean isCompleted() {
 		return completed;
 	}
@@ -119,6 +124,7 @@ public class GameImpl {
 	 * 
 	 * @return a string displaying the question details
 	 */
+	@Override
 	public String getNextQuestion(){
 		String result;
 		if (this.quiz.getStatus() != QuizStatus.ACTIVE || this.completed)
@@ -135,10 +141,11 @@ public class GameImpl {
 	 * @param answer ID of the answer the player thinks is correct
 	 * @return true if answered successfully, false otherwise (quiz or game complete)
 	 */
+	@Override
 	public boolean answerQuestion(int answer){
 		if (this.isCompleted() || this.quiz.getStatus() != QuizStatus.ACTIVE)
 			return false;
-		Question question = this.quiz.getQuestions().get(this.answers.size());
+		QuestionImpl question = this.quiz.getQuestions().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
 			if (this.getAnswers().size() == quiz.getQuestions().size()) //All answers have been recorded

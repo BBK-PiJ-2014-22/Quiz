@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import components.Question;
+import components.QuestionImpl;
 
 /**
  * Tests:
@@ -37,17 +37,17 @@ import components.Question;
 
 public class QuestionTest {
 
-	Question question;
+	QuestionImpl question;
 	
 	@Before
 	public void setUp() throws Exception {
-		this.question = new Question("This is a question");
+		this.question = new QuestionImpl("This is a question");
 	}
 
 	/**A Question cannot be created with a null question*/
 	@Test(expected = NullPointerException.class)
 	public void nullConstructor(){
-		new Question(null);
+		new QuestionImpl(null);
 	}
 	
 	/**question cannot be set to null*/

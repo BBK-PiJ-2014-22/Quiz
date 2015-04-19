@@ -8,16 +8,16 @@ import java.util.ArrayList;
 public class Quiz {
 
 	private int quizID; //Set only by constructor
-	private Player quizMaster; //Set only be constructor
+	private PlayerImpl quizMaster; //Set only be constructor
 	private String quizName;
-	private List<Question> questions;
+	private List<QuestionImpl> questions;
 	private QuizStatus quizStatus;
 	
-	public Quiz(int id, String name, Player quizMaster) {
+	public Quiz(int id, String name, PlayerImpl quizMaster) {
 		this.quizID = id;
 		this.quizMaster = quizMaster;
 		this.quizName = name;
-		this.questions = new ArrayList<Question>();
+		this.questions = new ArrayList<QuestionImpl>();
 		this.quizStatus = QuizStatus.INACTIVE;
 	}
 	
@@ -42,10 +42,10 @@ public class Quiz {
 	public int getQuizID() {
 		return quizID;
 	}
-	public Player getQuizMaster() {
+	public PlayerImpl getQuizMaster() {
 		return quizMaster;
 	}
-	public List<Question> getQuestions() {
+	public List<QuestionImpl> getQuestions() {
 		return questions;
 	}
 	
@@ -106,7 +106,7 @@ public class Quiz {
 	
 	//Main Quiz methods
 	
-	public boolean addQuestion(Question question){
+	public boolean addQuestion(QuestionImpl question){
 		if (question.equals(null))
 			throw new NullPointerException();
 		else if (this.quizStatus != QuizStatus.INACTIVE)
@@ -117,7 +117,7 @@ public class Quiz {
 		}
 	}
 	
-	public Question getQuestion(int id){
+	public QuestionImpl getQuestion(int id){
 		return this.questions.get(id);
 	}
 	
@@ -136,8 +136,8 @@ public class Quiz {
 			this.quizStatus != QuizStatus.INACTIVE) {
 			return false;
 		}else{
-			Question q1 = this.questions.get(id1);
-			Question q2 = this.questions.get(id2);
+			QuestionImpl q1 = this.questions.get(id1);
+			QuestionImpl q2 = this.questions.get(id2);
 			this.questions.remove(id1);
 			this.questions.add(id1, q2);
 			this.questions.remove(id2);
