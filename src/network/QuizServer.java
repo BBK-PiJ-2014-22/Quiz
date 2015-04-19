@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import components.*;
 
@@ -33,10 +34,16 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 		}
 	}
 	
+	//TODO - fix as apparently doesn't work with Java8 features
 	@Override
 	public List<Quiz> getQuizList(Player player) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (player == null)
+			throw new NullPointerException();
+		else{
+			return quizList.stream()
+						   .filter(quiz -> quiz.getQuizMaster().equals(player))
+						   .collect(Collectors.toList());	   
+		}
 	}
 
 	@Override
