@@ -41,7 +41,7 @@ public class QuizServerSetupTest {
 			setupServer.createPlayer("Player"+i);
 			expected.add(new PlayerImpl(i, "Player"+i));
 		}
-		List<Player> actual = quizServer.getPlayerList();
+		List<Player> actual = quizServer.getFullPlayerList();
 		assertEquals(expected, actual);
 	}
 	
@@ -113,7 +113,7 @@ public class QuizServerSetupTest {
 		setupServer.createQuiz(player0, "New Quiz");
 		setupServer.createQuiz(player0, "New Quiz");
 		setupServer.createQuiz(player0, "New Quiz");
-		Quiz actual = setupServer.createQuiz(player1, "New Quiz");
+		Quiz actual = setupServer.createQuiz(player1, "New Quiz3");
 
 		assertEquals(expected, actual);
 	}
