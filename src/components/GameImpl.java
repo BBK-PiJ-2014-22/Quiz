@@ -19,7 +19,7 @@ public class GameImpl implements Game{
 	
 	//Note: no normal setters for any fields
 	private PlayerImpl player;  		//Set only by constructor
-	private Quiz quiz; 				//Set only by constructor
+	private QuizImpl quiz; 				//Set only by constructor
 	private List<Integer> answers;	//Added to by answerQuestion()
 	private int score;				//Set after answering final question by completeGame method
 	private boolean completed;		//Set after answering final question by completeGame method
@@ -35,7 +35,7 @@ public class GameImpl implements Game{
 	 * @param quiz The quiz that this game will draw questions from
 	 * @throws IllegalStateException if the quiz is not active
 	 */
-	public GameImpl(PlayerImpl player, Quiz quiz){
+	public GameImpl(PlayerImpl player, QuizImpl quiz){
 		if (quiz.getStatus() != QuizStatus.ACTIVE)
 			throw new IllegalStateException();
 		this.player = player;
@@ -101,7 +101,7 @@ public class GameImpl implements Game{
 		return player;
 	}
 	@Override
-	public Quiz getQuiz() {
+	public QuizImpl getQuiz() {
 		return quiz;
 	}
 	@Override
@@ -145,10 +145,10 @@ public class GameImpl implements Game{
 	public boolean answerQuestion(int answer){
 		if (this.isCompleted() || this.quiz.getStatus() != QuizStatus.ACTIVE)
 			return false;
-		QuestionImpl question = this.quiz.getQuestions().get(this.answers.size());
+		QuestionImpl question = this.quiz.getQuestionList().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
-			if (this.getAnswers().size() == quiz.getQuestions().size()) //All answers have been recorded
+			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
 				this.completeGame();
 			return true;
 		}else{

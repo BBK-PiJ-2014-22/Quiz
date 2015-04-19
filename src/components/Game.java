@@ -14,7 +14,7 @@ public interface Game extends Remote {
 	
 	public PlayerImpl getPlayer() throws RemoteException;
 	
-	public Quiz getQuiz() throws RemoteException;
+	public QuizImpl getQuiz() throws RemoteException;
 	
 	public int getScore() throws RemoteException;
 	

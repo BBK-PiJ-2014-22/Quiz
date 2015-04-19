@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import components.PlayerImpl;
 import components.QuestionImpl;
-import components.Quiz;
+import components.QuizImpl;
 import components.QuizStatus;
 import components.GameImpl;
 
@@ -55,13 +55,13 @@ import components.GameImpl;
 public class GameTest {
 
 	PlayerImpl player;
-	Quiz quiz;
+	QuizImpl quiz;
 	
 	@Before
 	public void setUp() throws Exception {
 		
 		this.player = new PlayerImpl(0, "Player 0");
-		this.quiz = new Quiz(0, "Quiz 0", new PlayerImpl(1, "Quiz Master 0"));
+		this.quiz = new QuizImpl(0, "Quiz 0", new PlayerImpl(1, "Quiz Master 0"));
 		for (int i = 0 ; i < 4 ; i++)
 			this.quiz.addQuestion(createQuestion(i));
 	}

@@ -12,7 +12,7 @@ import org.junit.runners.MethodSorters;
 
 import components.PlayerImpl;
 import components.QuestionImpl;
-import components.Quiz;
+import components.QuizImpl;
 import components.QuizStatus;
 
 /**Before will setup a quiz with 1 question added to it.
@@ -52,7 +52,7 @@ import components.QuizStatus;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class QuizTest {
 	
-	Quiz quiz;
+	QuizImpl quiz;
 	
 	/**Sets up the quiz to have a single question. It will be inactive.
 	 * 
@@ -60,7 +60,7 @@ public class QuizTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		this.quiz = new Quiz(0, "Quiz 0", new PlayerImpl(0,"QuizMaster 0"));
+		this.quiz = new QuizImpl(0, "Quiz 0", new PlayerImpl(0,"QuizMaster 0"));
 		this.quiz.addQuestion(new QuestionImpl("Question 0"));
 	}
 	
@@ -102,7 +102,7 @@ public class QuizTest {
 		targetList.add(new QuestionImpl("Question 0"));
 		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {true, targetList};
-		Object[] actual  = {this.quiz.addQuestion(targetList.get(1)),this.quiz.getQuestions()};
+		Object[] actual  = {this.quiz.addQuestion(targetList.get(1)),this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -115,7 +115,7 @@ public class QuizTest {
 		this.quiz.activate();
 
 		Object[] expected = {false, targetList};
-		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestions()};
+		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -129,7 +129,7 @@ public class QuizTest {
 		this.quiz.complete();
 
 		Object[] expected = {false, targetList};
-		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestions()};
+		Object[] actual  = {this.quiz.addQuestion(targetList.get(0)),this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -171,7 +171,7 @@ public class QuizTest {
 	@Test
 	public void removeQuestion1InBound(){
 		Object[] expected = {true, new ArrayList<QuestionImpl>()};
-		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -181,7 +181,7 @@ public class QuizTest {
 		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};		
-		Object[] actual = {this.quiz.removeQuestion(1), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.removeQuestion(1), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -192,7 +192,7 @@ public class QuizTest {
 		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -204,7 +204,7 @@ public class QuizTest {
 		List<QuestionImpl> targetList= new ArrayList<QuestionImpl>();
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.removeQuestion(0), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -216,7 +216,7 @@ public class QuizTest {
 		targetList.add(new QuestionImpl("Question 1"));
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {true, targetList};
-		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestionList()};
 		
 		assertArrayEquals(expected, actual);		
 	}
@@ -227,7 +227,7 @@ public class QuizTest {
 		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.swapQuestion(1, 0), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.swapQuestion(1, 0), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -237,7 +237,7 @@ public class QuizTest {
 		List<QuestionImpl> targetList = new ArrayList<QuestionImpl>();
 		targetList.add(new QuestionImpl("Question 0"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -250,7 +250,7 @@ public class QuizTest {
 		targetList.add(new QuestionImpl("Question 0"));
 		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
@@ -264,7 +264,7 @@ public class QuizTest {
 		targetList.add(new QuestionImpl("Question 0"));
 		targetList.add(new QuestionImpl("Question 1"));
 		Object[] expected = {false, targetList};
-		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestions()};
+		Object[] actual = {this.quiz.swapQuestion(0, 1), this.quiz.getQuestionList()};
 		assertArrayEquals(expected, actual);
 	}
 	
