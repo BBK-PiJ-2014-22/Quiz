@@ -1,5 +1,6 @@
 package components;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,8 @@ import components.QuizStatus;
 public class GameImpl implements Game{
 	
 	//Note: no normal setters for any fields
-	private PlayerImpl player;  		//Set only by constructor
-	private QuizImpl quiz; 				//Set only by constructor
+	private Player player;  		//Set only by constructor
+	private Quiz quiz; 				//Set only by constructor
 	private List<Integer> answers;	//Added to by answerQuestion()
 	private int score;				//Set after answering final question by completeGame method
 	private boolean completed;		//Set after answering final question by completeGame method
@@ -35,7 +36,7 @@ public class GameImpl implements Game{
 	 * @param quiz The quiz that this game will draw questions from
 	 * @throws IllegalStateException if the quiz is not active
 	 */
-	public GameImpl(PlayerImpl player, QuizImpl quiz){
+	public GameImpl(Player player, Quiz quiz) throws RemoteException{
 		if (quiz.getStatus() != QuizStatus.ACTIVE)
 			throw new IllegalStateException();
 		this.player = player;
@@ -48,13 +49,13 @@ public class GameImpl implements Game{
 	
 	//Standard methods
 	@Override
-	public String toString() {
+	public String toString(){
 		return "Game [player=" + player + ", quiz=" + quiz + ", answers="
 				+ answers + ", score=" + score + ", completed=" + completed
 				+ "]";
 	}
 	@Override
-	public int hashCode() {
+	public int hashCode(){
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
@@ -65,7 +66,7 @@ public class GameImpl implements Game{
 		return result;
 	}
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj){
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -97,23 +98,23 @@ public class GameImpl implements Game{
 	
 	//Getters
 	@Override
-	public PlayerImpl getPlayer() {
+	public Player getPlayer() throws RemoteException{
 		return player;
 	}
 	@Override
-	public QuizImpl getQuiz() {
+	public Quiz getQuiz() throws RemoteException{
 		return quiz;
 	}
 	@Override
-	public List<Integer> getAnswers() {
+	public List<Integer> getAnswers() throws RemoteException{
 		return answers;
 	}
 	@Override
-	public int getScore() {
+	public int getScore() throws RemoteException{
 		return score;
 	}
 	@Override
-	public boolean isCompleted() {
+	public boolean isCompleted() throws RemoteException{
 		return completed;
 	}
 
@@ -125,7 +126,7 @@ public class GameImpl implements Game{
 	 * @return a string displaying the question details
 	 */
 	@Override
-	public String getNextQuestion(){
+	public String getNextQuestion() throws RemoteException{
 		String result;
 		if (this.quiz.getStatus() != QuizStatus.ACTIVE || this.completed)
 			result = "none";
@@ -140,12 +141,13 @@ public class GameImpl implements Game{
 	 * 
 	 * @param answer ID of the answer the player thinks is correct
 	 * @return true if answered successfully, false otherwise (quiz or game complete)
+	 * @throws RemoteException 
 	 */
 	@Override
-	public boolean answerQuestion(int answer){
+	public boolean answerQuestion(int answer) throws RemoteException{
 		if (this.isCompleted() || this.quiz.getStatus() != QuizStatus.ACTIVE)
 			return false;
-		QuestionImpl question = this.quiz.getQuestionList().get(this.answers.size());
+		Question question = this.quiz.getQuestionList().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
 			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
@@ -159,7 +161,7 @@ public class GameImpl implements Game{
 	/**Completes the game and totals the score, setting the game to completed and the 
 	 * score to whatever matches the answers
 	 */
-	private void completeGame(){
+	private void completeGame() throws RemoteException{
 		this.completed = true;
 		this.score = 0;
 		for (int i = 0 ; i < this.getAnswers().size() ; i++){
@@ -168,3 +170,4 @@ public class GameImpl implements Game{
 		}
 	}
 }
+
