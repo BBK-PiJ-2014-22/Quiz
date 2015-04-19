@@ -1,5 +1,6 @@
 package network;
 
+//TODO - THREAD SAFE - your lists may run into problems with concurrency - make your things synchronised
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -16,12 +17,20 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 	public QuizServer() throws RemoteException{
 		super();
 		this.playerList = new ArrayList<Player>();
+		this.quizList = new ArrayList<Quiz>();
 	}
 
 	@Override
 	public Quiz createQuiz(Player player, String name) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		if (player == null || name == null)
+			throw new NullPointerException();
+		//The below intentionally uses == as it must be the very same object not simply an equal one
+		else if (player != playerList.get(player.getId())) 
+			throw new IllegalArgumentException();
+		else{
+			quizList.add(new QuizImpl(quizList.size(), name, player));
+			return quizList.get(quizList.size()-1);
+		}
 	}
 	
 	@Override
@@ -49,8 +58,13 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 	}
 	
 	/**Returns full list of players*/
-	public List<Player> getPlayerList() throws RemoteException {
+	public List<Player> getFullPlayerList() throws RemoteException {
 		return playerList;
+	}
+	
+	/**Returns full quiz list*/
+	public List<Quiz> getFullQuizList() throws RemoteException {
+		return quizList;
 	}
 
 }

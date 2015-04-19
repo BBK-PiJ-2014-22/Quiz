@@ -17,6 +17,8 @@ public interface SetupInterface extends Remote{
 	 * @param player Player who is owner/creator of the quiz
 	 * @return new Quiz object created
 	 * @throws RemoteException
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 */
 	public Quiz createQuiz(Player player, String name) throws RemoteException;
 	
