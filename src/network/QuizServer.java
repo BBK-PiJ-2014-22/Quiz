@@ -35,6 +35,11 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/**Returns full list of players*/
+	public List<Player> getPlayerList() throws RemoteException {
+		return null;
+	}
 
 
 
