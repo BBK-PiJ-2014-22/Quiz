@@ -59,8 +59,13 @@ public class PlayerImpl implements Player{
 		PlayerImpl other = (PlayerImpl) obj;
 		if (id != other.id)
 			return false;
-		if (name != other.getName()) 
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
+
+
 }

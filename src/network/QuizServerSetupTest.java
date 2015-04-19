@@ -35,9 +35,47 @@ public class QuizServerSetupTest {
 		for (int i = 0 ; i < 5 ; i++){
 			setupServer.createPlayer("Player"+i);
 			expected.add(new PlayerImpl(i, "Player"+i));
-		assertEquals(expected, quizServer.getPlayerList());	
 		}
+		List<Player> actual = quizServer.getPlayerList();
+		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testLogin1Pass() throws RemoteException {
+		for (int i = 0 ; i < 5 ; i++)
+			setupServer.createPlayer("Player"+i);
+		Player expected = new PlayerImpl(3, "Player3");
+		Player actual = setupServer.login(3,  "Player3");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testLogin2FailMismatch() throws RemoteException{
+		for (int i = 0 ; i < 5 ; i++)
+			setupServer.createPlayer("Player"+i);
+		Player expected = null;
+		Player actual = setupServer.login(3,  "Player4");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testLogin3FailIDNoMatch() throws RemoteException{
+		for (int i = 0 ; i < 5 ; i++)
+			setupServer.createPlayer("Player"+i);
+		Player expected = null;
+		Player actual = setupServer.login(6,  "Player0");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testLogin4FailNameNoMatch() throws RemoteException{
+		for (int i = 0 ; i < 5 ; i++)
+			setupServer.createPlayer("Player"+i);
+		Player expected = null;
+		Player actual = setupServer.login(0,  "Player6");
+		assertEquals(expected, actual);
+	}
+
 
 
 	@Test
@@ -50,10 +88,7 @@ public class QuizServerSetupTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testLogin() {
-		fail("Not yet implemented");
-	}
+
 
 
 
