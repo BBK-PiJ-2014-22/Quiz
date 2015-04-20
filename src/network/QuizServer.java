@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 import components.*;
 
-public class QuizServer extends UnicastRemoteObject implements SetupInterface {
+public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
 
-	List<Player> playerList;
+List<Player> playerList;
 	List<Quiz> quizList;
 	List<Game> gameList;
 	
@@ -74,6 +74,18 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 	/**Returns full quiz list*/
 	public List<Quiz> getFullQuizList() throws RemoteException {
 		return quizList;
+	}
+
+	@Override
+	public Game startNewGame(Player player, Quiz quiz) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Game> getGameList(Player player) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
