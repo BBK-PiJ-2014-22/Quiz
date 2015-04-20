@@ -34,15 +34,17 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface {
 		}
 	}
 	
-	//TODO - fix as apparently doesn't work with Java8 features
 	@Override
 	public List<Quiz> getQuizList(Player player) throws RemoteException {
-		if (player == null)
+		if (player == null){
 			throw new NullPointerException();
-		else{
-			return quizList.stream()
-						   .filter(quiz -> quiz.getQuizMaster().equals(player))
-						   .collect(Collectors.toList());	   
+		}else{
+			List<Quiz> result = new ArrayList<Quiz>();
+			for (Quiz quiz : quizList){
+				if (quiz.getQuizMaster() == player) //Note intentionally uses == for identity
+					result.add(quiz);
+			}
+			return result;
 		}
 	}
 
