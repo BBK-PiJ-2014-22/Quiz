@@ -45,5 +45,10 @@ public interface PlayerInterface {
 	 * @return List of all games belonging to the player
 	 */
 	public List<Game> getGameList(Player player) throws RemoteException;
+	
+	/**Returns the list of all quizzes which are currently active and which the player
+	 * does not already have a game.
+	 */
+	public List<Quiz> getActiveQuizList(Player player) throws RemoteException;
 
 }

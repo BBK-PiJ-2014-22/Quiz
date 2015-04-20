@@ -1,5 +1,8 @@
 package components;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
 /**The player object is persisted in the server and accessed through the player and setup clients. 
  * It is immutable and only used for storing player information. When accessing the player client, 
  * the player will need to select an existing player or create a new one as it is needed for a game. 
@@ -10,12 +13,17 @@ package components;
  * @author Jamie MacIver
  *
  */
-public class PlayerImpl implements Player{
+public class PlayerImpl extends UnicastRemoteObject implements Player{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4530883014969324647L;
 	
 	private int id;
 	private String name;
 	
-	public PlayerImpl(int id, String name){
+	public PlayerImpl(int id, String name) throws RemoteException{
 		if (name == null)
 			throw new NullPointerException();
 		else{
@@ -25,17 +33,17 @@ public class PlayerImpl implements Player{
 	}
 	
 	@Override
-	public int getId() {
+	public int getId() throws RemoteException{
 		return id;
 	}
 
 	@Override
-	public String getName() {
+	public String getName() throws RemoteException {
 		return name;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()  {
 		return "Player [id=" + id + ", name=" + name + "]";
 	}
 
