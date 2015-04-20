@@ -38,8 +38,12 @@ public interface PlayerInterface {
 	 * @throws IllegalStateException if the game already exists 
 	 */
 	public Game startNewGame(Player player, Quiz quiz) throws RemoteException;
-	
-	public List<Game> getGameList(Player player)throws RemoteException;
-	
-	public 
+
+	/**Returns the full list of games which the player has (both active and inactive)
+	 * 
+	 * @param player The player who's list to get
+	 * @return List of all games belonging to the player
+	 */
+	public List<Game> getGameList(Player player) throws RemoteException;
+
 }
