@@ -18,7 +18,7 @@ public class QuizServerLauncher {
 			System.setSecurityManager(new SecurityManager());
 		}
 		try{
-			LocateRegistry.createRegistry(0);
+			LocateRegistry.createRegistry(1099);
 			QuizServer server = new QuizServer();
 			String registryHost = "//localhost/";
 			String serviceName = "QuizServer";

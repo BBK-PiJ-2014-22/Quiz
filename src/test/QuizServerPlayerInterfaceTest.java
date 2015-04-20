@@ -97,7 +97,6 @@ public class QuizServerPlayerInterfaceTest {
 		assertEquals(expected, actual);
 	}
 
-
 	@Test
 	public void testStartNewGame() {
 		fail("Not yet implemented");
@@ -107,5 +106,6 @@ public class QuizServerPlayerInterfaceTest {
 	public void testGetGameList() {
 		fail("Not yet implemented");
 	}
+	
 
 }
