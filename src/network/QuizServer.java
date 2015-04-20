@@ -5,13 +5,18 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import components.*;
 
 public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
 
-List<Player> playerList;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7444117470330269850L;
+	
+	List<Player> playerList;
 	List<Quiz> quizList;
 	List<Game> gameList;
 	
@@ -63,6 +68,7 @@ List<Player> playerList;
 	@Override
 	public Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
+		System.out.println("Temp:"+playerList);
 		return playerList.get(playerList.size()-1);
 	}
 	
@@ -84,6 +90,12 @@ List<Player> playerList;
 
 	@Override
 	public List<Game> getGameList(Player player) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Quiz> getActiveQuizList(Player player) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
