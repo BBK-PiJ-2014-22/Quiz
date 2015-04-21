@@ -137,7 +137,7 @@ public class QuizServerPlayerInterfaceTest {
 	 }
 	 
 	 @Test(expected = IllegalArgumentException.class)
-	 public void startNewGame5UnknownPlayer() throws RemoteException{
+	 public void startNewGame5UnknownQuiz() throws RemoteException{
 		 Quiz quiz = new QuizImpl(0, "Quiz2", quizServer.createPlayer("QuizMaster"));
 		 quiz.activate();
 		 Player player = playerServer.createPlayer("Player0");
