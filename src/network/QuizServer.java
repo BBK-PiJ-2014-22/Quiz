@@ -27,7 +27,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 
 	@Override
-	public Quiz createQuiz(Player player, String name) throws RemoteException {
+	public synchronized Quiz createQuiz(Player player, String name) throws RemoteException {
 		if (player == null || name == null)
 			throw new NullPointerException();
 		//The below intentionally uses == as it must be the very same object not simply an equal one
@@ -62,11 +62,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		}
 		return result;
 	}
-			
-
 
 	@Override
-	public Player createPlayer(String name) throws RemoteException {
+	public synchronized Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
 		System.out.println("Temp:"+playerList);
 		return playerList.get(playerList.size()-1);
@@ -83,9 +81,13 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 
 	@Override
-	public Game startNewGame(Player player, Quiz quiz) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public synchronized Game startNewGame(Player player, Quiz quiz) throws RemoteException {
+		if (!(playerKnown(player) || quizKnown(quiz)))
+			throw new IllegalArgumentException();
+		if (player == null || quiz == null)
+			throw new NullPointerException();
+		gameList.add(new GameImpl(player, quiz));
+		return gameList.get(gameList.size()-1);
 	}
 
 	@Override
@@ -98,6 +100,27 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	public List<Quiz> getActiveQuizList(Player player) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private boolean playerKnown(Player player) throws RemoteException{
+		Player match = playerList.get(player.getId());
+		return player == match; //Note this is intentionally identity
+	}
+	
+	private boolean quizKnown(Quiz quiz) throws RemoteException{
+		for (Quiz i : quizList){
+			if (quiz == i) //Note this is intentionally identity
+				return true;
+		}
+		return false;
+	}
+	
+	private boolean gameKnown(Game game) throws RemoteException{
+		for (Game i : gameList){
+			if (game == i)  //Note this is intentionally identity
+				return true;
+		}
+		return false;	
 	}
 
 }
