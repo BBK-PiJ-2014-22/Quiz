@@ -86,14 +86,24 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		//TODO - add check for if the game already exists
 		if (!playerKnown(player) || !quizKnown(quiz))
 			throw new IllegalArgumentException();
+		for (Game game: this.getGameList(player)){
+			if (game.getQuiz() == quiz){
+				throw new IllegalArgumentException();
+			}
+		}
 		gameList.add(new GameImpl(player, quiz));
 		return gameList.get(gameList.size()-1);
 	}
 
 	@Override
 	public List<Game> getGameList(Player player) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Game> result = new ArrayList<Game>();
+		for (Game game : gameList){
+			if (game.getPlayer() == player){
+				result.add(game);
+			}
+		}
+		return result;
 	}
 
 	@Override
