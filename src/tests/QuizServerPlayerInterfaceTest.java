@@ -1,4 +1,4 @@
-package test;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -14,8 +14,12 @@ import org.junit.Test;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
+import components.Game;
+import components.GameImpl;
 import components.Player;
 import components.PlayerImpl;
+import components.Quiz;
+import components.QuizImpl;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class QuizServerPlayerInterfaceTest {
@@ -97,11 +101,76 @@ public class QuizServerPlayerInterfaceTest {
 		assertEquals(expected, actual);
 	}
 
+
 	@Test
-	public void testStartNewGame() {
-		fail("Not yet implemented");
+	public void startNewGame1Works() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 quiz.activate();
+		 Player player = playerServer.createPlayer("Player0");
+		 Game actual = playerServer.startNewGame(player, quiz);
+		 Game expected = new GameImpl(player, quiz);
+		 assertEquals(expected, actual);
+	}
+	
+	 @Test(expected = IllegalStateException.class)
+	 public void startNewGame2QuizInactive() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 Player player = playerServer.createPlayer("Player0");
+		 playerServer.startNewGame(player, quiz);
+	 }
+	 
+	 @Test(expected = IllegalStateException.class)
+	 public void startNewGame3QuizComplete() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 quiz.activate();
+		 quiz.complete();
+		 Player player = playerServer.createPlayer("Player0");
+		 playerServer.startNewGame(player, quiz);
+	 }
+	
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void startNewGame4UnknownPlayer() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 quiz.activate();
+		 playerServer.startNewGame(new PlayerImpl(1, "Player0"), quiz);
+	 }
+	 
+	 @Test(expected = IllegalArgumentException.class)
+	 public void startNewGame5UnknownPlayer() throws RemoteException{
+		 Quiz quiz = new QuizImpl(0, "Quiz2", quizServer.createPlayer("QuizMaster"));
+		 quiz.activate();
+		 Player player = playerServer.createPlayer("Player0");
+		 playerServer.startNewGame(player, quiz);
+	 }
+	 
+	 @Test(expected = NullPointerException.class)
+	 public void startNewGame6NullQuiz() throws RemoteException{
+		 Player player = playerServer.createPlayer("Player0");
+		 playerServer.startNewGame(player, null);
+	 }
+
+	 @Test(expected = NullPointerException.class)
+	 public void startNewGame7NullPlayer() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 quiz.activate();
+		 playerServer.startNewGame(null, quiz);
+	 }
+ 
+	@Test(expected = IllegalStateException.class)
+	public void startNewGame8GameExists() throws RemoteException{
+		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
+		 quiz.activate();
+		 Player player = playerServer.createPlayer("Player0");
+		 playerServer.startNewGame(player, quiz);
+		 new GameImpl(player, quiz);
+		 new GameImpl(player, quiz);	 
 	}
 
+
+	/* testGameList1EmptyPlayerList
+	 * testGameList2SeveralGames
+	 */
 	@Test
 	public void testGetGameList() {
 		fail("Not yet implemented");

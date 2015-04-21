@@ -29,13 +29,15 @@ public interface PlayerInterface {
 
 	
 	/**Begins a new game for the player on the passed quiz. If there already
-	 * exists a game with the same player/quiz combination, it will throw an 
-	 * IllegalStateException
+	 * exists a game with the same player/quiz combination, or the quiz is
+	 * inactive, it will throw an  IllegalStateException
 	 * 
 	 * @param player The player who will be playing this game
 	 * @param quiz The quiz which the Game will draw questions from
 	 * @return a Game for the player and quiz passed
 	 * @throws IllegalStateException if the game already exists 
+	 * @throws IllegalStateException if the quiz is inactive
+	 * @throws IllegalArgumentException if the quiz or player is not in the system
 	 */
 	public Game startNewGame(Player player, Quiz quiz) throws RemoteException;
 
