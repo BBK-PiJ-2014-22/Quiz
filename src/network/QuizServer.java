@@ -83,6 +83,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public synchronized Game startNewGame(Player player, Quiz quiz) throws RemoteException {
+		//TODO - add check for if the game already exists
 		if (!playerKnown(player) || !quizKnown(quiz))
 			throw new IllegalArgumentException();
 		gameList.add(new GameImpl(player, quiz));

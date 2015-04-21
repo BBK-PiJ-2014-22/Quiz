@@ -167,14 +167,37 @@ public class QuizServerPlayerInterfaceTest {
 		 new GameImpl(player, quiz);	 
 	}
 
-
-	/* testGameList1EmptyPlayerList
-	 * testGameList2SeveralGames
-	 */
 	@Test
-	public void testGetGameList() {
-		fail("Not yet implemented");
+	public void gameList1EmptyPlayerList() throws RemoteException {
+		Quiz quiz1 = quizServer.createQuiz(quizServer.createPlayer("QuizMaster1"), "Quiz1");
+		Quiz quiz2 = quizServer.createQuiz(quizServer.createPlayer("QuizMaster2"), "Quiz2");
+		quiz1.activate();
+		quiz2.activate();
+		
+		Player player1 = playerServer.createPlayer("Player 1");
+		playerServer.startNewGame(player1, quiz1);
+		playerServer.startNewGame(player1, quiz2);
+		
+		Player player2 = playerServer.createPlayer("Player 2");
+		playerServer.startNewGame(player1, quiz1);
+		assertEquals(new ArrayList<Game>(), playerServer.getGameList(player2));
 	}
 	
+	/**Test get active quiz list*/
+	@Test
+	public void gameList2PlayerList() throws RemoteException {
+		Quiz quiz1 = quizServer.createQuiz(quizServer.createPlayer("QuizMaster1"), "Quiz1");
+		Quiz quiz2 = quizServer.createQuiz(quizServer.createPlayer("QuizMaster2"), "Quiz2");
+		quiz1.activate();
+		quiz2.activate();
+		Player player1 = playerServer.createPlayer("Player 1");
+		Player player2 = playerServer.createPlayer("Player 2");
+		List<Game> expected = new ArrayList<Game>();
+		expected.add(playerServer.startNewGame(player1, quiz1));
+		expected.add(playerServer.startNewGame(player1, quiz2));
+		playerServer.startNewGame(player2, quiz2);
+		assertEquals(expected, playerServer.getGameList(player1));
+	}
+
 
 }
