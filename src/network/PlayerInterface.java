@@ -37,7 +37,7 @@ public interface PlayerInterface {
 	 * @return a Game for the player and quiz passed
 	 * @throws IllegalStateException if the game already exists 
 	 * @throws IllegalStateException if the quiz is inactive
-	 * @throws IllegalArgumentException if the quiz or player is not in the system
+	 * @throws IllegalArgumentException if the quiz or player is not in the system or is null
 	 */
 	public Game startNewGame(Player player, Quiz quiz) throws RemoteException;
 

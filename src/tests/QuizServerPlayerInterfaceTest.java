@@ -144,13 +144,13 @@ public class QuizServerPlayerInterfaceTest {
 		 playerServer.startNewGame(player, quiz);
 	 }
 	 
-	 @Test(expected = NullPointerException.class)
+	 @Test(expected = IllegalArgumentException.class)
 	 public void startNewGame6NullQuiz() throws RemoteException{
 		 Player player = playerServer.createPlayer("Player0");
 		 playerServer.startNewGame(player, null);
 	 }
 
-	 @Test(expected = NullPointerException.class)
+	 @Test(expected = IllegalArgumentException.class)
 	 public void startNewGame7NullPlayer() throws RemoteException{
 		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
 		 quiz.activate();
