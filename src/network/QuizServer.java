@@ -24,6 +24,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		super();
 		this.playerList = new ArrayList<Player>();
 		this.quizList = new ArrayList<Quiz>();
+		this.gameList = new ArrayList<Game>();
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	public synchronized Game startNewGame(Player player, Quiz quiz) throws RemoteException {
 		if (!(playerKnown(player) || quizKnown(quiz)))
 			throw new IllegalArgumentException();
-		if (player == null || quiz == null)
+		if (player.equals(null) || quiz.equals(null))
 			throw new NullPointerException();
 		gameList.add(new GameImpl(player, quiz));
 		return gameList.get(gameList.size()-1);
@@ -103,6 +104,8 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 	
 	private boolean playerKnown(Player player) throws RemoteException{
+		if (player.getId() < 0 || player.getId() > playerList.size())
+			return false;
 		Player match = playerList.get(player.getId());
 		return player == match; //Note this is intentionally identity
 	}
