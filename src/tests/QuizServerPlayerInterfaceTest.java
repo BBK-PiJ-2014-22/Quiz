@@ -157,14 +157,13 @@ public class QuizServerPlayerInterfaceTest {
 		 playerServer.startNewGame(null, quiz);
 	 }
  
-	@Test(expected = IllegalStateException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void startNewGame8GameExists() throws RemoteException{
 		 Quiz quiz = quizServer.createQuiz( quizServer.createPlayer("QuizMaster"), "Quiz2");
 		 quiz.activate();
 		 Player player = playerServer.createPlayer("Player0");
 		 playerServer.startNewGame(player, quiz);
-		 new GameImpl(player, quiz);
-		 new GameImpl(player, quiz);	 
+		 playerServer.startNewGame(player, quiz);
 	}
 
 	@Test
@@ -177,9 +176,8 @@ public class QuizServerPlayerInterfaceTest {
 		Player player1 = playerServer.createPlayer("Player 1");
 		playerServer.startNewGame(player1, quiz1);
 		playerServer.startNewGame(player1, quiz2);
-		
+	
 		Player player2 = playerServer.createPlayer("Player 2");
-		playerServer.startNewGame(player1, quiz1);
 		assertEquals(new ArrayList<Game>(), playerServer.getGameList(player2));
 	}
 	

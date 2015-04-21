@@ -67,7 +67,6 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
-		System.out.println("Temp:"+playerList);
 		return playerList.get(playerList.size()-1);
 	}
 	
@@ -83,7 +82,6 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public synchronized Game startNewGame(Player player, Quiz quiz) throws RemoteException {
-		//TODO - add check for if the game already exists
 		if (!playerKnown(player) || !quizKnown(quiz))
 			throw new IllegalArgumentException();
 		for (Game game: this.getGameList(player)){
