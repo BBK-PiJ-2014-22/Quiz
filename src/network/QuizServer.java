@@ -51,6 +51,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 				if (quiz.getQuizMaster() == player) //Note intentionally uses == for identity
 					result.add(quiz);
 			}
+			System.out.println("Quiz list given for player"+player);
 			return result;
 		}
 	}

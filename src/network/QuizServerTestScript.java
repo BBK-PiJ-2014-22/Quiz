@@ -14,6 +14,7 @@ import components.PlayerImpl;
 public class QuizServerTestScript {
 	
 	SetupClient sc;
+
 	
 	
 
@@ -51,10 +52,22 @@ public class QuizServerTestScript {
 			systemExit("SC Create Player failed - player not assigned correctly. "
 					+ "\nExpected: ID=0, Name=QuizMaster 0"
 					+ "\nActual:   ID="+sc.player.getId()+", Name="+sc.player.getName());
-		else System.out.println(sc.player.getName()+" logged in");	
-			
+		else System.out.println(sc.player.getName()+" logged in");
 		
+		//Creates 5 new quizzes
+		for (int i = 0 ; i  < 5 ; i++)
+			sc.createQuiz("Quiz "+i);
+		if (sc.quizList.size() != 5) systemExit("SC CreateQuiz test failed - quizList not refreshed");
+		if (sc.currentQuiz == null) systemExit("SC CreateQuiz test failed - currentQuiz is null");
+		if (sc.currentQuiz.getQuizID() != 4 || sc.currentQuiz.getQuizName() != "Quiz 4") 
+			systemExit("SC CreateQuiz test failed - quiz wrong."
+					   +"\nExpected:  4:Quiz4"
+					   +"\nActual:   "+sc.currentQuiz.getQuizID()+":"+sc.currentQuiz.getQuizName());
+		System.out.println("Quizzes 0 to 4 created");
 		
+		//Current Status:
+		//5 quiz masters, 5 quizzes assigned to QuizMaster 0, Quiz 4 is active quiz
+	
 		System.out.println("Tests complete");	
 	}
 	
