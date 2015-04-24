@@ -61,27 +61,10 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 	
 	//standard methods
 	@Override
-	public String toString() {
+	public String display() throws RemoteException {
 		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster
-				+ ", quizName=" + quizName + ", questions=" + questions
-				+ ", quizStatus=" + quizStatus + "]";
+				+ ", quizName=" + quizName + ", quizStatus=" + quizStatus + "]";
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((questions == null) ? 0 : questions.hashCode());
-		result = prime * result + quizID;
-		result = prime * result
-				+ ((quizMaster == null) ? 0 : quizMaster.hashCode());
-		result = prime * result
-				+ ((quizName == null) ? 0 : quizName.hashCode());
-		result = prime * result + ((quizStatus == null) ? 0 : quizStatus.hashCode());
-		return result;
-	}
-
 
 	@Override
 	public boolean equals(Object obj) {

@@ -31,5 +31,7 @@ public interface Quiz extends Remote {
 	
 	public boolean swapQuestion(int id1 , int id2) throws RemoteException;
 	
+	public String display() throws RemoteException;
+	
 
 }
