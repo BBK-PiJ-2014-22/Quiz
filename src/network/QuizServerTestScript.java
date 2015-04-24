@@ -42,7 +42,18 @@ public class QuizServerTestScript {
 		
 		//creates 5 new players
 		for (int i = 0; i < 5; i++)
-			createPlayer(i, "Player "+i);
+			createPlayer(i, "QuizMaster "+i);
+		
+		//Tests the login process
+		if (sc.login(1, "QuizMaster 0"))  systemExit("SC Incorrect LoginTest failed - Returned status of true");
+		else if (!sc.login(0, "QuizMaster 0")) systemExit("SC Correct LoginTest failed - Returned status of false");
+		else if (sc.player.getId() != 0|| !sc.player.getName().equals("QuizMaster 0"))
+			systemExit("SC Create Player failed - player not assigned correctly. "
+					+ "\nExpected: ID=0, Name=QuizMaster 0"
+					+ "\nActual:   ID="+sc.player.getId()+", Name="+sc.player.getName());
+		else System.out.println(sc.player.getName()+" logged in");	
+			
+		
 		
 		System.out.println("Tests complete");	
 	}
@@ -54,9 +65,7 @@ public class QuizServerTestScript {
 			systemExit("SC Create Player failed - player not assigned correctly. "
 					+ "\nExpected: ID="+expectedID+", Name="+name
 					+ "\nActual:   ID="+sc.player.getId()+", Name="+sc.player.getName());
-		System.out.println("Created Player: ID="+expectedID+", Name="+name);
-
-	
+		System.out.println("Created Player: ID="+expectedID+", Name="+name);	
 	}
 	
 	public void systemExit(String message){
