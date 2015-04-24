@@ -63,7 +63,7 @@ public class QuizServerTestScript {
 					   +"\nExpected:  4:Quiz4"
 					   +"\nActual:   "+sc.currentQuiz.getQuizID()+":"+sc.currentQuiz.getQuizName());
 		System.out.println("Quizzes 0 to 4 created");
-		
+		System.out.println(sc.getPrettyQuizList());
 		//Current Status:
 		//5 quiz masters, 5 quizzes assigned to QuizMaster 0, Quiz 4 is active quiz
 	

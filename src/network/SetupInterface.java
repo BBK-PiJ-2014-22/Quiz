@@ -22,15 +22,22 @@ public interface SetupInterface extends Remote{
 	 * @throws IllegalArgumentException
 	 */
 	public Quiz createQuiz(Player player, String name) throws RemoteException;
-	
-	/**Returns a list of all of the quizzes which the player has ownership of
+
+	/**Gets a string represention all of the Player's quizzes, with IDs so they can acces them
 	 * 
 	 * @param player
 	 * @return
+	 */
+	public String getQuizDisplayList(Player player) throws RemoteException;
+	
+	/** Returns the quiz with the corresponding ID
+	 * 
+	 * @param id
+	 * @return
 	 * @throws RemoteException
 	 */
-	public ArrayList<Quiz> getQuizList (Player player) throws RemoteException;
 	
+	public Quiz getQuiz(int id) throws RemoteException;
 	
 
 	/**Should return the player object if the ID and Name match to

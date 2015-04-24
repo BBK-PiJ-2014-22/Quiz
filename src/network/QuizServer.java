@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 import components.*;
 
 public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
@@ -46,19 +48,14 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 	
 	@Override
-	public ArrayList<Quiz> getQuizList(Player player) throws RemoteException {
-		if (player == null){
-			throw new NullPointerException();
-		}else{
-			ArrayList<Quiz> result = new ArrayList<Quiz>();
-			for (Quiz quiz : quizList){
-				System.out.println(quiz.getQuizMaster().display() + ":"+player.display());
-				if (quiz.getQuizMaster().match(player)) 
-					result.add(quiz);
-			}
-			System.out.println("Quiz list of size "+result.size()+" given for player"+player.display());
-			return result;
+	public String getQuizDisplayList(Player player) throws RemoteException{
+		String result = "";
+		
+		for (Quiz quiz : quizList){
+			result += "[ID="+quiz.getQuizID()+", Name="+quiz.getQuizName()+"Status="+quiz.getStatus()+"\n";
 		}
+		
+		return result.substring(0, result.length()-1);
 	}
 
 	@Override
@@ -143,6 +140,11 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 				return true;
 		}
 		return false;	
+	}
+
+	@Override
+	public Quiz getQuiz(int id) throws RemoteException {
+		return quizList.get(id);
 	}
 
 }
