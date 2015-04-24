@@ -62,9 +62,12 @@ public class SetupClient {
 	 * @param id player's ID
 	 * @param name name of the player
 	 * @return true if successfully logged in,false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean login(int id, String name){
-		return false;
+	public boolean login(int id, String name) throws RemoteException{
+		this.player = server.login(id, name);
+		return this.player != null;
+			
 	}
 	
 	/**Creates a new player on the server to be used. The player will be

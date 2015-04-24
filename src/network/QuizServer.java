@@ -58,18 +58,21 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public Player login(int id, String name) throws RemoteException {
 		Player result = null;
-		if ((id > 0 && id < playerList.size()) 	&&
+		if ((id >= 0 && id < playerList.size()) 	&&
 			playerList.get(id).getName().equals(name)){
 			result = playerList.get(id);
 			System.out.println(result+" logged in");
+		}else{
+			System.out.println("Login failed with "+id+" and "+name);
 		}
+		
 		return result;
 	}
 
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
-		System.out.println((playerList.get(playerList.size()-1) +"logged in"));
+		System.out.println((playerList.get(playerList.size()-1) +" created"));
 		return playerList.get(playerList.size()-1);
 	}
 	
