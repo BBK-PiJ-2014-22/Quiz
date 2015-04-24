@@ -96,14 +96,8 @@ public class SetupClient {
 	 * @throws RemoteException 
 	 */
 	public String getPrettyQuizList() throws RemoteException{
-		String result = "";
-		List<Quiz> quizList = server.getQuizList(player);
-		System.out.println(quizList.size());
-		for (Quiz quiz : quizList){
-			result += "[ID="+quiz.getQuizID()+", Name="+quiz.getQuizName()+", Status="+quiz.getStatus()+"]\n";
-		}
-		return result;
-			
+		if (player != null)	return server.getQuizDisplayList(player);
+		else return null;
 	}
 	
 	/**Returns a String representation of all games that the quiz with the
