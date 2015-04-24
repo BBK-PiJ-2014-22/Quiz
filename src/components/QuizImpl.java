@@ -2,10 +2,12 @@ package components;
 
 //TODO - Work out how to deal with questions for active quizzes. At present a question can be altered in principle (Add lock to question?)
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.ArrayList;
 
-public class QuizImpl implements Quiz{
+public class QuizImpl extends UnicastRemoteObject implements Quiz{
 
 	private int quizID; //Set only by constructor
 	private Player quizMaster; //Set only be constructor
@@ -13,7 +15,7 @@ public class QuizImpl implements Quiz{
 	private List<Question> questions;
 	private QuizStatus quizStatus;
 	
-	public QuizImpl(int id, String name, Player quizMaster) {
+	public QuizImpl(int id, String name, Player quizMaster) throws RemoteException {
 		this.quizID = id;
 		this.quizMaster = quizMaster;
 		this.quizName = name;
@@ -24,12 +26,12 @@ public class QuizImpl implements Quiz{
 	
 	//Getters/Setters
 	@Override
-	public String getQuizName() {
+	public String getQuizName() throws RemoteException {
 		return quizName;
 	}
 	
 	@Override
-	public void setQuizName(String quizName) {
+	public void setQuizName(String quizName) throws RemoteException{
 		if (this.quizStatus != QuizStatus.INACTIVE)
 			throw new IllegalStateException();
 		else if (quizName == null)
@@ -39,21 +41,21 @@ public class QuizImpl implements Quiz{
 	}
 
 	@Override
-	public QuizStatus getStatus(){
+	public QuizStatus getStatus() throws RemoteException{
 		return quizStatus;
 	}
 	
 	@Override
-	public int getQuizID() {
+	public int getQuizID()throws RemoteException {
 		return quizID;
 	}
 	@Override
-	public Player getQuizMaster() {
+	public Player getQuizMaster() throws RemoteException{
 		return quizMaster;
 	}
 	
 	@Override
-	public List<Question> getQuestionList() {
+	public List<Question> getQuestionList() throws RemoteException{
 		return questions;
 	}
 	
@@ -115,7 +117,7 @@ public class QuizImpl implements Quiz{
 	//Main Quiz methods
 	
 	@Override
-	public boolean addQuestion(Question question){
+	public boolean addQuestion(Question question)throws RemoteException{
 		if (question.equals(null))
 			throw new NullPointerException();
 		else if (this.quizStatus != QuizStatus.INACTIVE)
@@ -127,12 +129,12 @@ public class QuizImpl implements Quiz{
 	}
 	
 	@Override
-	public Question getQuestion(int id){
+	public Question getQuestion(int id) throws RemoteException{
 		return this.questions.get(id);
 	}
 	
 	@Override
-	public boolean removeQuestion(int id){
+	public boolean removeQuestion(int id) throws RemoteException{
 		if (id < 0 || id >= this.questions.size() || this.quizStatus != QuizStatus.INACTIVE)
 			return false;
 		else{
@@ -142,7 +144,7 @@ public class QuizImpl implements Quiz{
 	}
 
 	@Override
-	public boolean swapQuestion(int id1, int id2){
+	public boolean swapQuestion(int id1, int id2) throws RemoteException{
 		if (id1 < 0 || id1 >= this.questions.size() ||
 			id2 < 0 || id2 >= this.questions.size() ||
 			this.quizStatus != QuizStatus.INACTIVE) {
@@ -159,7 +161,7 @@ public class QuizImpl implements Quiz{
 	}
 	
 	@Override
-	public boolean activate(){
+	public boolean activate() throws RemoteException{
 		if (this.quizStatus != QuizStatus.INACTIVE)
 			return false;
 		else{
@@ -169,7 +171,7 @@ public class QuizImpl implements Quiz{
 	}
 	
 	@Override
-	public boolean complete(){
+	public boolean complete() throws RemoteException{
 		if (this.quizStatus != QuizStatus.ACTIVE)
 			return false;
 		else{
