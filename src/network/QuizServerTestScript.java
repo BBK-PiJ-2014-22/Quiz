@@ -64,9 +64,20 @@ public class QuizServerTestScript {
 					   +"\nActual:   "+sc.currentQuiz.getQuizID()+":"+sc.currentQuiz.getQuizName());
 		}
 		System.out.println("Quizzes 0 to 4 created");
-		System.out.println(sc.getPrettyQuizList());
 		//Current Status:
 		//5 quiz masters, 5 quizzes assigned to QuizMaster 0, Quiz 4 is active quiz
+		sc.login(1, "QuizMaster 1");
+		sc.createQuiz("Quiz 5");
+		sc.createQuiz("Quiz 6");
+		
+		//Checking the pretty display for QuizMaster 1 only contains quizzes 5 & 6
+		if (sc.getPrettyQuizList() != "[ID=5, Name=Quiz 5, Status=INACTIVE]\n"+
+									  "[ID=6, Name=Quiz 6, Status=INACTIVE]"){
+			systemExit("Failed quiz list display. Got:\n"+sc.getPrettyQuizList());
+		}
+	
+		
+		
 	
 		System.out.println("Tests complete");	
 	}
