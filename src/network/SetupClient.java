@@ -1,5 +1,6 @@
 package network;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
@@ -45,7 +46,7 @@ public class SetupClient {
 			String name = "QuizServer";
 			Registry registry = LocateRegistry.getRegistry(1099);
 			this.server = (SetupInterface) registry.lookup(name);
-			
+		
 		}catch (Exception e){
 			System.err.println("SetupClient Excpetion");
 			e.printStackTrace();
@@ -71,9 +72,11 @@ public class SetupClient {
 	 * 
 	 * @param name name of the player
 	 * @return true if successfully logged in,false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean createPlayer(String name){
-		return false;
+	public boolean createPlayer(String name) throws RemoteException{
+		player = server.createPlayer(name);
+		return true;
 	}
 
 	//Quiz list  management

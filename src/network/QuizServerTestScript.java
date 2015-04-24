@@ -13,6 +13,8 @@ import components.PlayerImpl;
  */
 public class QuizServerTestScript {
 	
+	SetupClient sc;
+	
 	
 
 	public static void main(String[] args) {
@@ -30,7 +32,7 @@ public class QuizServerTestScript {
 	public void launch() throws RemoteException{
 		
 		//Opens up a setup client
-		SetupClient sc = new SetupClient();
+		sc = new SetupClient();
 		try{
 			sc.launch();
 		}catch (java.security.AccessControlException ex){
@@ -38,15 +40,23 @@ public class QuizServerTestScript {
 			ex.printStackTrace();
 		}
 		
-		//creates a new player
-		if (!sc.createPlayer("Player 0"))
-			systemExit("Initial SC Login failed - status false ");
-		if (sc.player != new PlayerImpl(0, "Player 0"))
-			systemExit("Initial SC Login failed - player not assigned correctly. Instead: "+sc.player);
+		//creates 5 new players
+		for (int i = 0; i < 5; i++)
+			createPlayer(i, "Player "+i);
+		
+		System.out.println("Tests complete");	
+	}
+	
+	public void createPlayer(int expectedID, String name) throws RemoteException{
+		if (!sc.createPlayer(name))
+			systemExit("SC Create Player failed - status false ");
+		if (sc.player.getId() != expectedID || !sc.player.getName().equals(name))
+			systemExit("SC Create Player failed - player not assigned correctly. "
+					+ "\nExpected: ID="+expectedID+", Name="+name
+					+ "\nActual:   ID="+sc.player.getId()+", Name="+sc.player.getName());
+		System.out.println("Created Player: ID="+expectedID+", Name="+name);
 
-		
-		
-		System.out.println("Tests complete");
+	
 	}
 	
 	public void systemExit(String message){
