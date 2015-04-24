@@ -52,9 +52,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		String result = "";
 		
 		for (Quiz quiz : quizList){
-			result += "[ID="+quiz.getQuizID()+", Name="+quiz.getQuizName()+", Status="+quiz.getStatus()+"]\n";
+			if (quiz.getQuizMaster().match(player))
+				result += "[ID="+quiz.getQuizID()+", Name="+quiz.getQuizName()+", Status="+quiz.getStatus()+"]\n";
 		}
-		
 		return result.substring(0, result.length()-1);
 	}
 
