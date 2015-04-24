@@ -32,7 +32,10 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 			throw new NullPointerException();
 		//The below intentionally uses == as it must be the very same object not simply an equal one
 		}else if (player != playerList.get(player.getId())){ 
-			System.out.println("Create Quiz Failed: Unknown player"+player);
+			System.out.println("Create Quiz Failed: "
+					+ "\nUnknown player"+player.getId()+":"+player.getName()
+					+ "\nPlayer at "+player.getId()+" = "+playerList.get(player.getId()).getName());
+				
 			throw new IllegalArgumentException();
 		}else{
 			quizList.add(new QuizImpl(quizList.size(), name, player));
@@ -51,7 +54,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 				if (quiz.getQuizMaster() == player) //Note intentionally uses == for identity
 					result.add(quiz);
 			}
-			System.out.println("Quiz list given for player"+player);
+			System.out.println("Quiz list given for player"+player.getId()+":"+player.getName());
 			return result;
 		}
 	}

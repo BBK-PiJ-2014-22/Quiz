@@ -3,6 +3,7 @@ package network;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -66,8 +67,12 @@ public class SetupClient {
 	 */
 	public boolean login(int id, String name) throws RemoteException{
 		this.player = server.login(id, name);
-		return this.player != null;
-			
+		if (this.player != null){
+			this.quizList = server.getQuizList(this.player);
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**Creates a new player on the server to be used. The player will be
@@ -79,18 +84,20 @@ public class SetupClient {
 	 */
 	public boolean createPlayer(String name) throws RemoteException{
 		player = server.createPlayer(name);
+		this.quizList = new ArrayList<Quiz>();
 		return true;
 	}
 
 	//Quiz list  management
 	/**Assigns the list of all quizzes accessible by the player to the 
 	 * this.quizList() variable. This should be run whenever the quiz list
-	 * is changed by the user.
+	 * is changed by the user or at login
 	 * 
 	 * @return
+	 * @throws RemoteException 
 	 */
-	public boolean assignQuizList(){
-		return false;
+	public void assignQuizList() throws RemoteException{
+		if (this.player != null) this.quizList = server.getQuizList(this.player);
 	}
 	
 	/**Returns a String representation of the player's quiz list that will 
@@ -126,9 +133,12 @@ public class SetupClient {
 	 * 
 	 * @param name Name of the quiz
 	 * @return int Quiz ID
+	 * @throws RemoteException 
 	 */
-	public int createQuiz(String name){
-		return 0;
+	public int createQuiz(String name) throws RemoteException{
+		int quizID = server.createQuiz(this.player, name).getQuizID();
+		this.assignQuizList();
+		return quizID;
 	}
 	
 	/**Interface to allow the user to edit the quiz with the specific ID.
