@@ -125,6 +125,7 @@ public class SetupClient {
 	 */
 	public int createQuiz(String name) throws RemoteException{
 		int quizID = server.createQuiz(this.player, name).getQuizID();
+		currentQuiz = server.getQuiz(quizID);
 		return quizID;
 	}
 	

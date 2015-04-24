@@ -58,10 +58,11 @@ public class QuizServerTestScript {
 		for (int i = 0 ; i  < 5 ; i++)
 			sc.createQuiz("Quiz "+i);
 		if (sc.currentQuiz == null) systemExit("SC CreateQuiz test failed - currentQuiz is null");
-		if (sc.currentQuiz.getQuizID() != 4 || sc.currentQuiz.getQuizName() != "Quiz 4") 
+		if (!(sc.currentQuiz.getQuizID() == 4 || sc.currentQuiz.getQuizName().equals("Quiz 4"))){ 
 			systemExit("SC CreateQuiz test failed - quiz wrong."
-					   +"\nExpected:  4:Quiz4"
+					   +"\nExpected:  4:Quiz 4"
 					   +"\nActual:   "+sc.currentQuiz.getQuizID()+":"+sc.currentQuiz.getQuizName());
+		}
 		System.out.println("Quizzes 0 to 4 created");
 		System.out.println(sc.getPrettyQuizList());
 		//Current Status:
