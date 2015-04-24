@@ -49,22 +49,12 @@ public class GameImpl implements Game{
 	
 	//Standard methods
 	@Override
-	public String toString(){
+	public String display(){
 		return "Game [player=" + player + ", quiz=" + quiz + ", answers="
 				+ answers + ", score=" + score + ", completed=" + completed
 				+ "]";
 	}
-	@Override
-	public int hashCode(){
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
-		result = prime * result + (completed ? 1231 : 1237);
-		result = prime * result + ((player == null) ? 0 : player.hashCode());
-		result = prime * result + ((quiz == null) ? 0 : quiz.hashCode());
-		result = prime * result + score;
-		return result;
-	}
+
 	@Override
 	public boolean equals(Object obj){
 		if (this == obj)

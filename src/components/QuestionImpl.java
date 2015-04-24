@@ -179,7 +179,7 @@ public class QuestionImpl implements Question {
 
 
 	@Override
-	public String toString() {
+	public String display() {
 		String string = this.question;
 		for (int i = 0 ; i < this.answers.size() ; i++)
 			string += "\n	"+i+": "+this.answers.get(i);

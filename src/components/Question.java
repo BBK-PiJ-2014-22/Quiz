@@ -24,7 +24,7 @@ public interface Question extends Remote {
 	
 	public boolean swapAnswer(int id1 , int id2) throws RemoteException;
 	
-	
+	public String display() throws RemoteException;
 	
 	
 	

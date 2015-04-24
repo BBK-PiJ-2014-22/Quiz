@@ -20,4 +20,6 @@ public interface Game extends Remote {
 	
 	public boolean isCompleted() throws RemoteException;
 	
+	public String display() throws RemoteException;
+	
 }
