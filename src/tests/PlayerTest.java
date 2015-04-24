@@ -34,9 +34,9 @@ public class PlayerTest {
 
 	/**Tests toString*/
 	@Test
-	public void toStringTest() throws RemoteException{
+	public void displayTest() throws RemoteException{
 		Player player = new PlayerImpl(1, "Jamie");
-		assertEquals("Player [id=1, name=Jamie]", player.toString());
+		assertEquals("Player [id=1, name=Jamie]", player.display());
 	}
 	
 	/**Tests that a player cannot be created with a null name
@@ -49,29 +49,29 @@ public class PlayerTest {
 	/**Tests the .equals() method - totally equal
 	 * @throws RemoteException */
 	@Test
-	public void testEqualsEquals() throws RemoteException{
-		assertEquals(true, new PlayerImpl(1, "Jamie").equals(new PlayerImpl(1, "Jamie")));
+	public void testMatchEquals() throws RemoteException{
+		assertEquals(true, new PlayerImpl(1, "Jamie").match(new PlayerImpl(1, "Jamie")));
 	}
 
 	/**Tests the .equals() method - ID equal
 	 * @throws RemoteException */
 	@Test
-	public void testEqualsIDmatches() throws RemoteException{
-		assertEquals(false, new PlayerImpl(1, "Jamie").equals(new PlayerImpl(1, "Bob")));
+	public void testMatchIDmatches() throws RemoteException{
+		assertEquals(false, new PlayerImpl(1, "Jamie").match(new PlayerImpl(1, "Bob")));
 	}
 	
 	/**Tests the .equals() method - Name equal
 	 * @throws RemoteException */
 	@Test
-	public void testEqualsNameMatches() throws RemoteException{
-		assertEquals(false, new PlayerImpl(1, "Jamie").equals(new PlayerImpl(2, "Jamie")));
+	public void testMatchNameMatches() throws RemoteException{
+		assertEquals(false, new PlayerImpl(1, "Jamie").match(new PlayerImpl(2, "Jamie")));
 	}
 
 	/**Tests the .equals() method - Nothing equal
 	 * @throws RemoteException */
 	@Test
-	public void testEqualsNoMatch() throws RemoteException{
-		assertEquals(false, new PlayerImpl(1, "Jamie").equals(new PlayerImpl(2, "Bob")));
+	public void testMatchNoMatch() throws RemoteException{
+		assertEquals(false, new PlayerImpl(1, "Jamie").match(new PlayerImpl(2, "Bob")));
 	}
 
 	/**Tests the .equals() method -random object
