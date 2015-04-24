@@ -53,10 +53,13 @@ public class PlayerImpl extends UnicastRemoteObject implements Player{
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		try{
+			Player other = (Player) obj;
+			return (this.getId() == other.getId() &&  this.getName() == other.getName());
+		}catch (ClassCastException ex){
+			System.out.println("Class wrong");
 			return false;
-		Player other = (Player) obj;
-		return (this.getId() == other.getId() &&  this.getName() == other.getName());
+		}
 	}
 
 

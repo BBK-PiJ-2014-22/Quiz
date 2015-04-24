@@ -2,6 +2,7 @@ package network;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import components.Player;
@@ -28,7 +29,7 @@ public interface SetupInterface extends Remote{
 	 * @return
 	 * @throws RemoteException
 	 */
-	public List<Quiz> getQuizList (Player player) throws RemoteException;
+	public ArrayList<Quiz> getQuizList (Player player) throws RemoteException;
 	
 	
 

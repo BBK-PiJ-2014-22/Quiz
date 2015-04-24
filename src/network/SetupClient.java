@@ -20,14 +20,12 @@ import components.Quiz;
 public class SetupClient {
 	
 	Player player;
-	List<Quiz> quizList ;
 	SetupInterface server;
 	Quiz currentQuiz;  //Used when editing quiz
 	Question currentQuestion; //Used when editing quiz
 	
 	public SetupClient(){
 		player = null;
-		quizList = null;
 		currentQuiz = null;
 		currentQuestion = null;
 		server = null;
@@ -68,7 +66,6 @@ public class SetupClient {
 	public boolean login(int id, String name) throws RemoteException{
 		this.player = server.login(id, name);
 		if (this.player != null){
-			this.quizList = server.getQuizList(this.player);
 			return true;
 		}else{
 			return false;
@@ -84,21 +81,10 @@ public class SetupClient {
 	 */
 	public boolean createPlayer(String name) throws RemoteException{
 		player = server.createPlayer(name);
-		this.quizList = new ArrayList<Quiz>();
 		return true;
 	}
 
 	//Quiz list  management
-	/**Assigns the list of all quizzes accessible by the player to the 
-	 * this.quizList() variable. This should be run whenever the quiz list
-	 * is changed by the user or at login
-	 * 
-	 * @return
-	 * @throws RemoteException 
-	 */
-	public void assignQuizList() throws RemoteException{
-		if (this.player != null) this.quizList = server.getQuizList(this.player);
-	}
 	
 	/**Returns a String representation of the player's quiz list that will 
 	 * show all main information, e.g.:
@@ -137,7 +123,6 @@ public class SetupClient {
 	 */
 	public int createQuiz(String name) throws RemoteException{
 		int quizID = server.createQuiz(this.player, name).getQuizID();
-		this.assignQuizList();
 		return quizID;
 	}
 	

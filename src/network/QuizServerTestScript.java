@@ -57,7 +57,6 @@ public class QuizServerTestScript {
 		//Creates 5 new quizzes
 		for (int i = 0 ; i  < 5 ; i++)
 			sc.createQuiz("Quiz "+i);
-		if (sc.quizList.size() != 5) systemExit("SC CreateQuiz test failed - quizList not refreshed");
 		if (sc.currentQuiz == null) systemExit("SC CreateQuiz test failed - currentQuiz is null");
 		if (sc.currentQuiz.getQuizID() != 4 || sc.currentQuiz.getQuizName() != "Quiz 4") 
 			systemExit("SC CreateQuiz test failed - quiz wrong."

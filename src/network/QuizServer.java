@@ -46,16 +46,17 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 	
 	@Override
-	public List<Quiz> getQuizList(Player player) throws RemoteException {
+	public ArrayList<Quiz> getQuizList(Player player) throws RemoteException {
 		if (player == null){
 			throw new NullPointerException();
 		}else{
-			List<Quiz> result = new ArrayList<Quiz>();
+			ArrayList<Quiz> result = new ArrayList<Quiz>();
 			for (Quiz quiz : quizList){
-				if (quiz.getQuizMaster() == player) //Note intentionally uses == for identity
+				System.out.println(quiz.getQuizMaster().display() + ":"+player.display());
+				if (quiz.getQuizMaster().match(player)) 
 					result.add(quiz);
 			}
-			System.out.println("Quiz list given for player"+player.display());
+			System.out.println("Quiz list of size "+result.size()+" given for player"+player.display());
 			return result;
 		}
 	}
@@ -66,7 +67,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		if ((id >= 0 && id < playerList.size()) 	&&
 			playerList.get(id).getName().equals(name)){
 			result = playerList.get(id);
-			System.out.println(result+" logged in");
+			System.out.println(result.display()+" logged in");
 		}else{
 			System.out.println("Login failed with "+id+" and "+name);
 		}
@@ -77,7 +78,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
-		System.out.println((playerList.get(playerList.size()-1) +" created"));
+		System.out.println((playerList.get(playerList.size()-1).display() +" created"));
 		return playerList.get(playerList.size()-1);
 	}
 	
