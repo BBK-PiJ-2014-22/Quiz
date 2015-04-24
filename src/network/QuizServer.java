@@ -11,9 +11,7 @@ import components.*;
 
 public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
 
-/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 7444117470330269850L;
 	
 	List<Player> playerList;
@@ -29,13 +27,16 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public synchronized Quiz createQuiz(Player player, String name) throws RemoteException {
-		if (player == null || name == null)
+		if (player == null || name == null){
+			System.out.println("Create Quiz Failed: passed null player");
 			throw new NullPointerException();
 		//The below intentionally uses == as it must be the very same object not simply an equal one
-		else if (player != playerList.get(player.getId())) 
+		}else if (player != playerList.get(player.getId())){ 
+			System.out.println("Create Quiz Failed: Unknown player"+player);
 			throw new IllegalArgumentException();
-		else{
+		}else{
 			quizList.add(new QuizImpl(quizList.size(), name, player));
+			System.out.println("Created Quiz:"+(quizList.size()-1)+" Quizzes in system:"+quizList.size());
 			return quizList.get(quizList.size()-1);
 		}
 	}
@@ -60,6 +61,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		if ((id > 0 && id < playerList.size()) 	&&
 			playerList.get(id).getName().equals(name)){
 			result = playerList.get(id);
+			System.out.println(result+" logged in");
 		}
 		return result;
 	}
@@ -67,6 +69,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
+		System.out.println((playerList.get(playerList.size()-1) +"logged in"));
 		return playerList.get(playerList.size()-1);
 	}
 	
