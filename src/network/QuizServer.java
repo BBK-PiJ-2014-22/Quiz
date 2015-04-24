@@ -28,13 +28,14 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public synchronized Quiz createQuiz(Player player, String name) throws RemoteException {
 		if (player == null || name == null){
-			System.out.println("Create Quiz Failed: passed null player");
+			System.out.println("Create Quiz Failed: passed null information");
 			throw new NullPointerException();
-		//The below intentionally uses == as it must be the very same object not simply an equal one
-		}else if (player != playerList.get(player.getId())){ 
+		}else if (!player.getName().equals(playerList.get(player.getId()).getName())){ 
 			System.out.println("Create Quiz Failed: "
 					+ "\nUnknown player"+player.getId()+":"+player.getName()
-					+ "\nPlayer at "+player.getId()+" = "+playerList.get(player.getId()).getName());
+					+ "\nPlayer at "+player.getId()+" = "+playerList.get(player.getId()).getName()
+					+"\n\nFirst"+player
+					+"\n\nSecond"+playerList.get(player.getId()));
 				
 			throw new IllegalArgumentException();
 		}else{

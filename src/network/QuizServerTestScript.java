@@ -44,7 +44,7 @@ public class QuizServerTestScript {
 		//creates 5 new players
 		for (int i = 0; i < 5; i++)
 			createPlayer(i, "QuizMaster "+i);
-		
+			
 		//Tests the login process
 		if (sc.login(1, "QuizMaster 0"))  systemExit("SC Incorrect LoginTest failed - Returned status of true");
 		else if (!sc.login(0, "QuizMaster 0")) systemExit("SC Correct LoginTest failed - Returned status of false");
