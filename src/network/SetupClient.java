@@ -139,8 +139,9 @@ public class SetupClient {
 	 */
 	public boolean editQuiz(int id) throws RemoteException{
 		Quiz result = getOwnedQuiz(id);
-		if (result == null) return false;
+		if (result == null || result.getStatus() != QuizStatus.INACTIVE ) return false;
 		this.currentQuiz = result;
+		this.currentQuestion = null;
 		return true;
 	}
 
@@ -285,7 +286,7 @@ public class SetupClient {
 	 */
 	private Quiz getOwnedQuiz(int id) throws RemoteException{
 		Quiz targetQuiz = server.getQuiz(id);
-		if (!targetQuiz.getQuizMaster().equals(player)) return targetQuiz;
-		else return null;
+		if (!targetQuiz.getQuizMaster().equals(player)) return null;
+		else return targetQuiz;
 	}
 }
