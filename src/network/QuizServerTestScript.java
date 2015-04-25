@@ -84,18 +84,30 @@ public class QuizServerTestScript {
 		
 		//Builds the quiz 5 and 6 ready for use
 		
-		buildQuiz(sc, 7);
+		buildQuiz(sc, 7); //Tests answers within the build
+		if (sc.currentQuiz.getQuestionList().size() != 7) systemExit("SC unable to edit question 7");
 		
-		//Tests all aspects of the build have completed correctly
-		for (int i = 0 ; i < 7 ; i++){
-			if (sc.currentQuiz.getQuestion(i).getCorrectAnswer() != i)
-				systemExit("SC Build Quiz failed for question "+i
-						  +"\nExpected:"+i
-						  +"\nActual:  "+sc.currentQuiz.getQuestion(i).getCorrectAnswer());
-		}
+		//Tries to change to question 6
+		if (!sc.editQuestion(6)) systemExit("SC unable to edit question 6");
+		buildQuiz(sc,6);
+		if (sc.currentQuiz.getQuestionList().size() != 6) systemExit("List size wrong for quiz 6. Returned "+
+																	 sc.currentQuiz.getQuestionList().size());
 		
+		//Tries to change to question 5
+		if (!sc.editQuestion(5)) systemExit("SC unable to edit question 5");
+		buildQuiz(sc,5);
+		if (sc.currentQuiz.getQuestionList().size() != 5) systemExit("List size wrong for quiz 5. Returned "+
+																   	  sc.currentQuiz.getQuestionList().size());
+	
 		
+
+
+			
 		
+		//Test edge cases:
+		// Try and edit other player
+		// Try and activate quizzes in weird states
+				
 	
 		
 		
@@ -125,7 +137,11 @@ public class QuizServerTestScript {
 		for (int i = 0 ; i < numberOfQuestions ; i++){
 			sc.addQuestion("Question "+i);
 			for (int j = 0 ; j < numberOfQuestions ; j++) sc.addAnswer("Answer "+j);
-			sc.setCorrectAnswer(numberOfQuestions);
+			sc.setCorrectAnswer(i);
+			if ((sc.currentQuiz.getQuestion(i).getCorrectAnswer()) != i)
+				systemExit("Setup test failed for"+sc.currentQuestion.display()
+						  +"\nExpected:0"
+						  +"\nAcutal:" +sc.currentQuiz.getQuestion(i).getCorrectAnswer());
 		}
 	}
 	
