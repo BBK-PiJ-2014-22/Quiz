@@ -7,6 +7,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.ArrayList;
 
+import network.Log;
+
 public class QuizImpl extends UnicastRemoteObject implements Quiz{
 
 	private int quizID; //Set only by constructor
@@ -62,8 +64,9 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 	//standard methods
 	@Override
 	public String display() throws RemoteException {
-		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster
-				+ ", quizName=" + quizName + ", quizStatus=" + quizStatus + "]";
+		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster.display()
+				+ ", quizName=" + quizName + ", quizStatus=" + quizStatus + 
+				"questionCount="+ questions.size()+"]";
 	}
 
 	@Override
@@ -107,8 +110,14 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 			return false;
 		else{
 			this.questions.add(question);
+			Log.log(quizName+": question added - "+question.display());
 			return true;
 		}
+	}
+	
+	@Override
+	public boolean addQuestion(String question) throws RemoteException{
+		return this.addQuestion(new QuestionImpl(question));
 	}
 	
 	@Override
@@ -122,6 +131,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 			return false;
 		else{
 			this.questions.remove(id);
+			Log.log(quizName+": question removed - "+id);
 			return true;
 		}
 	}
@@ -139,6 +149,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 			this.questions.add(id1, q2);
 			this.questions.remove(id2);
 			this.questions.add(id2,q1);
+			Log.log(quizName+": question swapped - "+id1+" with "+id2);
 			return true;
 		}
 	}
@@ -149,6 +160,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 			return false;
 		else{
 			this.quizStatus = QuizStatus.ACTIVE;
+			Log.log(quizName+": Activated");
 			return true;
 		}
 	}
@@ -159,6 +171,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 			return false;
 		else{
 			this.quizStatus = QuizStatus.COMPLETED;
+			Log.log(quizName+": Completed");
 			return true;
 		}
 	}

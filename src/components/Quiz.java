@@ -8,8 +8,9 @@ public interface Quiz extends Remote {
 	
 	public boolean activate() throws RemoteException;
 	
-	//TODO - edit so this takes a String
-	public boolean addQuestion(Question newQuestion) throws RemoteException;;
+	public boolean addQuestion(String newQuestion) throws RemoteException;
+	
+	public boolean addQuestion(Question newQuestion) throws RemoteException;
 	
 	public boolean complete() throws RemoteException;
 	
