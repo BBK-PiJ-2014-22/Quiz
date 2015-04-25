@@ -187,30 +187,5 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 			string += "\n	"+i+": "+this.answers.get(i);
 		return string;
 	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		QuestionImpl other = (QuestionImpl) obj;
-		if (answers == null) {
-			if (other.answers != null)
-				return false;
-		} else if (!answers.equals(other.answers))
-			return false;
-		if (correctAnswer != other.correctAnswer)
-			return false;
-		if (question == null) {
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
-			return false;
-		return true;
-	}
 	
 }

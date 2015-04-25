@@ -70,36 +70,6 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 				"questionCount="+ questions.size()+"]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		QuizImpl other = (QuizImpl) obj;
-		if (questions == null) {
-			if (other.questions != null)
-				return false;
-		} else if (!questions.equals(other.questions))
-			return false;
-		if (quizID != other.quizID)
-			return false;
-		if (quizMaster == null) {
-			if (other.quizMaster != null)
-				return false;
-		} else if (!quizMaster.equals(other.quizMaster))
-			return false;
-		if (quizName == null) {
-			if (other.quizName != null)
-				return false;
-		} else if (!quizName.equals(other.quizName))
-			return false;
-		if (quizStatus != other.quizStatus)
-			return false;
-		return true;
-	}
 	
 	//Main Quiz methods
 	
