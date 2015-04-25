@@ -137,6 +137,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean editQuiz(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -146,6 +147,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean removeQuestion(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -165,6 +167,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean activateQuiz(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -174,6 +177,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean completeQuiz(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -185,6 +189,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean editQuestion(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -195,6 +200,7 @@ public class SetupClient {
 	 * @return String representation of the question
 	 */
 	public String getPrettyQuestion(){
+		//TODO - Implement
 		return null;
 	}
 	
@@ -213,6 +219,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean changeAnswer(int id, String answer){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -224,6 +231,7 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean removeAnswer(int id){
+		//TODO - Implement
 		return false;
 	}
 	
@@ -232,16 +240,16 @@ public class SetupClient {
 	 * @param id ID of the new correct answer
 	 * @return true if successful, false otherwise
 	 */
-	public boolean setCorrectAnswer(int id){
-		return false;
+	public boolean setCorrectAnswer(int id) throws RemoteException{
+		return currentQuestion.setCorrectAnswer(id);
 	}
 	
-	/**Changes the question
+	/**Changes the question name of the current question to the new string
 	 * 
 	 * @param name new question
 	 */
 	public void setQuestion(String name){
-
+		//TODO - Implement
 	}
 	
 	/**Swaps two answers in order. If one is the correct answer, it will 
@@ -251,8 +259,8 @@ public class SetupClient {
 	 * @param id2 answer to swap
 	 * @return true if successful, false otherwise
 	 */
-	public boolean swapAnswer(int id1, int id2){
-		return false;
+	public boolean swapAnswer(int id1, int id2) throws RemoteException{
+		return this.currentQuestion.swapAnswer(id1, id2);
 	}
 		
 }
