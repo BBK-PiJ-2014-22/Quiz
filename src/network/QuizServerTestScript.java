@@ -126,13 +126,13 @@ public class QuizServerTestScript {
 		if (sc.currentQuestion != null) systemExit("Quiz changed but question not null");
 		
 		if (sc.editQuestion(8)) systemExit("Edit question out of bounds returns true");
-		if (sc.editQuestion(0)) systemExit("Edit question in bounds returns false");
-		if (sc.currentQuestion.getQuestion() != "Question 0") systemExit("Edit question not assigned to question 0"
+		if (!sc.editQuestion(0)) systemExit("Edit question in bounds returns false");
+		if (!sc.currentQuestion.getQuestion().equals("Question 0")) systemExit("Edit question not assigned to Question 0"
 																		+"Question set to: "+sc.currentQuestion.getQuestion());
 		
 		sc.setQuestion("Question 0b");
 		
-		if (sc.currentQuestion.getQuestion() != "Question 0b") systemExit("Question not changed to Question 0b"
+		if (!sc.currentQuestion.getQuestion().equals("Question 0b")) systemExit("Question not changed to Question 0b"
 																			+"Question set to: "+sc.currentQuestion.getQuestion());
 		
 		if (sc.changeAnswer(8, "answer")) systemExit("Change answer returns true for out of bounds");
@@ -147,15 +147,13 @@ public class QuizServerTestScript {
 		if (!sc.currentQuestion.getAnswers().get(1).equals("Answer 0b")) 
 			systemExit("Answer swapped at position 1: "+sc.currentQuestion.getAnswers().get(0));
 
+		//TODO - add remove Question and Answer tests
+		
 		
 		System.out.println(sc.getPrettyQuizList());
 		System.out.println(sc.getPrettyQuestion());
 		
-		//Test edge cases:
-		// Try and edit other player
-		// Try and activate quizzes in weird states
-				
-	
+
 		
 		
 	

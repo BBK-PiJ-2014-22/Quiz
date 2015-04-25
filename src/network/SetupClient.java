@@ -204,9 +204,12 @@ public class SetupClient {
 	 * @param id ID of the question
 	 * @return true if successful, false otherwise
 	 */
-	public boolean editQuestion(int id){
-		//TODO - Implement
-		return false;
+	public boolean editQuestion(int id) throws RemoteException{
+		if (id < 0 || id >= currentQuiz.getQuestionList().size()) return false;
+		else{
+			currentQuestion = currentQuiz.getQuestionList().get(id);
+			return true;
+		}
 	}
 	
 	//Question editing methods
@@ -214,10 +217,10 @@ public class SetupClient {
 	 * as the player would see it, but with the correct answer displayed.
 	 * 
 	 * @return String representation of the question
+	 * @throws RemoteException 
 	 */
-	public String getPrettyQuestion(){
-		//TODO - Implement
-		return null;
+	public String getPrettyQuestion() throws RemoteException{
+		return currentQuestion.display() + "\nCorrect Answer:"+currentQuestion.getCorrectAnswer();
 	}
 	
 	/**Adds a possible answer to the question
@@ -233,10 +236,10 @@ public class SetupClient {
 	 * @param id ID of answer to change
 	 * @param answer new answer
 	 * @return true if successful, false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean changeAnswer(int id, String answer){
-		//TODO - Implement
-		return false;
+	public boolean changeAnswer(int id, String answer) throws RemoteException{
+		return currentQuestion.changeAnswer(id, answer);
 	}
 	
 	
@@ -264,8 +267,8 @@ public class SetupClient {
 	 * 
 	 * @param name new question
 	 */
-	public void setQuestion(String name){
-		//TODO - Implement
+	public void setQuestion(String name) throws RemoteException{
+		if (name != null) currentQuestion.setQuestion(name);
 	}
 	
 	/**Swaps two answers in order. If one is the correct answer, it will 
