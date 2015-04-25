@@ -116,13 +116,40 @@ public class QuizServerTestScript {
 		if (sc.completeQuiz(7)) systemExit("Player 1 has returns true for completing INACTIVE Quiz 6");
 		if (sc.server.getQuiz(7).getStatus() != QuizStatus.INACTIVE) systemExit("Player 2 has completed quiz 6");
 		
+		
+		//Tests editing questions
 		if (!sc.editQuiz(7)) systemExit("Player 1 unable to edit quiz 7");
 		if (sc.editQuiz(6)) systemExit("Player 1 able to edit quiz 6 (Active)");
 		if (sc.editQuiz(5)) systemExit("Player 1 able to edit quiz 5 (Completed)");
+		if (sc.editQuiz(4)) systemExit("Player 1 able to edit quiz 4 (not owned)");
 		if (sc.currentQuiz.getQuizID() != 7) systemExit("Current quiz not set to Quiz 7");
+		if (sc.currentQuestion != null) systemExit("Quiz changed but question not null");
+		
+		if (sc.editQuestion(8)) systemExit("Edit question out of bounds returns true");
+		if (sc.editQuestion(0)) systemExit("Edit question in bounds returns false");
+		if (sc.currentQuestion.getQuestion() != "Question 0") systemExit("Edit question not assigned to question 0"
+																		+"Question set to: "+sc.currentQuestion.getQuestion());
+		
+		sc.setQuestion("Question 0b");
+		
+		if (sc.currentQuestion.getQuestion() != "Question 0b") systemExit("Question not changed to Question 0b"
+																			+"Question set to: "+sc.currentQuestion.getQuestion());
+		
+		if (sc.changeAnswer(8, "answer")) systemExit("Change answer returns true for out of bounds");
+		if (!sc.changeAnswer(0, "Answer 0b")) systemExit("Change answer returns false for in bounds");
+		if (!sc.currentQuestion.getAnswers().get(0).equals("Answer 0b")) systemExit("Answer not changed to Answer 0b"
+																					+"Current: "+sc.currentQuestion.getAnswers().get(0));
+		
+		if (sc.swapAnswer(0, 10)) systemExit("Swap answer returns true for out of bounds");
+		if (!sc.swapAnswer(0, 1)) systemExit("Swap answer returns false for in bounds");
+		if (!sc.currentQuestion.getAnswers().get(0).equals("Answer 1")) 
+			systemExit("Answer swapped at position 0: "+sc.currentQuestion.getAnswers().get(0));
+		if (!sc.currentQuestion.getAnswers().get(1).equals("Answer 0b")) 
+			systemExit("Answer swapped at position 1: "+sc.currentQuestion.getAnswers().get(0));
 
-
-			
+		
+		System.out.println(sc.getPrettyQuizList());
+		System.out.println(sc.getPrettyQuestion());
 		
 		//Test edge cases:
 		// Try and edit other player
