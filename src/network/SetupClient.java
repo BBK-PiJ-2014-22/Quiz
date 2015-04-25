@@ -137,12 +137,11 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean editQuiz(int id) throws RemoteException{
-		Quiz quiz = server.getQuiz(id);
-		if (quiz.getQuizMaster() == (this.player)){
-			this.currentQuiz = quiz;
-			return true;
-		}
-		else return false;
+		Quiz targetQuiz = server.getQuiz(id);
+		if (targetQuiz.getQuizMaster() != player) return false;
+		
+		currentQuiz = targetQuiz;
+		return true;
 	}
 	
 	/**Removes the question with given ID from the quiz currently being edited.
