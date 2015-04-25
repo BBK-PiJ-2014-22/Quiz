@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import network.Log;
 import components.QuizStatus;
 
 /**The Game object represents in in progress game of a specific quiz. 
@@ -44,8 +45,8 @@ public class GameImpl implements Game{
 		this.answers = new ArrayList<Integer>();
 		this.score = 0;
 		this.completed = false;
+		Log.log("Game Created:"+player.display()+" : "+quiz.display());
 	}
-	
 	
 	//Standard methods
 	@Override
@@ -53,37 +54,6 @@ public class GameImpl implements Game{
 		return "Game [player=" + player + ", quiz=" + quiz + ", answers="
 				+ answers + ", score=" + score + ", completed=" + completed
 				+ "]";
-	}
-
-	@Override
-	public boolean equals(Object obj){
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		GameImpl other = (GameImpl) obj;
-		if (answers == null) {
-			if (other.answers != null)
-				return false;
-		} else if (!answers.equals(other.answers))
-			return false;
-		if (completed != other.completed)
-			return false;
-		if (player == null) {
-			if (other.player != null)
-				return false;
-		} else if (!player.equals(other.player))
-			return false;
-		if (quiz == null) {
-			if (other.quiz != null)
-				return false;
-		} else if (!quiz.equals(other.quiz))
-			return false;
-		if (score != other.score)
-			return false;
-		return true;
 	}
 	
 	//Getters
@@ -142,6 +112,7 @@ public class GameImpl implements Game{
 			this.answers.add(answer);
 			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
 				this.completeGame();
+			//TODO - add log file
 			return true;
 		}else{
 			return false;
@@ -158,6 +129,7 @@ public class GameImpl implements Game{
 			if (this.getAnswers().get(i) == this.quiz.getQuestion(i).getCorrectAnswer())
 				this.score += 1;
 		}
+		//TODO - add log file
 	}
 }
 
