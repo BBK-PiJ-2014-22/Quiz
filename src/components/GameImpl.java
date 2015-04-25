@@ -49,6 +49,9 @@ public class GameImpl implements Game{
 	}
 	
 	//Standard methods
+	/**Displays a human readable string representation of the Game. To be used
+	 * when the game object is called remotely.
+	 */
 	@Override
 	public String display(){
 		return "Game [player=" + player + ", quiz=" + quiz + ", answers="
@@ -110,9 +113,9 @@ public class GameImpl implements Game{
 		Question question = this.quiz.getQuestionList().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
+			Log.log(this.quiz.display()+":"+this.player.display()+"answered: Q"+(this.answers.size()-1)+":"+answer);
 			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
 				this.completeGame();
-			//TODO - add log file
 			return true;
 		}else{
 			return false;
@@ -129,7 +132,7 @@ public class GameImpl implements Game{
 			if (this.getAnswers().get(i) == this.quiz.getQuestion(i).getCorrectAnswer())
 				this.score += 1;
 		}
-		//TODO - add log file
+		Log.log(this.quiz.display()+":"+this.player.display()+" Scored:"+this.score);
 	}
 }
 
