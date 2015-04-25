@@ -5,6 +5,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import network.Log;
+
 /**The question is the fundamental element of the Quiz. It should be stored, created and accessed
  * through a Quiz. It consists of an ID, a question (the string displayed to the player when they
  * access the question in the quiz), a list of possible answers and the correct answer (int of the 
@@ -53,6 +55,7 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 		if (question.equals(null))
 			throw new NullPointerException();
 		else{
+			Log.log(this.question+" changed to "+question);
 			this.question = question;
 		}
 	}
@@ -75,6 +78,7 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 	@Override
 	public boolean setCorrectAnswer(int correctAnswer) throws RemoteException{
 		if (correctAnswer >= 0 && correctAnswer < this.answers.size()){
+			Log.log(this.question+" correct answer changed from"+this.correctAnswer+" to "+correctAnswer);
 			this.correctAnswer = correctAnswer;
 			return true;
 		}else{
@@ -102,6 +106,8 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 			throw new NullPointerException();
 		else
 			this.answers.add(answer);
+			Log.log(this.question+" answer added:"+answer);
+
 	}
 	
 	/**Removes an answer. Will return true if successful. If the answer
@@ -115,8 +121,11 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 	public boolean removeAnswer(int id) throws RemoteException{
 		try{
 			this.answers.remove(id);
-			if (id == this.correctAnswer)
+			Log.log(this.question+" answer removed:"+id);
+			if (id == this.correctAnswer){
 				this.correctAnswer = -1;
+				Log.log(this.question+" correct answer reset");
+			}
 			return true;
 		}catch (IndexOutOfBoundsException ex){
 			return false;
@@ -129,7 +138,7 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 	 * 
 	 * @param id int representing position of the answer to change
 	 * @param answer string of the new answer
-	 * @return boolean, true if succesful, false otherwise
+	 * @return boolean, true if succesfull, false otherwise
 	 */
 	@Override
 	public boolean changeAnswer(int id, String answer) throws RemoteException{
@@ -139,6 +148,7 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 			else{
 				this.answers.remove(id);
 				this.answers.add(id, answer);	
+				Log.log(this.question+" answer changed "+id+":"+answer);
 				return true;
 			}
 		}catch (NullPointerException|IndexOutOfBoundsException ex){
@@ -166,6 +176,7 @@ public class QuestionImpl extends UnicastRemoteObject implements Question {
 				this.answers.add(id1, string2);
 				this.answers.remove(id2);
 				this.answers.add(id2, string1);
+				Log.log(this.question+" answers swapped "+id1+":"+id2);
 				
 				if (this.getCorrectAnswer() == id1)
 					this.setCorrectAnswer(id2);

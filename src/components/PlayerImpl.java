@@ -42,11 +42,15 @@ public class PlayerImpl extends UnicastRemoteObject implements Player{
 		return name;
 	}
 
+	/**Displays a human readable string representation of the Game. To be used
+	 * when the game object is called remotely.
+	 */
 	@Override
 	public String display()  throws RemoteException{
 		return "Player [id=" + id + ", name=" + name + "]";
 	}
 
+	//TODO - Review if this can be removed
 	@Override
 	public boolean match(Object obj) throws RemoteException {
 		if (this == obj)
