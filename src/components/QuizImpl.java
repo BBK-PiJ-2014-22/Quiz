@@ -1,6 +1,6 @@
 package components;
 
-//TODO - Work out how to deal with questions for active quizzes. At present a question can be altered in principle (Add lock to question?)
+//TODO - add log and JavaDoc
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
