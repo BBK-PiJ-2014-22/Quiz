@@ -154,8 +154,9 @@ public class SetupClient {
 	 * @param name title of the question
 	 * @return true if successful, false otherwise
 	 */
-	public Question addQuestion(String name){
-		return null;
+	public void addQuestion(String name) throws RemoteException{
+		this.currentQuiz.addQuestion(name);
+		currentQuestion = this.currentQuiz.getQuestion(currentQuiz.getQuestionList().size()-1);
 	}
 	
 	/**Activates the quiz with the ID given, if it is inactive
@@ -201,7 +202,8 @@ public class SetupClient {
 	 * 
 	 * @param answer the answer to add 
 	 */
-	public void addAnswer(String answer){
+	public void addAnswer(String answer) throws RemoteException{
+		this.currentQuestion.addAnswer(answer);
 	}
 	
 	/**Changes an existing answer 

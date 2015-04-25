@@ -1,5 +1,7 @@
 package components;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @author Jamie MacIver
  *
  */
-public class QuestionImpl implements Question {
+public class QuestionImpl extends UnicastRemoteObject implements Question {
 	
 	private String question;
 	List<String> answers;
@@ -24,7 +26,7 @@ public class QuestionImpl implements Question {
 	 * @param question the question the be displayed
 	 * @throws NullPointerException if question is null
 	 */
-	public QuestionImpl(String question) {
+	public QuestionImpl(String question) throws RemoteException{
 		if (question.equals(null))
 			throw new NullPointerException();
 		this.question = question;
@@ -37,7 +39,7 @@ public class QuestionImpl implements Question {
 	 * @return String question
 	 */
 	@Override
-	public String getQuestion() {
+	public String getQuestion() throws RemoteException{
 		return question;
 	}
 
@@ -47,7 +49,7 @@ public class QuestionImpl implements Question {
 	 * @throws NullPointerException if null is passed to the method
 	 */
 	@Override
-	public void setQuestion(String question) {
+	public void setQuestion(String question) throws RemoteException{
 		if (question.equals(null))
 			throw new NullPointerException();
 		else{
@@ -60,7 +62,7 @@ public class QuestionImpl implements Question {
 	 * @return
 	 */
 	@Override
-	public int getCorrectAnswer() {
+	public int getCorrectAnswer() throws RemoteException{
 		return correctAnswer;
 	}
 
@@ -71,7 +73,7 @@ public class QuestionImpl implements Question {
 	 * @return true if changed, false if not
 	 */
 	@Override
-	public boolean setCorrectAnswer(int correctAnswer) {
+	public boolean setCorrectAnswer(int correctAnswer) throws RemoteException{
 		if (correctAnswer >= 0 && correctAnswer < this.answers.size()){
 			this.correctAnswer = correctAnswer;
 			return true;
@@ -85,7 +87,7 @@ public class QuestionImpl implements Question {
 	 * @return list of all answer the question holds
 	 */
 	@Override
-	public List<String> getAnswers() {
+	public List<String> getAnswers() throws RemoteException{
 		return answers;
 	}
 	
@@ -95,7 +97,7 @@ public class QuestionImpl implements Question {
 	 * @throws NullPointerException if the string is Null
 	 */
 	@Override
-	public void addAnswer(String answer){
+	public void addAnswer(String answer) throws RemoteException{
 		if (answer == null)
 			throw new NullPointerException();
 		else
@@ -110,7 +112,7 @@ public class QuestionImpl implements Question {
 	 * @return true if successful, false otherwise
 	 */
 	@Override
-	public boolean removeAnswer(int id){
+	public boolean removeAnswer(int id) throws RemoteException{
 		try{
 			this.answers.remove(id);
 			if (id == this.correctAnswer)
@@ -130,7 +132,7 @@ public class QuestionImpl implements Question {
 	 * @return boolean, true if succesful, false otherwise
 	 */
 	@Override
-	public boolean changeAnswer(int id, String answer){
+	public boolean changeAnswer(int id, String answer) throws RemoteException{
 		try{
 			if (answer == null)
 				throw new NullPointerException();
@@ -153,7 +155,7 @@ public class QuestionImpl implements Question {
 	 * @return true if successful, false if not.
 	 */
 	@Override
-	public boolean swapAnswer(int id1, int id2){
+	public boolean swapAnswer(int id1, int id2) throws RemoteException{
 		if (id1 == id2)
 			return false;
 		else{
@@ -179,23 +181,13 @@ public class QuestionImpl implements Question {
 
 
 	@Override
-	public String display() {
+	public String display() throws RemoteException{
 		String string = this.question;
 		for (int i = 0 ; i < this.answers.size() ; i++)
 			string += "\n	"+i+": "+this.answers.get(i);
 		return string;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((answers == null) ? 0 : answers.hashCode());
-		result = prime * result + correctAnswer;
-		result = prime * result
-				+ ((question == null) ? 0 : question.hashCode());
-		return result;
-	}
 
 	@Override
 	public boolean equals(Object obj) {
