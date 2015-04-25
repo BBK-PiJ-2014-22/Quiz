@@ -116,6 +116,10 @@ public class QuizServerTestScript {
 		if (sc.completeQuiz(7)) systemExit("Player 1 has returns true for completing INACTIVE Quiz 6");
 		if (sc.server.getQuiz(7).getStatus() != QuizStatus.INACTIVE) systemExit("Player 2 has completed quiz 6");
 		
+		if (!sc.editQuiz(7)) systemExit("Player 1 unable to edit quiz 7");
+		if (sc.editQuiz(6)) systemExit("Player 1 able to edit quiz 6 (Active)");
+		if (sc.editQuiz(5)) systemExit("Player 1 able to edit quiz 5 (Completed)");
+		if (sc.currentQuiz.getQuizID() != 7) systemExit("Current quiz not set to Quiz 7");
 
 
 			
