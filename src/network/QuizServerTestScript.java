@@ -86,7 +86,13 @@ public class QuizServerTestScript {
 		
 		buildQuiz(sc, 7);
 		
-		System.out.println(sc.currentQuiz.display());
+		//Tests all aspects of the build have completed correctly
+		for (int i = 0 ; i < 7 ; i++){
+			if (sc.currentQuiz.getQuestion(i).getCorrectAnswer() != i)
+				systemExit("SC Build Quiz failed for question "+i
+						  +"\nExpected:"+i
+						  +"\nActual:  "+sc.currentQuiz.getQuestion(i).getCorrectAnswer());
+		}
 		
 		
 		
