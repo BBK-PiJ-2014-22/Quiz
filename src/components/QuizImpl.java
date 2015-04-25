@@ -64,6 +64,7 @@ public class QuizImpl extends UnicastRemoteObject implements Quiz{
 	//standard methods
 	@Override
 	public String display() throws RemoteException {
+		//TODO - Throwing a null pointer exception if quizlist is empty 
 		return "Quiz [quizID=" + quizID + ", quizMaster=" + quizMaster.display()
 				+ ", quizName=" + quizName + ", quizStatus=" + quizStatus + 
 				"questionCount="+ questions.size()+"]";
