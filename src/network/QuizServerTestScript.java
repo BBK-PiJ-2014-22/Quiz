@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import components.PlayerImpl;
 import components.Question;
 import components.Quiz;
+import components.QuizStatus;
 
 /**This is a script that mocks up a session as if it was run and tests at each stage that the situation in the 
  * QuizServer remains as expected. As soon as the server encounters a situation that is unexpected it will terminate.
@@ -101,6 +102,19 @@ public class QuizServerTestScript {
 		if (sc.currentQuiz.getQuestionList().size() != 5) systemExit("List size wrong for quiz 5. Returned "+
 																   	  sc.currentQuiz.getQuestionList().size());
 	
+		System.out.println("Quizzes 5,6,7 set to 5 questions each");
+		
+		//Tests activation and completion
+		if (sc.activateQuiz(4)) systemExit("Player 1 returns true for activation of quiz 4");
+		if (sc.server.getQuiz(4).getStatus() != QuizStatus.INACTIVE) systemExit("Player 1 has activated quiz 4");
+		if (!sc.activateQuiz(5)) systemExit("Player 1 returns false for activation of quiz 5");
+		if (sc.server.getQuiz(5).getStatus() != QuizStatus.ACTIVE) systemExit("Player 1 has not activated quiz 5");
+		if (!sc.completeQuiz(5)) systemExit("Player 1 returns false for completion of quiz 5");
+		if (sc.server.getQuiz(5).getStatus() != QuizStatus.COMPLETED) systemExit("Player 1 has not completed quiz 5");		
+		if (!sc.activateQuiz(6)) systemExit("Player 1 returns false for activation of quiz 6");
+		if (sc.server.getQuiz(6).getStatus() != QuizStatus.ACTIVE) systemExit("Player 1 has not activated quiz 6");
+		if (sc.completeQuiz(7)) systemExit("Player 1 has returns true for completing INACTIVE Quiz 6");
+		if (sc.server.getQuiz(7).getStatus() != QuizStatus.INACTIVE) systemExit("Player 2 has completed quiz 6");
 		
 
 

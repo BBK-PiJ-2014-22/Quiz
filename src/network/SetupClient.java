@@ -10,6 +10,7 @@ import java.util.Scanner;
 import components.Player;
 import components.Question;
 import components.Quiz;
+import components.QuizStatus;
 
 
 /**
@@ -137,12 +138,12 @@ public class SetupClient {
 	 * @return true if successful, false otherwise
 	 */
 	public boolean editQuiz(int id) throws RemoteException{
-		Quiz targetQuiz = server.getQuiz(id);
-		if (targetQuiz.getQuizMaster() != player) return false;
-		
-		currentQuiz = targetQuiz;
+		Quiz result = getOwnedQuiz(id);
+		if (result == null) return false;
+		this.currentQuiz = result;
 		return true;
 	}
+
 	
 	/**Removes the question with given ID from the quiz currently being edited.
 	 * 
@@ -168,10 +169,16 @@ public class SetupClient {
 	 * 
 	 * @param id ID of the quiz
 	 * @return true if successful, false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean activateQuiz(int id){
-		//TODO - Implement
-		return false;
+	public boolean activateQuiz(int id) throws RemoteException{
+		Quiz quiz = this.getOwnedQuiz(id);
+		if (quiz == null) return false;
+		if (quiz.getStatus() != QuizStatus.INACTIVE) return false;
+		else{
+			quiz.activate();
+			return true;
+		}
 	}
 	
 	/**Completes the quiz with the given ID, if it is active
@@ -179,9 +186,14 @@ public class SetupClient {
 	 * @param id
 	 * @return true if successful, false otherwise
 	 */
-	public boolean completeQuiz(int id){
-		//TODO - Implement
-		return false;
+	public boolean completeQuiz(int id) throws RemoteException{
+		Quiz quiz = this.getOwnedQuiz(id);
+		if (quiz == null) return false;
+		if (quiz.getStatus() != QuizStatus.ACTIVE) return false;
+		else{
+			quiz.complete();
+			return true;
+		}
 	}
 	
 	/**Opens up the interface to edit the question with the given ID.
@@ -265,5 +277,15 @@ public class SetupClient {
 	public boolean swapAnswer(int id1, int id2) throws RemoteException{
 		return this.currentQuestion.swapAnswer(id1, id2);
 	}
-		
+	
+	/**Returns a null quiz if the quiz is not owner by the player.
+	 *or the quiz if it is owned
+	 * 
+	 * @return
+	 */
+	private Quiz getOwnedQuiz(int id) throws RemoteException{
+		Quiz targetQuiz = server.getQuiz(id);
+		if (!targetQuiz.getQuizMaster().equals(player)) return targetQuiz;
+		else return null;
+	}
 }
