@@ -3,6 +3,8 @@ package network;
 import java.rmi.RemoteException;
 
 import components.PlayerImpl;
+import components.Question;
+import components.Quiz;
 
 /**This is a script that mocks up a session as if it was run and tests at each stage that the situation in the 
  * QuizServer remains as expected. As soon as the server encounters a situation that is unexpected it will terminate.
@@ -66,17 +68,25 @@ public class QuizServerTestScript {
 		System.out.println("Quizzes 0 to 4 created");
 		//Current Status:
 		//5 quiz masters, 5 quizzes assigned to QuizMaster 0, Quiz 4 is active quiz
-		System.out.println("Quizmaster 1 logged in, quizes 5/6 created");
+
 		sc.login(1, "QuizMaster 1");
 		sc.createQuiz("Quiz 5");
 		sc.createQuiz("Quiz 6");
-		System.out.println("Quizmaster 1 logged in, quizes 5/6 created");
+		sc.createQuiz("Quiz 7");
+		System.out.println("Quizmaster 1 logged in, quizes 5/6/7 created");
 		
 		//Checking the pretty display for QuizMaster 1 only contains quizzes 5 & 6
 		if (!sc.getPrettyQuizList().equals("[ID=5, Name=Quiz 5, Status=INACTIVE]\n"+
-										   "[ID=6, Name=Quiz 6, Status=INACTIVE]")){
+										   "[ID=6, Name=Quiz 6, Status=INACTIVE]\n"+
+										   "[ID=7, Name=Quiz 7, Status=INACTIVE]")){
 			systemExit("Failed quiz list display. Got:\n"+sc.getPrettyQuizList());
 		}
+		
+		//Builds the quiz 5 and 6 ready for use
+		
+		buildQuiz(sc, 7);
+		
+		System.out.println(sc.currentQuiz.display());
 		
 		
 		
@@ -96,6 +106,23 @@ public class QuizServerTestScript {
 					+ "\nActual:   ID="+sc.player.getId()+", Name="+sc.player.getName());
 		System.out.println("Created Player: ID="+expectedID+", Name="+name);	
 	}
+	
+	/**Adds a number of questions to to a quiz. They will have the following characteristics;
+	 * 
+	 * 1) a number of answers equal to numberOfQuestions
+	 * 2) Name in ascending order (Question 0 to Question NoQs)
+	 * 3) Correct answer will match to the question number
+	 * 
+	 * @param numberOfQuestions
+	 */
+	public void buildQuiz( SetupClient sc, int numberOfQuestions) throws RemoteException{
+		for (int i = 0 ; i < numberOfQuestions ; i++){
+			sc.addQuestion("Question "+i);
+			for (int j = 0 ; j < numberOfQuestions ; j++) sc.addAnswer("Answer "+j);
+			sc.setCorrectAnswer(numberOfQuestions);
+		}
+	}
+	
 	
 	public void systemExit(String message){
 		System.err.println(message);
