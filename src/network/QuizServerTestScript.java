@@ -17,6 +17,7 @@ import components.QuizStatus;
 public class QuizServerTestScript {
 	
 	SetupClient sc;
+	PlayerClient pc;
 
 	
 	
@@ -116,6 +117,7 @@ public class QuizServerTestScript {
 		if (sc.completeQuiz(7)) systemExit("Player 1 has returns true for completing INACTIVE Quiz 6");
 		if (sc.server.getQuiz(7).getStatus() != QuizStatus.INACTIVE) systemExit("Player 2 has completed quiz 6");
 		
+		System.out.println("Quiz 5 completed, Quiz 6 active, Quiz 7 inactive");
 		
 		//Tests editing questions
 		if (!sc.editQuiz(7)) systemExit("Player 1 unable to edit quiz 7");
@@ -146,7 +148,7 @@ public class QuizServerTestScript {
 			systemExit("Answer swapped at position 0: "+sc.currentQuestion.getAnswers().get(0));
 		if (!sc.currentQuestion.getAnswers().get(1).equals("Answer 0b")) 
 			systemExit("Answer swapped at position 1: "+sc.currentQuestion.getAnswers().get(0));
-
+		
 		//Remove answer tests
 		
 		if (!sc.editQuestion(3)) systemExit("Unable to change to question 3");
@@ -174,15 +176,26 @@ public class QuizServerTestScript {
 	    if (!sc.removeQuestion(3)) systemExit("Returned false when removeing in bounds question (3)");
 	    if (sc.currentQuiz.getQuestionList().size() != 6)  systemExit("Size of questions incorrect after removal"
 	    								+ "\nExpected: 6" + "\nActual:  "+sc.currentQuiz.getQuestionList().size());
+	    
+
+		System.out.println("Quiz 7 edited in various ways. Do not use for further testing.");
+	    	    
+	    pc = new PlayerClient();
+	    pc.launch();
+	    
+	    //Login tests
+	    if (!pc.login(0, "QuizMaster 0")) systemExit("PC unable to login to QuizMaster 0");
+	    if (!pc.player.getName().equals("QuizMaster 0")) systemExit("PC not logged in after succesful login (QM0)");
+	    if (pc.login(1, "QuizMaster 0")) systemExit("PC login returns true with bad combination (id=1, QuizMaster 0");
+		if (pc.login(0, null)) systemExit("PC login returns true with bad combination (null name)");
+	    if (!pc.createPlayer("Player 5")) systemExit("PC unable to create new Player 5");
+	    if (pc.createPlayer(null)) systemExit("PC createPlayer returning true when passed null");
+	    
+	    
  
 
 		
-		System.out.println(sc.getPrettyQuizList());
-		System.out.println(sc.getPrettyQuestion());
-		
 
-		
-		
 	
 		System.out.println("Tests complete");	
 	}

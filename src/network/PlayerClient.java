@@ -27,11 +27,23 @@ public class PlayerClient {
 	}
 	
 	public static void main(String[] args){
-		
+		PlayerClient pc = new PlayerClient();
+		pc.launch();
 	}
 	
 	public void launch(){
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+		try {
+			String name = "QuizServer";
+			Registry registry = LocateRegistry.getRegistry(1099);
+			this.server = (PlayerInterface) registry.lookup(name);
 		
+		}catch (Exception e){
+			System.err.println("PlayerClient Exception");
+			e.printStackTrace();
+		}
 	}
 	
 	//Login methods
@@ -44,9 +56,12 @@ public class PlayerClient {
 	 * @param id player's ID
 	 * @param name name of the player
 	 * @return true if successfully logged in,false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean login(int id, String name){
-		return false;
+	public boolean login(int id, String name) throws RemoteException{
+		player = server.login(id, name);
+		if (this.player == null) return false;
+		else return true;
 	}
 	
 	/**Creates a new player on the server to be used. The player will be
@@ -54,9 +69,12 @@ public class PlayerClient {
 	 * 
 	 * @param name name of the player
 	 * @return true if successfully logged in,false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean createPlayer(String name){
-		return false;
+	public boolean createPlayer(String name) throws RemoteException{
+		player = server.createPlayer(name);
+		if (this.player == null) return false;
+		else return true;
 	}
 	
 	/**Assigns the list of all quizzes which are currently active and which the player

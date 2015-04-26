@@ -1,12 +1,9 @@
 package network;
 
-//TODO - THREAD SAFE - your lists may run into problems with concurrency - make your things synchronised
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 
 import components.*;
