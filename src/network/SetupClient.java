@@ -126,8 +126,15 @@ public class SetupClient {
 		if (result.length() > 0) result = result.substring(0, result.length()-1);
 		return result;
 	}
-	
+	/**Returns a list of all of the winners for a specific quiz. Returns null if 
+	 * the quiz is not owned by the logged in user.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws RemoteException
+	 */
 	public List<Player> getWinners(int id) throws RemoteException{
+		if (!server.getQuiz(id).getQuizMaster().equals(player)) return null;
 		return server.getWinners(id);
 	}
 	

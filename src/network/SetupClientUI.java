@@ -2,7 +2,10 @@ package network;
 
 import java.rmi.RemoteException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+
+import components.Player;
 
 public class SetupClientUI {
 	
@@ -158,13 +161,15 @@ public class SetupClientUI {
 	 * @throws RemoteException
 	 */
 	private void editQuiz() throws RemoteException{
+		//Will get a quiz assigned correctly if one hasn't already been assigned
+		//This is most circumstances, unless this has been launched from createQuiz()
 		while (client.currentQuiz == null){
 			System.out.println("Please enter quiz ID of an INACTIVE quiz to edit.");
 			System.out.println("Enter -1 to return to menu");
 			try{
 				int id = Integer.parseInt(sc.nextLine());
 				if (id == -1) break;
-				else if (client.editQuiz(id)) System.out.println("Now editing quiz"+client.currentQuiz.getQuizName());
+				else if (client.editQuiz(id)) System.out.println("Now editing quiz "+client.currentQuiz.getQuizName());
 				else askToViewQuizzes();
 					
 			}catch (NumberFormatException ex){
@@ -173,11 +178,55 @@ public class SetupClientUI {
 		}
 		
 		if (client.currentQuiz != null){
-			debug("Not yet implemented specific quiz edit");
+			System.out.println("What would you like to edit?");
+			
 		}
 
 		client.currentQuiz = null; //Should be a method
 	}
+	
+	private void editOptions() throws RemoteException{
+		boolean running = true;
+		while (running) {
+			System.out.println("\nPlease select an option from the list:");
+			System.out.println("		[1] - Add a Question");
+			System.out.println("		[2] - Edit a Question");
+			System.out.println("		[3] - Swap question order");
+			System.out.println("		[4] - Change quiz name");
+			System.out.println("		[5] - View all Questions");
+			System.out.println("		[6] - Help");
+			System.out.println("		[0] - Exit to Menu");
+			
+			try{
+				int option = Integer.parseInt(sc.nextLine());
+
+				switch  (option){
+					case 1: this.addQuestion();
+							break;
+					case 2: this.editQuestion();
+							break;
+					case 3: this.swapQuestion();
+							break;
+					case 4: this.changeQuizName();
+							break;
+					case 5: this.viewQuestions();
+							break;
+					case 6: this.editQuizHelp();
+							break;
+					case 7: this.getWinners();
+							break;
+					case 8: this.getHelp();
+							break;
+					case 0: running = false;
+							break;
+				}
+				
+			}catch (NumberFormatException ex){
+				System.out.println("Not a valid option");
+			}
+		}
+	}
+	
 		
 	/**
 	 * 
@@ -186,15 +235,16 @@ public class SetupClientUI {
 	private void activateQuiz() throws RemoteException{
 		boolean activated = false;
 		while (!activated){
-			System.out.println("\nPlease enter quiz ID of an INACTIVE quiz to edit.");
+			System.out.println("\nPlease enter quiz ID of an INACTIVE quiz to activate.");
 			System.out.println("Enter -1 to return to menu");
 			try{
 				int quizID = Integer.parseInt(sc.nextLine());
+				if (quizID < 0) break;
 				activated = client.activateQuiz(quizID);
 				if (!activated) {
 					System.out.println("Invalid entry. Must be an INACTIVE quiz you own");
-					askToViewQuizzes();//TODO - add success message
-				}
+					askToViewQuizzes();
+				}else System.out.println(client.server.getQuiz(quizID).getQuizName()+" activated");
 			}catch (NumberFormatException ex){
 				System.out.println("Invalid entry. Please enter an ID");
 			}
@@ -202,13 +252,33 @@ public class SetupClientUI {
 	}
 	
 	/**
+	 * @throws RemoteException 
 	 * 
 	 */
-	public void completeQuiz(){
-		System.out.println("Method Not Yet Implemented (completeQuiz)");
+	public void completeQuiz() throws RemoteException{
+		boolean completed = false;
+		while (!completed){
+			System.out.println("\nPlease enter quiz ID of an ACTIVE quiz to complete.");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int quizID = Integer.parseInt(sc.nextLine());
+				if (quizID < 0) break;
+				completed = client.completeQuiz(quizID);
+				if (!completed) {
+					System.out.println("Invalid entry. Must be an ACTIVE quiz you own");
+					askToViewQuizzes();
+				}else {
+					System.out.println(client.server.getQuiz(quizID).getQuizName()+" completed");
+					System.out.println(prettyWinnersList(quizID));
+				}
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+		}
 	}
 	
-	/**
+	/**Asks the player if they want to view all of their quizzes. If they 
+	 * enter y it will display it on screen. Anything else will do nothing.
 	 * 
 	 */
 	public void askToViewQuizzes() throws RemoteException{
@@ -228,12 +298,26 @@ public class SetupClientUI {
 	 */
 	public void viewGames(){
 		System.out.println("Method Not Yet Implemented (viewGames)");
+		//TODO - Implement
 	}
 	/**
+	 * @throws RemoteException 
 	 * 
 	 */
-	public void getWinners(){
-		System.out.println("Method Not Yet Implemented (getWinners");
+	public void getWinners() throws RemoteException{
+		String winners = null;
+		while (winners == null){
+			System.out.println("\nPlease enter quiz ID of a quiz you own");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int quizID = Integer.parseInt(sc.nextLine());
+				if (quizID < 0) break;
+				winners = prettyWinnersList(quizID);
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+			System.out.println(winners);
+		}
 	}
 	
 	/**
@@ -256,6 +340,25 @@ public class SetupClientUI {
 	 */
 	private void debug(String string){
 		System.out.println(string);
+	}
+	
+	/**Returns a readable representation of the winners list for 
+	 * a quiz, or a message if the quiz does not belong to the player
+	 * 
+	 * @param id
+	 * @return
+	 * @throws RemoteException
+	 */
+	private String prettyWinnersList(int id) throws RemoteException{
+		List<Player> winners = client.getWinners(id);
+		if (winners == null) return "ID does not match to your quiz";
+		String result = "\nQuiz:      "+client.server.getQuiz(id).getQuizName()
+					   +"\nTop Score: "+client.getHighScore(id)
+				       +"\nWinners:   "+winners.size()+"\n";
+		for (Player player : winners){
+			result += player.display()+"\n";
+		}
+		return result;
 	}
 }
 
