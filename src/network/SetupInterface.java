@@ -58,5 +58,15 @@ public interface SetupInterface extends Remote{
 	 */
 	public Player createPlayer(String name) throws RemoteException;
 	
+	/**Gets the list of winners for a specific quiz. It will return null if the player does
+	 * not own that quiz or it is not completed.
+	 * 
+	 * @return list of winners if the player owns a quiz, or null if it is unowned or not completed 
+	 */
+	public List<Player> getWinners(int id) throws RemoteException;
 	
+	/**Gets the high score of a specific quiz
+	 * 
+	 */
+	public int getHighScore(int id) throws RemoteException;
 }

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+import java.util.stream.Collectors;
+
 import components.*;
 
 public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
@@ -142,6 +145,19 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public Quiz getQuiz(int id) throws RemoteException {
 		return quizList.get(id);
+	}
+
+	@Override
+	public List<Player> getWinners(int id) throws RemoteException {
+		Quiz match = quizList.get(id);
+	
+		return null;								
+	}
+
+	@Override
+	public int getHighScore(int id) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

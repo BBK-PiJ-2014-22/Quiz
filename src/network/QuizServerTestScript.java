@@ -237,35 +237,92 @@ public class QuizServerTestScript {
 	    if (pc.currentGame.isCompleted()) systemExit("Game is completed early (3)");
 	    if (pc.currentGame.getScore() != 0) systemExit("Score showing before completion (3). Showing:"+pc.currentGame.getScore());
 
-	    playGame(pc, 3, Arrays.asList(0));
+	    pc.currentGame.answerQuestion(0);
 	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (3)");
 	    if (pc.currentGame.getScore() != 1) systemExit("Score wrong upon completion (3). Showing:"+pc.currentGame.getScore());
 
-	    playGame(pc, 4, Arrays.asList(4,3,2,1));
+	    playGame(pc, 4, Arrays.asList(3,2,1,0));
 	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (4)");
 	    if (pc.currentGame.getScore() != 0) systemExit("Score wrong upon completion (4). Showing:"+pc.currentGame.getScore());
 
+	    System.out.println("Player 5 completed 4 games");
 	    //Player 5's scores:
+	   
 	    //Game 2: 1
 	    //Game 3: 1
 	    //Game 4: 0
 	    //Game 6: 6
 	   
 	    pc.createPlayer("Player 6");
-	    playGame(pc, 2, Arrays.asList(0,0));
+	    playGame(pc, 2, Arrays.asList(1,1));
 	    playGame(pc, 3, Arrays.asList(0,1,2));
-	    playGame(pc, 4, Arrays.asList(4,3,2,4));
+	    playGame(pc, 4, Arrays.asList(3,2,1,0));
 	    playGame(pc, 6, Arrays.asList(0,0,0));
 	    
+	    System.out.println("Player 6 completed 3 games");
 	    //Player 6's scores:
 	    //Game 2: 1
 	    //Game 3: 3
-	    //Game 4: 1
-	    //gGame 6: incomplete
+	    //Game 4: 0
+	    //Game 6: incomplete
+	    
+	    pc.createPlayer("Player 7");
+	    playGame(pc, 2, Arrays.asList(0));
+	    playGame(pc, 3, Arrays.asList(0,1,1));
+	    playGame(pc, 4, Arrays.asList(4,3,2,1)); //Won't complete as 4 is not a valid answer
+	    playGame(pc, 6, Arrays.asList(0,1,2,0,0,0));
+	    
+	    System.out.println("Player 7 completed 2 games");
+	    //Player 7's scores
+	    //Game 2: incomplete
+	    //Game 3: 2
+	    //Game 4: incomplete
+	    //Game 6: 3
+	    
+	    //QuizMaster 0 logs in and competes the games
+	    sc.login(0,  "QuizMaster 0");
 
 	    
+	    //Tests quiz 2. Should have two winners, 5 and 6
+	    if (!sc.completeQuiz(2)) systemExit("Quiz 2 complete returned false");
+	    if (sc.getWinners(2).size() != 2) systemExit("Quiz 2 winners list wrong size. "
+	    										   + "\nExpected: 2\n Actual:"+sc.getWinners(2).size());
+	    if (!sc.getWinners(2).get(0).getName().equals("Player 5") &&
+	        !sc.getWinners(2).get(0).getName().equals("Player 6")) 
+	    	systemExit("Winners list for Quiz 2 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+	    if (!sc.getWinners(2).get(1).getName().equals("Player 5") &&
+		    !sc.getWinners(2).get(1).getName().equals("Player 6")) 
+		    	systemExit("Winners list for quiz 2 wrong. 1st element"+sc.getWinners(2).get(1).getName());
+		
+	    //Tests quiz 3. Should have one winner, player 6
+	    if (!sc.completeQuiz(3)) systemExit("Quiz 3 complete returned false");
+	    if (sc.getWinners(3).size() != 1) systemExit("Quiz 3 winners list wrong size. "
+	    										   + "\nExpected: 1\n Actual:"+sc.getWinners(3).size());
+	    if (!sc.getWinners(3).get(0).getName().equals("Player 6"))
+	    	systemExit("Winners list for Quiz 3 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+
+	    //Tests quiz 4. Should have 2 winners (5 and 6). Crucial that 7 is not included (0 score but incomplete)
+	    if (!sc.completeQuiz(4)) systemExit("Quiz 4 complete returned false");
+	    if (sc.getWinners(4).size() != 2) systemExit("Quiz 4 winners list wrong size. "
+	    											+ "\nExpected: 2\n Actual:"+sc.getWinners(4).size());
+	    if (!sc.getWinners(2).get(0).getName().equals("Player 5") &&
+	        !sc.getWinners(2).get(0).getName().equals("Player 6")) 
+	    		systemExit("Winners list for Quiz 2 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+	    if (!sc.getWinners(2).get(1).getName().equals("Player 5") &&
+	    	!sc.getWinners(2).get(1).getName().equals("Player 6")) 
+	    		systemExit("Winners list for quiz 2 wrong. 1st element"+sc.getWinners(2).get(1).getName());
 	    
- 
+	    //Test quiz 6. Should have 1 winner (5)
+	    if (!sc.completeQuiz(6)) systemExit("Quiz 6 complete returned false");
+	    if (sc.getWinners(6).size() != 1) systemExit("Quiz 6 winners list wrong size. "
+	    											+ "\nExpected: 2\n Actual:"+sc.getWinners(6).size());
+	    if (!sc.getWinners(3).get(0).getName().equals("Player 5"))
+	    	systemExit("Winners list for Quiz 6 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+	    
+	    //Tests for quiz 1 with no players. Should be an empty winners list.
+	    sc.activateQuiz(1);
+	    sc.completeQuiz(1);
+	    if (sc.getWinners(1).size() != 0) systemExit("Quiz 0 winners list populated:"+sc.getWinners(1));
 
 		
 
