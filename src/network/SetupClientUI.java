@@ -130,23 +130,59 @@ public class SetupClientUI {
 		}
 	}
 	
+	
+	/**Handles the UI for a user to create a new quiz. They will be able to edit the quiz afterwards.
+	 * 
+	 * @throws RemoteException
+	 */
 	private void createQuiz() throws RemoteException{
 		System.out.println("Please enter a name for your quiz");
 		int result = client.createQuiz(sc.nextLine());
 		System.out.println("Your quiz has been created and assigned the ID:"+result);
 		System.out.println("Please use this to access the quiz in future");
-		System.out.println("Would you like to edit this quiz? ");
+		System.out.println("\nWould you like to edit this quiz? ");
 		System.out.println("Y for yes, any other key to go back to the options menu)");
 		
 		String proceed = sc.nextLine().toLowerCase();
-		if (proceed.equals("y")) editQuiz();
+		if (proceed.equals("y")){
+			client.editQuiz(result);
+			editQuiz();
+		}
 		debug(proceed);
 	}
 	
-	private void editQuiz(){
-		System.out.println("Method Not Yet Implemented (editQuiz)");
+	/**User Interface for editing a quiz. First a quiz must be loaded into the client's
+	 * currentQuiz. Once in place (or if already in place through another method) the
+	 * quizMaster will be able to edit that quiz.
+	 * 
+	 * @throws RemoteException
+	 */
+	private void editQuiz() throws RemoteException{
+		while (client.currentQuiz == null){
+			System.out.println("Please enter quiz ID of an INACTIVE quiz to edit.");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int id = Integer.parseInt(sc.nextLine());
+				if (id == -1) break;
+				else if (client.editQuiz(id)) System.out.println("Now editing quiz"+client.currentQuiz.getQuizName());
+				else {
+					System.out.println("Invalid entry. No active quiz with that ID belongs to you.");
+					System.out.println("Press y to view all of your quizzes");
+					if (sc.nextLine().toLowerCase().equals("y")) viewQuizzes();
+				}
+					
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+		}
+		
+		if (client.currentQuiz != null){
+			debug("Not yet implemented specific quiz edit");
+		}
+
+		client.currentQuiz = null; //Should be a method
 	}
-	
+		
 	private void activateQuiz(){
 		System.out.println("Method Not Yet Implemented (activateQuiz)");
 	}
@@ -155,8 +191,9 @@ public class SetupClientUI {
 		System.out.println("Method Not Yet Implemented (completeQuiz)");
 	}
 	
-	public void viewQuizzes(){
-		System.out.println("Method Not Yet Implemented (viewQuizzes)");
+	public void viewQuizzes() throws RemoteException{
+		System.out.println("All quizzes:");
+		System.out.println(client.getPrettyQuizList());
 	}
 	
 	public void viewGames(){
