@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import components.Game;
 import components.Player;
 import components.Quiz;
 
@@ -69,4 +70,13 @@ public interface SetupInterface extends Remote{
 	 * 
 	 */
 	public int getHighScore(int id) throws RemoteException;
+	
+	/**Gets a list of games for the specific quiz with ID. If the ID is not owned by the player,
+	 * it will return an empty list.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws RemoteException
+	 */
+	public List<Game> getGamesList(int id, Player player) throws RemoteException;
 }

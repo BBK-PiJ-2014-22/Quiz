@@ -89,20 +89,30 @@ public class PlayerClient {
 	/**Interface for playing a game. Will run until completion or paused
 	 * 
 	 */
-	public void playGame(){
+	
+	public void loginUI(){
 		
+	}
+	
+	public void mainUI(){
+		
+	}
+	
+	public void playGame(){
+		//TODO - implement
 	}
 	
 	/**Pauses the current game. Removes the current active game.
 	 * 
 	 */
 	public void pauseGame(){
-		
+		//TODO - implement
 	}
 	
 	/**Continues a paused game. Returns true if the game is an active game, 
 	 * Returns false otherwise.*/
 	public boolean continueGame(int id){
+		//TODO - implement
 		return false;
 	}
 	
@@ -111,6 +121,7 @@ public class PlayerClient {
 	 * @return pretty representation of games
 	 */
 	public String getPrettyGameList(){
+		//TODO - implement
 		return null;
 	}
 	
@@ -118,6 +129,7 @@ public class PlayerClient {
 	 * see
 	 */
 	public String getPrettyQuizList(){
+		//TODO - implement
 		return null;
 	}
 }

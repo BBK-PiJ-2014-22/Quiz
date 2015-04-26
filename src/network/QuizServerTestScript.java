@@ -331,6 +331,10 @@ public class QuizServerTestScript {
 	    sc.completeQuiz(1);
 	    if (sc.getWinners(1).size() != 0) systemExit("Quiz 0 winners list populated:"+sc.getWinners(1));
 
+	    System.out.println("Games list for Quiz 7:"+sc.getPrettyGamesList(7));
+	    System.out.println("Games list for Quiz 6:"+sc.getPrettyGamesList(6));
+	    System.out.println("Games list for Quiz 4:"+sc.getPrettyGamesList(4));
+
 		
 
 	

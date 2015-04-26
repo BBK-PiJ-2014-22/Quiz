@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import components.Game;
 import components.Player;
 import components.Question;
 import components.Quiz;
@@ -105,15 +106,26 @@ public class SetupClient {
 	 * chosen ID has had played or that are currently in progress. e.g.
 	 * 
 	 * Quiz: Quiz0
-	 * [Player = Player1, Status = Active , Score = 0]
-	 * [Player = Player2, Status = Completed, Score = 23]
+	 * [Player=1:Player1, Status=Active , Score=0]
+	 * [Player=2:Player2, Status=Completed, Score=23]
 	 * 
 	 * @param quiz
 	 * @return
+	 * @throws RemoteException 
 	 */
-	public String getPrettyGamesList(int id){
-		//TODO - Implement
-		return null;
+	public String getPrettyGamesList(int id) throws RemoteException{
+		List<Game> games = server.getGamesList(id, player);
+		String result = "";
+		for (Game game: games){
+			String status;
+			if (game.isCompleted()) status = "Completed";
+			else status = "Active";
+			
+			result += "[Player="+game.getPlayer().getId()+":"+game.getPlayer().getName()
+					+ ", Status="+status+", Score="+game.getScore()+"]\n";
+		}
+		if (result.length() > 0) result = result.substring(0, result.length()-1);
+		return result;
 	}
 	
 	public List<Player> getWinners(int id) throws RemoteException{
@@ -301,4 +313,8 @@ public class SetupClient {
 		if (!targetQuiz.getQuizMaster().equals(player)) return null;
 		else return targetQuiz;
 	}
+	
+	//User Interface
+	
+	
 }
