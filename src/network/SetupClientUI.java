@@ -19,6 +19,7 @@ public class SetupClientUI {
 		try {
 			welcome();
 			login();
+			options();
 		} catch (RemoteException e) {
 			System.err.println("Remote Connection Error in Setup Client");
 			e.printStackTrace();
@@ -87,7 +88,7 @@ public class SetupClientUI {
 		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		while (running) {
-			System.out.println("Please select an option from the list:");
+			System.out.println("\nPlease select an option from the list:");
 			System.out.println("		[1] - Create new Quiz");
 			System.out.println("		[2] - Edit Quiz");
 			System.out.println("		[3] - Activate a Quiz");
