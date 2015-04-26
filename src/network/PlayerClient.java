@@ -86,9 +86,34 @@ public class PlayerClient {
 		return  this.currentGame != null;
 	}
 	
-	/**Interface for playing a game. Will run until completion or paused
-	 * 
+	
+	/**Returns a pretty, readable version of the quiz list for the player to
+	 * see
+	 * @throws RemoteException 
 	 */
-
-
+	public String getPrettyQuizList() throws RemoteException{
+		String result = "";
+		List<Quiz> quizzes = server.getActiveQuizList(player);
+		for (Quiz quiz : quizzes){
+			result += "["+quiz.getQuizID()+"] "+quiz.getQuizName() + " by "+quiz.getQuizMaster().display()+"\n";
+		}
+		return result;
+	}
+	
+	/**Returns a pretty, readable version of the game list for the player to
+	 * see.
+	 * @return pretty representation of games
+	 * @throws RemoteException 
+	 */
+	public String getPrettyGameList() throws RemoteException{
+		String result = "Games:\n";
+		List<Game> games = server.getGameList(player);
+		for (int i = 0 ; i < games.size() ; i++){
+			Game game = games.get(i);
+			result += "["+i+"] Quiz:"+game.getQuiz().getQuizName()+"Answers:"+game.getAnswers().size()+" Status:";
+			if (game.isCompleted()) result += "Completed\n";
+			else result += "Active\n";
+		}
+		return result;
+	}
 }

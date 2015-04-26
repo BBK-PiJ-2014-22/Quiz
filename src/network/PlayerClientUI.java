@@ -1,7 +1,10 @@
 package network;
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Scanner;
+
+import components.Game;
 
 public class PlayerClientUI {
 
@@ -86,7 +89,11 @@ public class PlayerClientUI {
 		}
 	}
 	
-	private void options() {
+	/**Displays the main menu for the PlayerClient and handles option selection
+	 * 
+	 * @throws RemoteException
+	 */
+	private void options() throws RemoteException {
 		boolean running = true;
 		while (running) {
 			System.out.println("\nPlease select an option from the list:");
@@ -119,67 +126,129 @@ public class PlayerClientUI {
 		}
 	}
 	
-	private void startGame() {
-		System.out.println("Game started (Not implemented)");
-		// TODO Auto-generated method stub
-		
+	/**Starts a new game for the player, if they give a valid ID
+	 * 
+	 * @throws RemoteException
+	 */
+	private void startGame() throws RemoteException {
+		System.out.println("Select active quiz:");
+		viewQuizList();
+		while (client.currentGame == null){
+			System.out.println("Please enter quiz ID of an ACTIVE quiz to play.");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int id = Integer.parseInt(sc.nextLine());
+				if (id == -1) break;
+				else if (client.startNewGame(id)) System.out.println("Starting game");
+				else {
+					System.out.println("Not a valid ID for an active quiz you haven't already started");
+				}			
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+		}
+		if (client.currentGame != null)	playGame();	
 	}
 
-	private void continueGame() {
-		System.out.println("Game contined (Not implemented)");
-		// TODO Auto-generated method stub
-		
+	/**Allows the user to continue a game which is in progress, either due to intentionally pausing
+	 * or a connection error
+	 * 
+	 * @throws RemoteException
+	 */
+	private void continueGame() throws RemoteException {
+		System.out.println("Select in progress game:");
+		viewGameList();
+		List<Game> gamelist = client.server.getGameList(client.player);
+		while (client.currentGame == null){
+			System.out.println("Please enter ID game to continue");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int id = Integer.parseInt(sc.nextLine());
+				if (id == -1) break;
+				else if (id >= 0 && id < gamelist.size()){
+					client.currentGame = gamelist.get(id);
+					System.out.println("Starting game");
+				}else System.out.println("Not a valid ID for an active quiz you haven't already started");			
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+		}
+		if (client.currentGame != null)	playGame();	
 	}
 
-	private void viewGameList() {
-		System.out.println("Game list iviewd (Not implemented)");
-		// TODO Auto-generated method stub
-		
+	/**Displays all of the users games, regardless of status, and score if applicable
+	 * 
+	 * @throws RemoteException
+	 */
+	private void viewGameList() throws RemoteException {
+		System.out.println(client.getPrettyGameList());
 	}
 
-	private void viewQuizList() {
-		System.out.println("quiz list view (Not implemented)");
-		// TODO Auto-generated method stub
-		
+	/**Displays the list of active quizzes which the player does not already have a game for
+	 * 
+	 * @throws RemoteException
+	 */
+	private void viewQuizList() throws RemoteException{
+		System.out.println("\n"+client.getPrettyQuizList());
 	}
 
+	/**Displays the error message
+	 * 
+	 */
 	private void exit() {
-		System.out.println("Game exit (Not implemented)");
-		// TODO Auto-generated method stub
-		
+		System.out.println("Goodbye. Thanks for playing.)");		
 	}
 	
-	public void playGame(){
-		System.out.println("Game played (Not implemented)");
-		//TODO - implement
+	/**Runs the current game until either the player pauses or he completes the game
+	 * 
+	 * @throws RemoteException
+	 */
+	public void playGame() throws RemoteException{
+		System.out.println("Starting Quiz :"+client.currentGame.getQuiz().getQuizName());
+		boolean completed = false;
+		while (!completed){
+			System.out.println("Answer so far: "+client.currentGame.getAnswers().size() +"//"+client.currentGame.getQuiz().getQuestionList().size()+"\n");
+			String question = client.currentGame.getNextQuestion();
+			if (question == "none"){
+				System.out.println("Quiz terminated or poorly setup");
+				break;
+			}
+			System.out.println("Please select answer ID to answer a question.");
+			System.out.println("Enter -1 to return to menu\n");
+			System.out.println(question);
+			
+			boolean answered = false;
+			while(!answered){
+				try{				
+					int id = Integer.parseInt(sc.nextLine());
+					if (id == -1){
+						completed = true;
+						answered = true;
+						client.currentGame = null;			
+					}else{
+						answered = client.currentGame.answerQuestion(id);
+						if (!answered) System.out.println("Not a valid answer");
+						completed = client.currentGame.isCompleted();
+					}
+				}catch (NumberFormatException ex){
+					System.out.println("Invalid entry. Please enter an ID");
+				}
+			}
+		}
+		if (client.currentGame != null){
+			System.out.println("Game Completed!");
+			System.out.println("Your score was:"+client.currentGame.getScore());
+		}
+		client.currentGame = null;
 	}
 	
 	/**Pauses the current game. Removes the current active game.
 	 * 
 	 */
 	public void pauseGame(){
-		System.out.println("Game paused (Not implemented)");
-		//TODO - implement
+		client.currentGame = null;
 	}
 	
-	
-	/**Returns a pretty, readable version of the game list for the player to
-	 * see.
-	 * @return pretty representation of games
-	 */
-	public String getPrettyGameList(){
-		//TODO - implement
-		System.out.println("Pretty game list pased (Not implemented)");
-		return null;
-	}
-	
-	/**Returns a pretty, readable version of the quiz list for the player to
-	 * see
-	 */
-	public String getPrettyQuizList(){
-		//TODO - implement
-		System.out.println("Pretty quiz list pased (Not implemented)");
-		
-		return null;
-	}
+
+
 }

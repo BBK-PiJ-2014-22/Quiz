@@ -5,10 +5,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-import java.util.stream.Collectors;
-
 import components.*;
 
 public class QuizServer extends UnicastRemoteObject implements SetupInterface, PlayerInterface {
@@ -107,7 +103,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	public List<Game> getGameList(Player player) throws RemoteException {
 		List<Game> result = new ArrayList<Game>();
 		for (Game game : gameList){
-			if (game.getPlayer() == player){
+			if (game.getPlayer().equals(player)){
 				result.add(game);
 			}
 		}
@@ -121,6 +117,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 			if (quiz.getStatus() == QuizStatus.ACTIVE && !gameKnown(quiz, player))
 				result.add(quiz);
 		}
+		System.out.println(result);
 		return result;
 	}
 	

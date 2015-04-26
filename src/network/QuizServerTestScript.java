@@ -324,6 +324,7 @@ public class QuizServerTestScript {
 
 	    
 	    //Tests for quiz 1 with no players. Should be an empty winners list.
+	    sc.login(0, "QuizMaster 0");
 	    sc.activateQuiz(1);
 	    sc.completeQuiz(1);
 	    if (sc.getWinners(1).size() != 0) systemExit("Quiz 0 winners list populated:"+sc.getWinners(1));
@@ -332,8 +333,9 @@ public class QuizServerTestScript {
 	    System.out.println("Games list for Quiz 6:"+sc.getPrettyGamesList(6));
 	    System.out.println("Games list for Quiz 4:"+sc.getPrettyGamesList(4));
 	    
-	    
-	    		
+	    sc.createQuiz("Quiz 8");
+	    buildQuiz(sc, 8);
+	    sc.activateQuiz(8);
 
 	
 		System.out.println("Tests complete");	
