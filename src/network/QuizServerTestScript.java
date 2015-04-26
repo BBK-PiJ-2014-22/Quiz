@@ -4,9 +4,6 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
-import components.PlayerImpl;
-import components.Question;
-import components.Quiz;
 import components.QuizStatus;
 
 /**This is a script that mocks up a session as if it was run and tests at each stage that the situation in the 
@@ -334,8 +331,9 @@ public class QuizServerTestScript {
 	    System.out.println("Games list for Quiz 7:"+sc.getPrettyGamesList(7));
 	    System.out.println("Games list for Quiz 6:"+sc.getPrettyGamesList(6));
 	    System.out.println("Games list for Quiz 4:"+sc.getPrettyGamesList(4));
-
-		
+	    
+	    
+	    		
 
 	
 		System.out.println("Tests complete");	
@@ -370,6 +368,7 @@ public class QuizServerTestScript {
 						  +"\nAcutal:" +sc.currentQuiz.getQuestion(i).getCorrectAnswer());
 		}
 	}
+	
 	
 	
 	public void systemExit(String message){

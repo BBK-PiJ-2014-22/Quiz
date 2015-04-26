@@ -3,7 +3,6 @@ package network;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,11 +33,11 @@ public class SetupClient {
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException {
 		SetupClient client = new SetupClient();
 		client.launch();
 	}
-	
+
 	public void launch(){
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new SecurityManager());
@@ -313,8 +312,5 @@ public class SetupClient {
 		if (!targetQuiz.getQuizMaster().equals(player)) return null;
 		else return targetQuiz;
 	}
-	
-	//User Interface
-	
 	
 }
