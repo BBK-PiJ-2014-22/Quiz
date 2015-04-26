@@ -90,16 +90,13 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	}
 
 	@Override
-	public synchronized Game startNewGame(Player player, Quiz quiz) throws RemoteException {
-		if (!playerKnown(player) || !quizKnown(quiz))
-			throw new IllegalArgumentException();
-		for (Game game: this.getGameList(player)){
-			if (game.getQuiz() == quiz){
-				throw new IllegalArgumentException();
-			}
+	public synchronized Game startNewGame(Player player, int id) throws RemoteException {
+		if (!playerKnown(player)) throw new IllegalArgumentException();
+		if (gameKnown(quizList.get(id), player)) return null;
+		else{
+			gameList.add(new GameImpl(player, quizList.get(id)));
+			return gameList.get(gameList.size()-1);
 		}
-		gameList.add(new GameImpl(player, quiz));
-		return gameList.get(gameList.size()-1);
 	}
 
 	@Override
@@ -134,10 +131,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return false;
 	}
 	
-	private boolean gameKnown(Game game) throws RemoteException{
+	private boolean gameKnown(Quiz quiz, Player player) throws RemoteException{
 		for (Game i : gameList){
-			if (game == i)  //Note this is intentionally identity
-				return true;
+			if (i.getQuiz().equals(quiz) && i.getPlayer().equals(player)) return true;
 		}
 		return false;	
 	}

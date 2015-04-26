@@ -40,7 +40,7 @@ public interface PlayerInterface extends Remote{
 	 * @throws IllegalStateException if the quiz is inactive
 	 * @throws IllegalArgumentException if the quiz or player is not in the system or is null
 	 */
-	public Game startNewGame(Player player, Quiz quiz) throws RemoteException;
+	public Game startNewGame(Player player, int id) throws RemoteException;
 
 	/**Returns the full list of games which the player has (both active and inactive)
 	 * 

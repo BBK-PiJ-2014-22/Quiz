@@ -3,6 +3,7 @@ package network;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,8 +81,9 @@ public class PlayerClient {
 	 * 
 	 * @param id The quiz which the Game will draw questions from
 	 */
-	public boolean startNewGame(int id){
-		return false;
+	public boolean startNewGame(int id) throws RemoteException{
+		currentGame = server.startNewGame(player, id);
+		return  this.currentGame != null;
 	}
 	
 	/**Interface for playing a game. Will run until completion or paused
