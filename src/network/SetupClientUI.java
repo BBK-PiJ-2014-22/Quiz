@@ -1,6 +1,7 @@
 package network;
 
 import java.rmi.RemoteException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SetupClientUI {
@@ -33,6 +34,11 @@ public class SetupClientUI {
 		System.out.println("Before you begin, please login or create a new player ID.");
 	}
 	
+	/**Manages this login process for the SetupClient. Once completed, the SetupClient will have a
+	 * player assigned to it and be able to proceed. 
+	 * 
+	 * @throws RemoteException
+	 */
 	private void login() throws RemoteException{
 		Scanner sc = new Scanner(System.in);
 		Boolean result = false;
@@ -72,5 +78,79 @@ public class SetupClientUI {
 			}else System.out.println("Not a valid option.");
 		}
 	}
+	
+	/**Manages options selection and will run appropriate 
+	 * 
+	 * @throws RemoteException
+	 */
+	private void options() throws RemoteException{
+		Scanner sc = new Scanner(System.in);
+		boolean running = true;
+		while (running) {
+			System.out.println("Please select an option from the list:");
+			System.out.println("		[1] - Create new Quiz");
+			System.out.println("		[2] - Edit Quiz");
+			System.out.println("		[3] - Activate a Quiz");
+			System.out.println("		[4] - Complete a Quiz");
+			System.out.println("		[5] - View all your quizzes");
+			System.out.println("		[6] - View all games for one of your quizzes");
+			System.out.println("		[7] - Get the winners for a quiz");
+			System.out.println("		[0] - Exit the game");
+			
+			try{
+				int option = sc.nextInt();
+				switch  (option){
+					case 1: this.createQuiz();
+							break;
+					case 2: this.editQuiz();
+							break;
+					case 3: this.activateQuiz();
+							break;
+					case 4: this.completeQuiz();
+							break;
+					case 5: this.viewQuizzes();
+							break;
+					case 6: this.viewGames();
+							break;
+					case 7: this.getWinners();
+							break;
+					case 0: running = false;
+							break;
+				}
+				
+			}catch (InputMismatchException ex){
+				System.out.println("Not a valid option");
+			}
+		}
+	}
+	
+	private void createQuiz(){
+		System.out.println("Method Not Yet Implemented (createQuiz)");
+	}
+	
+	private void editQuiz(){
+		System.out.println("Method Not Yet Implemented (editQuiz)");
+	}
+	
+	private void activateQuiz(){
+		System.out.println("Method Not Yet Implemented (activateQuiz)");
+	}
+	
+	public void completeQuiz(){
+		System.out.println("Method Not Yet Implemented (completeQuiz)");
+	}
+	
+	public void viewQuizzes(){
+		System.out.println("Method Not Yet Implemented (viewQuizzes)");
+	}
+	
+	public void viewGames(){
+		System.out.println("Method Not Yet Implemented (viewGames)");
+	}
+	
+	public void getWinners(){
+		System.out.println("Method Not Yet Implemented (getWinners");
+	}
+	
 }
 
