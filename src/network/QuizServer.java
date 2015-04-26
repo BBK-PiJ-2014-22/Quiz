@@ -91,10 +91,11 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public synchronized Game startNewGame(Player player, int id) throws RemoteException {
-		if (!playerKnown(player)) throw new IllegalArgumentException();
-		if (gameKnown(quizList.get(id), player)) return null;
+		Quiz quiz = quizList.get(id);
+		if (quiz.getStatus() != QuizStatus.ACTIVE) return null;
+		if (gameKnown(quiz, player)) return null;
 		else{
-			gameList.add(new GameImpl(player, quizList.get(id)));
+			gameList.add(new GameImpl(player, quiz));
 			return gameList.get(gameList.size()-1);
 		}
 	}
