@@ -93,9 +93,9 @@ public class GameImpl extends UnicastRemoteObject implements Game{
 	public String getNextQuestion() throws RemoteException{
 		String result;
 		if (this.quiz.getStatus() != QuizStatus.ACTIVE || this.completed)
-			result = "none";
+			result = null;
 		else
-			result = this.quiz.getQuestion(answers.size()).toString();
+			result = this.quiz.getQuestion(answers.size()).display();
 		return result;
 	}
 	
