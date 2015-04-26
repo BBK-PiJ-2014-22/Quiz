@@ -150,14 +150,27 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 	@Override
 	public List<Player> getWinners(int id) throws RemoteException {
 		Quiz match = quizList.get(id);
-	
-		return null;								
+		int highScore = getHighScore(id);
+		List<Player> result = new ArrayList<Player>();
+		for (Game game : gameList){
+			if (game.getScore() == highScore && 
+				game.getQuiz().equals(match) &&
+				game.isCompleted())
+				result.add(game.getPlayer());
+		}
+		return result;								
 	}
 
 	@Override
 	public int getHighScore(int id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		int highScore = 0;
+		Quiz match = quizList.get(id);
+		for (Game game : gameList)
+			if (game.getScore() > highScore && 
+				game.getQuiz().equals(match) &&
+				game.isCompleted()) 
+				highScore = game.getScore();
+		return highScore;
 	}
 
 }

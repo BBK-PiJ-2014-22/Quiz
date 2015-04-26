@@ -116,9 +116,12 @@ public class SetupClient {
 		return null;
 	}
 	
-	public List<Player> getWinners(int id){
-		//TODO - Implement
-		return null;
+	public List<Player> getWinners(int id) throws RemoteException{
+		return server.getWinners(id);
+	}
+	
+	public int getHighScore(int id) throws RemoteException{
+		return server.getHighScore(id);
 	}
 	
 	//Edit/Create quiz
