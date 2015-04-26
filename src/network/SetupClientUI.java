@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class SetupClientUI {
 	
 	SetupClient client;
+	Scanner sc;
 
 	public static void main(String[] args){
 		SetupClientUI scui = new SetupClientUI();
@@ -17,9 +18,11 @@ public class SetupClientUI {
 		this.client = new SetupClient();
 		client.launch();
 		try {
+			sc = new Scanner(System.in);
 			welcome();
 			login();
 			options();
+			exit();
 		} catch (RemoteException e) {
 			System.err.println("Remote Connection Error in Setup Client");
 			e.printStackTrace();
@@ -41,7 +44,6 @@ public class SetupClientUI {
 	 * @throws RemoteException
 	 */
 	private void login() throws RemoteException{
-		Scanner sc = new Scanner(System.in);
 		Boolean result = false;
 		while (!result){
 			System.out.println("Select option:");
@@ -60,7 +62,7 @@ public class SetupClientUI {
 						result = client.login(id, line.substring(firstSpace+1, line.length()));
 						if (!result) System.out.println("Invalid login details");
 						else System.out.println("Login succesful. Welcome back "+client.player.getName());
-					}catch (ClassCastException ex){
+					}catch (NumberFormatException ex){
 						System.out.println("Please put ID first\n");
 					}
 				}else{
@@ -85,7 +87,6 @@ public class SetupClientUI {
 	 * @throws RemoteException
 	 */
 	private void options() throws RemoteException{
-		Scanner sc = new Scanner(System.in);
 		boolean running = true;
 		while (running) {
 			System.out.println("\nPlease select an option from the list:");
@@ -96,10 +97,12 @@ public class SetupClientUI {
 			System.out.println("		[5] - View all your quizzes");
 			System.out.println("		[6] - View all games for one of your quizzes");
 			System.out.println("		[7] - Get the winners for a quiz");
+			System.out.println("		[8] - Help");
 			System.out.println("		[0] - Exit the game");
 			
 			try{
-				int option = sc.nextInt();
+				int option = Integer.parseInt(sc.nextLine());
+
 				switch  (option){
 					case 1: this.createQuiz();
 							break;
@@ -115,18 +118,29 @@ public class SetupClientUI {
 							break;
 					case 7: this.getWinners();
 							break;
+					case 8: this.getHelp();
+							break;
 					case 0: running = false;
 							break;
 				}
 				
-			}catch (InputMismatchException ex){
+			}catch (NumberFormatException ex){
 				System.out.println("Not a valid option");
 			}
 		}
 	}
 	
-	private void createQuiz(){
-		System.out.println("Method Not Yet Implemented (createQuiz)");
+	private void createQuiz() throws RemoteException{
+		System.out.println("Please enter a name for your quiz");
+		int result = client.createQuiz(sc.nextLine());
+		System.out.println("Your quiz has been created and assigned the ID:"+result);
+		System.out.println("Please use this to access the quiz in future");
+		System.out.println("Would you like to edit this quiz? ");
+		System.out.println("Y for yes, any other key to go back to the options menu)");
+		
+		String proceed = sc.nextLine().toLowerCase();
+		if (proceed.equals("y")) editQuiz();
+		debug(proceed);
 	}
 	
 	private void editQuiz(){
@@ -153,5 +167,19 @@ public class SetupClientUI {
 		System.out.println("Method Not Yet Implemented (getWinners");
 	}
 	
+	public void getHelp(){
+		System.out.println("Method Not Yet Implemented (getHelp");
+	}
+	
+	public void exit(){
+		sc.close();
+		System.out.println("Thank you for using SetupClient.");
+	}
+	
+	private void debug(String string){
+		System.out.println(string);
+	}
 }
+
+
 
