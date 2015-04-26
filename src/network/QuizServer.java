@@ -65,14 +65,17 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		}else{
 			System.out.println("Login failed with "+id+" and "+name);
 		}
-		
 		return result;
 	}
 
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
+		if (name == null){
+			Log.log("Login failed when passed null");
+			return null;
+		}
 		this.playerList.add(new PlayerImpl(this.playerList.size(), name));
-		System.out.println((playerList.get(playerList.size()-1).display() +" created"));
+		Log.log((playerList.get(playerList.size()-1).display() +" created"));
 		return playerList.get(playerList.size()-1);
 	}
 	

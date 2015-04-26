@@ -188,8 +188,11 @@ public class QuizServerTestScript {
 	    if (!pc.player.getName().equals("QuizMaster 0")) systemExit("PC not logged in after succesful login (QM0)");
 	    if (pc.login(1, "QuizMaster 0")) systemExit("PC login returns true with bad combination (id=1, QuizMaster 0");
 		if (pc.login(0, null)) systemExit("PC login returns true with bad combination (null name)");
-	    if (!pc.createPlayer("Player 5")) systemExit("PC unable to create new Player 5");
 	    if (pc.createPlayer(null)) systemExit("PC createPlayer returning true when passed null");
+	    if (!pc.createPlayer("Player 5")) systemExit("PC unable to create new Player 5");
+	    if (!pc.player.getName().equals("Player 5")) systemExit("PC not logged in after succesful create (Player 5)");
+
+
 	    
 	    
  
