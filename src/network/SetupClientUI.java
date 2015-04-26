@@ -170,6 +170,8 @@ public class SetupClientUI {
 		if (proceed.equals("y")){
 			client.editQuiz(result);
 			editQuiz();
+		}else{
+			client.currentQuiz = null;
 		}
 	}
 	
@@ -189,7 +191,10 @@ public class SetupClientUI {
 				int id = Integer.parseInt(sc.nextLine());
 				if (id == -1) break;
 				else if (client.editQuiz(id)) System.out.println("Now editing quiz "+client.currentQuiz.getQuizName());
-				else askToViewQuizzes();
+				else {
+					System.out.println("Not a valid ID for one of your INACTIVE quizzes");
+					askToViewQuizzes();
+				}
 					
 			}catch (NumberFormatException ex){
 				System.out.println("Invalid entry. Please enter an ID");
@@ -251,6 +256,7 @@ public class SetupClientUI {
 		client.addQuestion(sc.nextLine());
 		System.out.println("Would you like to edit this question? (y to edit)");
 		if (sc.nextLine().toLowerCase().equals("y")) editQuestion();
+		else client.currentQuestion = null;
 	}
 	
 	/**Loads a question to the client.currentQuestion to allow editing.
@@ -258,7 +264,6 @@ public class SetupClientUI {
 	 * @throws RemoteException
 	 */
 	private void editQuestion() throws RemoteException {
-		System.out.println(client.currentQuestion.display());
 		//Will run if current question is null
 		//If this has been loaded from addQuestion the question will already be assigned
 		while (client.currentQuestion == null){
@@ -297,7 +302,7 @@ public class SetupClientUI {
 			System.out.println("		[1] - Add an answer");
 			System.out.println("		[2] - Swap two answers");
 			System.out.println("		[3] - Set correct answer");
-			System.out.println("	    [4] - Change an answer");
+			System.out.println("		[4] - Change an answer");
 			System.out.println("		[0] - Exit to Menu");
 			
 			try{
@@ -339,7 +344,7 @@ public class SetupClientUI {
 			int id;
 			try{
 				id = Integer.parseInt(line.substring(0, firstSpace));
-				String answer = line.substring(firstSpace,line.length());
+				String answer = line.substring(firstSpace+1,line.length());
 				changed = client.changeAnswer(id, answer);
 				if (changed) System.out.println("Answer changed\n");
 				else System.out.println("Unable to change answer. Check entry\n");				
@@ -375,15 +380,8 @@ public class SetupClientUI {
 	 * @throws RemoteException
 	 */
 	private void addAnswer() throws RemoteException {
-		boolean added = false;
-		while (!added){
-			System.out.println("\nEnter new answer");
-			String answer = sc.nextLine();
-			if (answer != null) System.out.println("Answer must not be blank");
-			else client.addAnswer(answer);
-		}
-
-		
+		System.out.println("\nEnter answer");
+		client.addAnswer(sc.nextLine());
 	}
 
 	/**Allows the user to swap two answers in order
@@ -397,16 +395,16 @@ public class SetupClientUI {
 			String entry = sc.nextLine();
 			int firstSpace = entry.indexOf(' ');
 			if (entry.equals("-1")) break;
-			else if (firstSpace < 0) System.out.println("Enter two IDs separated by a space");
+			else if (firstSpace < 0) System.out.println("Must have a space");
 			else{
 				try{
 					int id1 = Integer.parseInt(entry.substring(0, firstSpace));
-					int id2 = Integer.parseInt(entry.substring(firstSpace, entry.length()));
+					int id2 = Integer.parseInt(entry.substring(firstSpace+1, entry.length()));
 					swapped = client.swapAnswer(id1, id2);
 					if (swapped) System.out.println("Questions "+id1+" and "+id2+" swapped");
 					else System.out.println("Swap unsuccessful. Check IDs are in range");
 				}catch (NumberFormatException ex){
-					System.out.println("Enter two IDs separated by a space");
+					System.out.println("Did not enter numbers");
 				}
 			}
 		} 			
@@ -533,8 +531,9 @@ public class SetupClientUI {
 			if (client.currentQuiz.getQuestionList() == null ||
 				client.currentQuiz.getQuestionList().size() == 0) result+= "No questions";
 			else{
-				for (Question question: client.currentQuiz.getQuestionList())
-					result += question.getQuestion()+"\n";
+				List<Question> questionList = client.currentQuiz.getQuestionList();
+				for (int i = 0 ; i < questionList.size() ; i++)
+					result += "["+i+"] "+questionList.get(i).getQuestion()+"\n";
 			}
 			System.out.println(result);
 		}
@@ -551,10 +550,11 @@ public class SetupClientUI {
 			List<String> answerlist = client.currentQuestion.getAnswers();
 			String result= "";
 			result += "Question:"+client.currentQuestion.getQuestion()+"\n";
+			result += "Correct Answer:"+client.currentQuestion.getCorrectAnswer()+"\n";
 			if (answerlist == null || answerlist.size() ==  0) result+= "No answers";
 			else{
-				for (String answer: answerlist)
-					result += answer+"\n";
+				for (int i = 0 ; i < answerlist.size() ; i++)
+					result += "["+i+"] "+answerlist.get(i)+"\n";
 			}
 			System.out.println(result);
 		}
