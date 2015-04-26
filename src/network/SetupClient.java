@@ -249,11 +249,11 @@ public class SetupClient {
 	 * 
 	 * @param id ID of answer to change
 	 * @return true if successful, false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean removeAnswer(int id){
-		//TODO - Implement
-		return false;
-	}
+	public boolean removeAnswer(int id) throws RemoteException{
+		return currentQuestion.removeAnswer(id);
+	}		
 	
 	/**Changes the correct answer of the current question
 	 * 
