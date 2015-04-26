@@ -1,5 +1,6 @@
 package network;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import components.Game;
 import components.Player;
 import components.Quiz;
 
-public interface PlayerInterface {
+public interface PlayerInterface extends Remote{
 	
 	/**Should return the player object if the ID and Name match to
 	 * a player that already exists in the system. Will return null

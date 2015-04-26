@@ -38,7 +38,7 @@ public class PlayerClient {
 		try {
 			String name = "QuizServer";
 			Registry registry = LocateRegistry.getRegistry(1099);
-			this.server = (PlayerInterface) registry.lookup(name);
+			this.server = (PlayerInterface)registry.lookup(name);
 		
 		}catch (Exception e){
 			System.err.println("PlayerClient Exception");
