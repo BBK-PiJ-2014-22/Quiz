@@ -293,6 +293,7 @@ public class QuizServerTestScript {
 	    if (!sc.getWinners(2).get(1).getName().equals("Player 5") &&
 		    !sc.getWinners(2).get(1).getName().equals("Player 6")) 
 		    	systemExit("Winners list for quiz 2 wrong. 1st element"+sc.getWinners(2).get(1).getName());
+	    if (sc.getHighScore(2) != 1) systemExit("High score wrong (2). Expected: 1 Actual:"+sc.getHighScore(2));
 		
 	    //Tests quiz 3. Should have one winner, player 6
 	    if (!sc.completeQuiz(3)) systemExit("Quiz 3 complete returned false");
@@ -300,6 +301,7 @@ public class QuizServerTestScript {
 	    										   + "\nExpected: 1\n Actual:"+sc.getWinners(3).size());
 	    if (!sc.getWinners(3).get(0).getName().equals("Player 6"))
 	    	systemExit("Winners list for Quiz 3 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+	    if (sc.getHighScore(3) != 3) systemExit("High score wrong (3). Expected: 3 Actual:"+sc.getHighScore(2));
 
 	    //Tests quiz 4. Should have 2 winners (5 and 6). Crucial that 7 is not included (0 score but incomplete)
 	    if (!sc.completeQuiz(4)) systemExit("Quiz 4 complete returned false");
@@ -311,13 +313,18 @@ public class QuizServerTestScript {
 	    if (!sc.getWinners(2).get(1).getName().equals("Player 5") &&
 	    	!sc.getWinners(2).get(1).getName().equals("Player 6")) 
 	    		systemExit("Winners list for quiz 2 wrong. 1st element"+sc.getWinners(2).get(1).getName());
+	    if (sc.getHighScore(4) != 0) systemExit("High score wrong (4). Expected: 0 Actual:"+sc.getHighScore(2));
+
 	    
 	    //Test quiz 6. Should have 1 winner (5)
+	    sc.login(1, "QuizMaster 1");
 	    if (!sc.completeQuiz(6)) systemExit("Quiz 6 complete returned false");
 	    if (sc.getWinners(6).size() != 1) systemExit("Quiz 6 winners list wrong size. "
 	    											+ "\nExpected: 2\n Actual:"+sc.getWinners(6).size());
-	    if (!sc.getWinners(3).get(0).getName().equals("Player 5"))
+	    if (!sc.getWinners(6).get(0).getName().equals("Player 5"))
 	    	systemExit("Winners list for Quiz 6 wrong. 0th element"+sc.getWinners(2).get(0).getName());
+	    if (sc.getHighScore(6) != 6) systemExit("High score wrong (6). Expected: 6 Actual:"+sc.getHighScore(2));
+
 	    
 	    //Tests for quiz 1 with no players. Should be an empty winners list.
 	    sc.activateQuiz(1);
