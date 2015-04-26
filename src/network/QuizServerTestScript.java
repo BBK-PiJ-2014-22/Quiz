@@ -147,8 +147,25 @@ public class QuizServerTestScript {
 		if (!sc.currentQuestion.getAnswers().get(1).equals("Answer 0b")) 
 			systemExit("Answer swapped at position 1: "+sc.currentQuestion.getAnswers().get(0));
 
-		//TODO - add remove Question and Answer tests
-		
+		if (!sc.editQuestion(3)) systemExit("Unable to change to question 3");
+		if (sc.removeAnswer(7)) systemExit("Returned true when attempting to remove out of bounds answer (7)");
+		if (sc.removeAnswer(-1)) systemExit("Returned true when attempting to remove out of bounds answer (-1)");
+		if (sc.currentQuestion.getAnswers().size() != 7) systemExit("Size of answer list changed when removing OOB answer");
+		if (!sc.removeAnswer(6)) systemExit("Returned false when removing in bounds anwer (6)");
+		if (sc.currentQuestion.getAnswers().size() != 6) systemExit("Size of answers incorrect after removal"
+																  +"\nExpected: 6 "
+																  +"\nActual:   "+sc.currentQuestion.getAnswers().size());
+	    if (sc.currentQuestion.getCorrectAnswer() != 3) systemExit("Correct answer changed when removing non-correct answer");
+		if (!sc.removeAnswer(3)) systemExit("Returned false when removing in bounds anwer (3)");
+		if (sc.currentQuestion.getAnswers().size() != 5) systemExit("Size of answers incorrect after removal"
+																  +"\nExpected: 5 "
+																  +"\nActual:   "+sc.currentQuestion.getAnswers().size());
+	    if (sc.currentQuestion.getCorrectAnswer() != -1) systemExit("Correct answer not reset when correct answer removed");
+	    
+	    
+	    
+	    
+
 		
 		System.out.println(sc.getPrettyQuizList());
 		System.out.println(sc.getPrettyQuestion());
