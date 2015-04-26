@@ -46,7 +46,7 @@ public class GameImpl extends UnicastRemoteObject implements Game{
 		this.answers = new ArrayList<Integer>();
 		this.score = 0;
 		this.completed = false;
-		Log.log("Game Created:"+player.display()+" : "+quiz.display());
+		Log.log("Game Created. Player:"+player.getId()+" : Quiz:"+quiz.getQuizID());
 	}
 	
 	//Standard methods
@@ -114,7 +114,7 @@ public class GameImpl extends UnicastRemoteObject implements Game{
 		Question question = this.quiz.getQuestionList().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
-			Log.log(this.quiz.display()+":"+this.player.display()+"answered: Q"+(this.answers.size()-1)+":"+answer);
+			Log.log("Player:"+player.getId()+" : Quiz:"+quiz.getQuizID()+"answered: Q"+(this.answers.size()-1)+":"+answer);
 			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
 				this.completeGame();
 			return true;
@@ -133,7 +133,7 @@ public class GameImpl extends UnicastRemoteObject implements Game{
 			if (this.getAnswers().get(i) == this.quiz.getQuestion(i).getCorrectAnswer())
 				this.score += 1;
 		}
-		Log.log(this.quiz.display()+":"+this.player.display()+" Scored:"+this.score);
+		Log.log("Player:"+player.getId()+" : Quiz:"+quiz.getQuizID()+" Scored:"+this.score);
 	}
 }
 
