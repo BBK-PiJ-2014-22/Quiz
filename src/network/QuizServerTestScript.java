@@ -67,7 +67,15 @@ public class QuizServerTestScript {
 					   +"\nExpected:  4:Quiz 4"
 					   +"\nActual:   "+sc.currentQuiz.getQuizID()+":"+sc.currentQuiz.getQuizName());
 		}
-		System.out.println("Quizzes 0 to 4 created");
+		
+		for (int i = 2; i < 5 ; i++){
+			sc.editQuiz(i);
+			buildQuiz(sc, i);
+			sc.activateQuiz(i);
+		}
+		
+		System.out.println("Quizzes 0 to 4 created. 2,3,4 built and activated");
+		
 		//Current Status:
 		//5 quiz masters, 5 quizzes assigned to QuizMaster 0, Quiz 4 is active quiz
 
@@ -106,8 +114,8 @@ public class QuizServerTestScript {
 		System.out.println("Quizzes 5,6,7 set to 5 questions each");
 		
 		//Tests activation and completion
-		if (sc.activateQuiz(4)) systemExit("Player 1 returns true for activation of quiz 4");
-		if (sc.server.getQuiz(4).getStatus() != QuizStatus.INACTIVE) systemExit("Player 1 has activated quiz 4");
+		if (sc.activateQuiz(0)) systemExit("Player 1 returns true for activation of quiz 4");
+		if (sc.server.getQuiz(0).getStatus() != QuizStatus.INACTIVE) systemExit("Player 1 has activated quiz 0");
 		if (!sc.activateQuiz(5)) systemExit("Player 1 returns false for activation of quiz 5");
 		if (sc.server.getQuiz(5).getStatus() != QuizStatus.ACTIVE) systemExit("Player 1 has not activated quiz 5");
 		if (!sc.completeQuiz(5)) systemExit("Player 1 returns false for completion of quiz 5");
@@ -203,10 +211,20 @@ public class QuizServerTestScript {
 	    if (!pc.currentGame.getPlayer().equals(pc.player)) systemExit("PC active game not assigned to wrong player");
 	    
 	    System.out.println("Player 5 starts a game for Quiz 6");
+	    	    
+	    //Play to completion quiz 6, get 50% score
 	    
-
+	    int questionListSize = pc.currentGame.getQuiz().getQuestionList().size();
+	    System.out.println(questionListSize);
 	    
-	    //Start new game and play to completion
+	    for (int i = 0 ; i <  questionListSize; i++){
+	    	if (!pc.currentGame.getNextQuestion().equals("Question "+i)) systemExit("Question "+i+" displays:"+pc.currentGame.getNextQuestion());
+	    	if (!pc.currentGame.answerQuestion(i)) systemExit("Answer question not returning true for question "+i);
+	    	if (i < pc.currentGame.getAnswers().size()-1){
+	    		if (pc.currentGame.isCompleted()) systemExit("Game is showing completed early at question"+i);
+	    	}
+	    }
+	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish");
 
 
 	    
