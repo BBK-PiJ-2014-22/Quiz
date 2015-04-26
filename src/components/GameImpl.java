@@ -1,6 +1,7 @@
 package components;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import components.QuizStatus;
  * @author Jamie MacIver
  *
  */
-public class GameImpl implements Game{
+public class GameImpl extends UnicastRemoteObject implements Game{
 	
 	//Note: no normal setters for any fields
 	private Player player;  		//Set only by constructor
@@ -39,7 +40,7 @@ public class GameImpl implements Game{
 	 */
 	public GameImpl(Player player, Quiz quiz) throws RemoteException{
 		if (quiz.getStatus() != QuizStatus.ACTIVE)
-			throw new IllegalStateException();
+			throw new IllegalStateException("Quiz Inactive");
 		this.player = player;
 		this.quiz = quiz;
 		this.answers = new ArrayList<Integer>();
