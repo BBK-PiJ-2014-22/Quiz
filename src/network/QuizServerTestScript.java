@@ -1,6 +1,8 @@
 package network;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 import components.PlayerImpl;
 import components.Question;
@@ -223,9 +225,43 @@ public class QuizServerTestScript {
 	    		if (pc.currentGame.isCompleted()) systemExit("Game is showing completed early at question"+i);
 	    	}
 	    }
-	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish");
+	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (6)");
 	    if (pc.currentGame.getScore() != 6) systemExit("Score wrong upon completion. Showing:"+pc.currentGame.getScore());
+	    
+	    //Plays other games 
+	    playGame(pc, 2, Arrays.asList(0,0));
+	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (2)");
+	    if (pc.currentGame.getScore() != 1) systemExit("Score wrong upon completion (2). Showing:"+pc.currentGame.getScore());
 
+	    playGame(pc, 3, Arrays.asList(0,0));
+	    if (pc.currentGame.isCompleted()) systemExit("Game is completed early (3)");
+	    if (pc.currentGame.getScore() != 0) systemExit("Score showing before completion (3). Showing:"+pc.currentGame.getScore());
+
+	    playGame(pc, 3, Arrays.asList(0));
+	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (3)");
+	    if (pc.currentGame.getScore() != 1) systemExit("Score wrong upon completion (3). Showing:"+pc.currentGame.getScore());
+
+	    playGame(pc, 4, Arrays.asList(4,3,2,1));
+	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish (4)");
+	    if (pc.currentGame.getScore() != 0) systemExit("Score wrong upon completion (4). Showing:"+pc.currentGame.getScore());
+
+	    //Player 5's scores:
+	    //Game 2: 1
+	    //Game 3: 1
+	    //Game 4: 0
+	    //Game 6: 6
+	   
+	    pc.createPlayer("Player 6");
+	    playGame(pc, 2, Arrays.asList(0,0));
+	    playGame(pc, 3, Arrays.asList(0,1,2));
+	    playGame(pc, 4, Arrays.asList(4,3,2,4));
+	    playGame(pc, 6, Arrays.asList(0,0,0));
+	    
+	    //Player 6's scores:
+	    //Game 2: 1
+	    //Game 3: 3
+	    //Game 4: 1
+	    //gGame 6: incomplete
 
 	    
 	    
@@ -271,6 +307,20 @@ public class QuizServerTestScript {
 	public void systemExit(String message){
 		System.err.println(message);
 		System.exit(0);
+	}
+	
+	/**Plays a game. No checks on if successful and tests should be written on end state.
+	 * 
+	 * @param pc
+	 * @param quizID
+	 * @param answers
+	 * @throws RemoteException
+	 */
+	public void playGame(PlayerClient pc, int quizID, List<Integer> answers) throws RemoteException{
+		pc.startNewGame(quizID);
+		for (int answer: answers){
+			pc.currentGame.answerQuestion(answer);
+		}
 	}
 
 }
