@@ -23,6 +23,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		this.gameList = new ArrayList<Game>();
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public synchronized Quiz createQuiz(Player player, String name) throws RemoteException {
 		if (player == null || name == null){
@@ -43,6 +46,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		}
 	}
 	
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public String getQuizDisplayList(Player player) throws RemoteException{
 		String result = "";
@@ -54,6 +60,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return result.substring(0, result.length()-1);
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public Player login(int id, String name) throws RemoteException {
 		Player result = null;
@@ -67,6 +76,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return result;
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public synchronized Player createPlayer(String name) throws RemoteException {
 		if (name == null){
@@ -78,6 +90,7 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return playerList.get(playerList.size()-1);
 	}
 	
+	
 	/**Returns full list of players*/
 	public List<Player> getFullPlayerList() throws RemoteException {
 		return playerList;
@@ -88,6 +101,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return quizList;
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public synchronized Game startNewGame(Player player, int id) throws RemoteException {
 		Quiz quiz = quizList.get(id);
@@ -99,6 +115,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		}
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public List<Game> getGameList(Player player) throws RemoteException {
 		List<Game> result = new ArrayList<Game>();
@@ -110,6 +129,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return result;
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public List<Quiz> getActiveQuizList(Player player) throws RemoteException {
 		List<Quiz> result = new ArrayList<Quiz>();
@@ -120,7 +142,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		System.out.println(result);
 		return result;
 	}
-	
+	/**Returns true if the quiz/player combination already exists
+	 * 
+	 */
 	private boolean gameKnown(Quiz quiz, Player player) throws RemoteException{
 		for (Game i : gameList){
 			if (i.getQuiz().equals(quiz) && i.getPlayer().equals(player)) return true;
@@ -128,12 +152,18 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return false;	
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public Quiz getQuiz(int id) throws RemoteException {
 		if (id >= 0 && id < quizList.size()) return quizList.get(id);
 		else return null;
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public List<Player> getWinners(int id) throws RemoteException {
 		Quiz match = quizList.get(id);
@@ -148,6 +178,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return result;								
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public int getHighScore(int id) throws RemoteException {
 		int highScore = 0;
@@ -160,6 +193,9 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 		return highScore;
 	}
 
+	/**{@inheritDoc}
+	 * 
+	 */
 	@Override
 	public List<Game> getGamesList(int id, Player player) throws RemoteException {
 		List<Game> result = new ArrayList<Game>();
