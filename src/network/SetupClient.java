@@ -309,7 +309,7 @@ public class SetupClient {
 	 */
 	private Quiz getOwnedQuiz(int id) throws RemoteException{
 		Quiz targetQuiz = server.getQuiz(id);
-		if (!targetQuiz.getQuizMaster().equals(player)) return null;
+		if (targetQuiz == null || !targetQuiz.getQuizMaster().equals(player)) return null;
 		else return targetQuiz;
 	}
 	

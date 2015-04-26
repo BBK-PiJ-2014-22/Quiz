@@ -165,11 +165,7 @@ public class SetupClientUI {
 				int id = Integer.parseInt(sc.nextLine());
 				if (id == -1) break;
 				else if (client.editQuiz(id)) System.out.println("Now editing quiz"+client.currentQuiz.getQuizName());
-				else {
-					System.out.println("Invalid entry. No active quiz with that ID belongs to you.");
-					System.out.println("Press y to view all of your quizzes");
-					if (sc.nextLine().toLowerCase().equals("y")) viewQuizzes();
-				}
+				else askToViewQuizzes();
 					
 			}catch (NumberFormatException ex){
 				System.out.println("Invalid entry. Please enter an ID");
@@ -183,36 +179,81 @@ public class SetupClientUI {
 		client.currentQuiz = null; //Should be a method
 	}
 		
-	private void activateQuiz(){
-		System.out.println("Method Not Yet Implemented (activateQuiz)");
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
+	private void activateQuiz() throws RemoteException{
+		boolean activated = false;
+		while (!activated){
+			System.out.println("\nPlease enter quiz ID of an INACTIVE quiz to edit.");
+			System.out.println("Enter -1 to return to menu");
+			try{
+				int quizID = Integer.parseInt(sc.nextLine());
+				activated = client.activateQuiz(quizID);
+				if (!activated) {
+					System.out.println("Invalid entry. Must be an INACTIVE quiz you own");
+					askToViewQuizzes();//TODO - add success message
+				}
+			}catch (NumberFormatException ex){
+				System.out.println("Invalid entry. Please enter an ID");
+			}
+		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void completeQuiz(){
 		System.out.println("Method Not Yet Implemented (completeQuiz)");
 	}
 	
-	public void viewQuizzes() throws RemoteException{
-		System.out.println("All quizzes:");
-		System.out.println(client.getPrettyQuizList());
+	/**
+	 * 
+	 */
+	public void askToViewQuizzes() throws RemoteException{
+		System.out.println("Press y to view all of your quizzes");
+		if (sc.nextLine().toLowerCase().equals("y")) viewQuizzes();
 	}
 	
+	/**
+	 * 
+	 */
+	public void viewQuizzes() throws RemoteException{
+		System.out.println("\nAll quizzes:");
+		System.out.println(client.getPrettyQuizList());
+	}
+	/**
+	 * 
+	 */
 	public void viewGames(){
 		System.out.println("Method Not Yet Implemented (viewGames)");
 	}
-	
+	/**
+	 * 
+	 */
 	public void getWinners(){
 		System.out.println("Method Not Yet Implemented (getWinners");
 	}
 	
+	/**
+	 * 
+	 */
 	public void getHelp(){
 		System.out.println("Method Not Yet Implemented (getHelp");
 	}
 	
+	/**
+	 * 
+	 */
 	public void exit(){
 		sc.close();
 		System.out.println("Thank you for using SetupClient.");
 	}
 	
+	/**
+	 * 
+	 */
 	private void debug(String string){
 		System.out.println(string);
 	}
