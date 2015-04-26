@@ -116,6 +116,11 @@ public class SetupClient {
 		return null;
 	}
 	
+	public List<Player> getWinners(int id){
+		//TODO - Implement
+		return null;
+	}
+	
 	//Edit/Create quiz
 	
 	/**Creates a new quiz and returns it's ID. Will also refresh the QuizList
@@ -151,10 +156,10 @@ public class SetupClient {
 	 * 
 	 * @param id ID of questionto be edited
 	 * @return true if successful, false otherwise
+	 * @throws RemoteException 
 	 */
-	public boolean removeQuestion(int id){
-		//TODO - Implement
-		return false;
+	public boolean removeQuestion(int id) throws RemoteException{
+		return currentQuiz.removeQuestion(id);
 	}
 	
 	/**Adds a question with the name passed to the question being edited
