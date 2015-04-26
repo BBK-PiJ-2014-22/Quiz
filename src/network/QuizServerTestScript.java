@@ -212,19 +212,19 @@ public class QuizServerTestScript {
 	    
 	    System.out.println("Player 5 starts a game for Quiz 6");
 	    	    
-	    //Play to completion quiz 6, get 50% score
-	    
+	    //Play to completion quiz 6, get 100% score	    
 	    int questionListSize = pc.currentGame.getQuiz().getQuestionList().size();
-	    System.out.println(questionListSize);
 	    
 	    for (int i = 0 ; i <  questionListSize; i++){
-	    	if (!pc.currentGame.getNextQuestion().equals("Question "+i)) systemExit("Question "+i+" displays:"+pc.currentGame.getNextQuestion());
+	    	String questionName = pc.currentGame.getNextQuestion().substring(0, 10);
+	    	if (!questionName.equals("Question "+i)) systemExit("Question "+i+" displays:"+questionName);
 	    	if (!pc.currentGame.answerQuestion(i)) systemExit("Answer question not returning true for question "+i);
 	    	if (i < pc.currentGame.getAnswers().size()-1){
 	    		if (pc.currentGame.isCompleted()) systemExit("Game is showing completed early at question"+i);
 	    	}
 	    }
 	    if (!pc.currentGame.isCompleted()) systemExit("Game is not completed at finish");
+	    if (pc.currentGame.getScore() != 6) systemExit("Score wrong upon completion. Showing:"+pc.currentGame.getScore());
 
 
 	    
