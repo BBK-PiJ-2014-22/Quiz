@@ -116,23 +116,12 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public List<Quiz> getActiveQuizList(Player player) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	private boolean playerKnown(Player player) throws RemoteException{
-		if (player == null || player.getId() < 0 || player.getId() >= playerList.size())
-			return false;
-		Player match = playerList.get(player.getId());
-		return player == match; //Note this is intentionally identity
-	}
-	
-	private boolean quizKnown(Quiz quiz) throws RemoteException{
-		for (Quiz i : quizList){
-			if (quiz == i) //Note this is intentionally identity
-				return true;
+		List<Quiz> result = new ArrayList<Quiz>();
+		for (Quiz quiz : quizList){
+			if (quiz.getStatus() == QuizStatus.ACTIVE && !gameKnown(quiz, player))
+				result.add(quiz);
 		}
-		return false;
+		return result;
 	}
 	
 	private boolean gameKnown(Quiz quiz, Player player) throws RemoteException{

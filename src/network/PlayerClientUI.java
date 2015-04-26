@@ -86,13 +86,100 @@ public class PlayerClientUI {
 		}
 	}
 	
-	private void exit() {
+	private void options() {
+		boolean running = true;
+		while (running) {
+			System.out.println("\nPlease select an option from the list:");
+			System.out.println("		[1] - Start new game");
+			System.out.println("		[2] - Continue game");
+			System.out.println("		[3] - View game list");
+			System.out.println("		[4] - View available quizzes");
+			System.out.println("		[0] - Exit the game");
+			
+			try{
+				int option = Integer.parseInt(sc.nextLine());
+
+				switch  (option){
+					case 1: this.startGame();
+							break;
+					case 2: this.continueGame();
+							break;
+					case 3: this.viewGameList();
+							break;
+					case 4: this.viewQuizList();
+							break;
+					case 0: running = false;
+							break;
+					default: System.out.println("Invalid option");
+							break;
+				}	
+			}catch (NumberFormatException ex){
+				System.out.println("Not a valid option");
+			}
+		}
+	}
+	
+	private void startGame() {
+		System.out.println("Game started (Not implemented)");
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void options() {
+	private void continueGame() {
+		System.out.println("Game contined (Not implemented)");
 		// TODO Auto-generated method stub
 		
+	}
+
+	private void viewGameList() {
+		System.out.println("Game list iviewd (Not implemented)");
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void viewQuizList() {
+		System.out.println("quiz list view (Not implemented)");
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void exit() {
+		System.out.println("Game exit (Not implemented)");
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void playGame(){
+		System.out.println("Game played (Not implemented)");
+		//TODO - implement
+	}
+	
+	/**Pauses the current game. Removes the current active game.
+	 * 
+	 */
+	public void pauseGame(){
+		System.out.println("Game paused (Not implemented)");
+		//TODO - implement
+	}
+	
+	
+	/**Returns a pretty, readable version of the game list for the player to
+	 * see.
+	 * @return pretty representation of games
+	 */
+	public String getPrettyGameList(){
+		//TODO - implement
+		System.out.println("Pretty game list pased (Not implemented)");
+		return null;
+	}
+	
+	/**Returns a pretty, readable version of the quiz list for the player to
+	 * see
+	 */
+	public String getPrettyQuizList(){
+		//TODO - implement
+		System.out.println("Pretty quiz list pased (Not implemented)");
+		
+		return null;
 	}
 }
