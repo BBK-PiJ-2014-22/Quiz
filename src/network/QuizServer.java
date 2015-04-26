@@ -144,7 +144,8 @@ public class QuizServer extends UnicastRemoteObject implements SetupInterface, P
 
 	@Override
 	public Quiz getQuiz(int id) throws RemoteException {
-		return quizList.get(id);
+		if (id >= 0 && id < quizList.size()) return quizList.get(id);
+		else return null;
 	}
 
 	@Override
