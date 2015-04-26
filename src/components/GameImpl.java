@@ -114,7 +114,7 @@ public class GameImpl extends UnicastRemoteObject implements Game{
 		Question question = this.quiz.getQuestionList().get(this.answers.size());
 		if (answer < question.getAnswers().size() && answer >= 0){
 			this.answers.add(answer);
-			Log.log("Player:"+player.getId()+" : Quiz:"+quiz.getQuizID()+"answered: Q"+(this.answers.size()-1)+":"+answer);
+			Log.log("Player:"+player.getId()+" : Quiz:"+quiz.getQuizID()+" answered: Q"+(this.answers.size()-1)+":"+answer);
 			if (this.getAnswers().size() == quiz.getQuestionList().size()) //All answers have been recorded
 				this.completeGame();
 			return true;
