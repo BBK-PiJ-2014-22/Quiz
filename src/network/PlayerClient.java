@@ -13,15 +13,11 @@ import components.Quiz;
 public class PlayerClient {
 
 	Player player;
-	List<Quiz> activeQuizList;
-	List<Game> gameList;
 	PlayerInterface server;
 	Game currentGame;  
 	
 	public PlayerClient(){
 		player = null;
-		activeQuizList = null;
-		gameList = null;
 		server = null;
 		currentGame = null;  
 	}
@@ -77,28 +73,14 @@ public class PlayerClient {
 		else return true;
 	}
 	
-	/**Assigns the list of all quizzes which are currently active and which the player
-	 * does not already have a game for to the this.activeQuizList variable.
-	 */
-	public void assignActiveQuizList(){
-		
-	}
-	
-	/**Assigns the list of all games that the player has started or completed to the 
-	 * this.gameList variable
-	 */
-	public void assignGameList(){
-		
-	}
-	
 	/**Begins a new game for the player on the passed quiz and assigns it to the
 	 * currentGame variable. If the game can not be started for any reason it will 
 	 * return false and not start the game. This can happen if a game already exists
 	 * for that quiz or the quiz has been made inactive.
 	 * 
-	 * @param quiz The quiz which the Game will draw questions from
+	 * @param id The quiz which the Game will draw questions from
 	 */
-	public boolean startNewGame(Quiz quiz){
+	public boolean startNewGame(int id){
 		return false;
 	}
 	
@@ -109,7 +91,7 @@ public class PlayerClient {
 		
 	}
 	
-	/**Pauses the current game.
+	/**Pauses the current game. Removes the current active game.
 	 * 
 	 */
 	public void pauseGame(){
@@ -117,14 +99,14 @@ public class PlayerClient {
 	}
 	
 	/**Continues a paused game. Returns true if the game is an active game, 
-	 * and launches the player interface. Returns false otherwise.*/
+	 * Returns false otherwise.*/
 	public boolean continueGame(int id){
 		return false;
 	}
 	
 	/**Returns a pretty, readable version of the game list for the player to
 	 * see.
-	 * @return pretty represnetation of games
+	 * @return pretty representation of games
 	 */
 	public String getPrettyGameList(){
 		return null;

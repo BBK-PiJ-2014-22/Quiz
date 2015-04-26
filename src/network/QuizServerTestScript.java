@@ -191,6 +191,22 @@ public class QuizServerTestScript {
 	    if (pc.createPlayer(null)) systemExit("PC createPlayer returning true when passed null");
 	    if (!pc.createPlayer("Player 5")) systemExit("PC unable to create new Player 5");
 	    if (!pc.player.getName().equals("Player 5")) systemExit("PC not logged in after succesful create (Player 5)");
+	    
+	    System.out.println("Player 5 logged in to PlayerClient");
+
+	    //Try to start games
+	    if (pc.startNewGame(5)) systemExit("PC returns true when starting completed game (5)");
+	    if (pc.startNewGame(7)) systemExit("PC returns true when starting inactive game (7)");
+	    if (pc.currentGame != null) systemExit("PC active game has been set for invalid games");
+	    if (!pc.startNewGame(6)) systemExit("PC returns false when starting valid game (6)");
+	    if (!pc.currentGame.getQuiz().getQuizName().equals("Quiz 6")) systemExit("PC active game not assigned to Quiz 6");
+	    if (!pc.currentGame.getPlayer().equals(pc.player)) systemExit("PC active game not assigned to wrong player");
+	    
+	    System.out.println("Player 5 starts a game for Quiz 6");
+	    
+
+	    
+	    //Start new game and play to completion
 
 
 	    
